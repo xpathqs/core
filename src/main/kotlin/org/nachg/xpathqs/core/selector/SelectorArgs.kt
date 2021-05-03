@@ -22,6 +22,9 @@ class SelectorArgs(
     }
 
     fun add(arg: SelectorArg): SelectorArgs {
+        if(args.isNotEmpty() && arg.isNone) {
+            arg.joinType = JoinType.AND
+        }
         args[arg.key] = arg
         return this
     }

@@ -20,6 +20,8 @@ internal class SelectorReflectionTest {
         SelectorReflection(Page_WithBase).setProp("name", "test_name")
         assertThat(Page_WithBase.name)
             .isEqualTo("test_name")
+        assertThat(Page_WithBase.toString())
+            .isEqualTo("test_name")
     }
 
     @Test

@@ -2,10 +2,10 @@ package org.nachg.xpathqs.core.selector
 
 open class SelectorArg(
     val value: String,
-    val joinTypeType: JoinType = JoinType.NONE
+    var joinType: JoinType = JoinType.NONE
 ) {
     fun toXpath(): String {
-        return when(joinTypeType) {
+        return when(joinType) {
             JoinType.NONE -> value
             JoinType.OR -> " or $value "
             JoinType.AND -> " and $value "
@@ -14,4 +14,7 @@ open class SelectorArg(
 
     open val key: String
         get() = value
+
+    val isNone: Boolean
+        get() = joinType == JoinType.NONE
 }

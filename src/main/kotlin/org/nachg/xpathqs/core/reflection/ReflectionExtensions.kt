@@ -24,10 +24,6 @@ fun Class<*>.isSelectorSubtype(): Boolean {
     return Selector::class.java.isAssignableFrom(this.superclass)
 }
 
-fun Selector.getObject(clazz: Class<*> = this.javaClass): Selector {
-    return clazz.getField("INSTANCE").get(null) as Selector
-}
-
 fun Selector.setName(name: String) {
     SelectorReflection(this)
         .setName(name)
