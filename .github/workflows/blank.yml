@@ -40,6 +40,9 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Tests
         run: ./gradlew test
 
