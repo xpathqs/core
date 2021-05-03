@@ -1,5 +1,6 @@
 package org.nachg.xpathqs.core.selector
 
+import org.nachg.xpathqs.core.reflection.freeze
 import org.nachg.xpathqs.core.reflection.setBase
 
 open class Block(
@@ -10,7 +11,7 @@ open class Block(
     base = base,
     props = props
 ) {
-    internal var originBlock: Block = this
+    internal var originBlock: ISelector = NullSelector()
     internal var children: Collection<Selector> = emptyList()
 
     constructor(sel: Selector): this(
@@ -36,6 +37,7 @@ open class Block(
             children.forEach {
                 it.setBase(originBlock)
             }
+            freeze()
         }
     }
 }

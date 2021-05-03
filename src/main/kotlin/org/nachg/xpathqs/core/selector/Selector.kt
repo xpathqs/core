@@ -10,4 +10,8 @@ open class Selector(
     override fun toXpath(): String {
         return "${base.toXpath()}${props.toXpath()}"
     }
+
+    override fun toString(): String {
+        return name
+    }
 }

@@ -23,16 +23,15 @@ class SelectorObjectModificationTests {
         assertAll { 
             s1.xpathShouldBe("//base")
             s2.xpathShouldBe("//s2")
+            s1.xpathShouldBe("//base")
         }
     }
 
     @Test
     fun tagTestForInnerSelector() {
-        val s = Page_WithBase.tag("s2").s1
-
         assertAll {
-            s.xpathShouldBe("//s2//s1")
-          //  s.xpathShouldBe("//base//s1")
+            Page_WithBase.tag("s2").s1.xpathShouldBe("//s2//s1")
+            Page_WithBase.s1.xpathShouldBe("//base//s1")
         }
     }
 
@@ -42,7 +41,7 @@ class SelectorObjectModificationTests {
 
         assertAll {
             s.xpathShouldBe("//s2//ss")
-        //    s.xpathShouldBe("//base//ss")
+            s.xpathShouldBe("//s2//ss")
         }
     }
 

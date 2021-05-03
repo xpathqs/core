@@ -22,8 +22,13 @@ fun <T: Selector>T.clone(): T {
 
     if(newObj is Block) {
         this as Block
-        newObj.setBlank(this.isBlank)
 
+        val children = ArrayList<Selector>()
+        children.addAll(this.children)
+
+        newObj.setBlank(this.isBlank)
+        newObj.originBlock = this
+        newObj.children = children
         if(newObj.isObject()) {
             this.children.forEach {
                 it.setBase(newObj)
