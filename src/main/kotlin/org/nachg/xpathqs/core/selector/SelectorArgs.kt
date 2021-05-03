@@ -29,11 +29,6 @@ class SelectorArgs(
         return this
     }
 
-    fun drop(arg: SelectorArg): SelectorArgs {
-        args.remove(arg.key)
-        return this
-    }
-
     @Suppress("UNCHECKED_CAST")
     public override fun clone(): SelectorArgs {
         return SelectorArgs(args.clone() as HashMap<String, SelectorArg>)
