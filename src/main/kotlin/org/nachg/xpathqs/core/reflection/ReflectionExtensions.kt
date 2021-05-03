@@ -22,6 +22,7 @@ fun Class<*>.isSelectorSubtype(): Boolean {
         return true
     }
     return Selector::class.java.isAssignableFrom(this.superclass)
+            || this.isAssignableFrom(Selector::class.java)
 }
 
 fun Selector.setName(name: String) {

@@ -18,7 +18,7 @@ fun <T: Selector>T.clone(): T {
 
     newObj.setName(this.name)
     newObj.setBase(this.base.clone())
-    newObj.setProps(this.props.copy())
+    newObj.setProps(this.props.clone())
 
     if(newObj is Block) {
         this as Block

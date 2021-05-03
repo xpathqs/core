@@ -35,7 +35,7 @@ class SelectorArgs(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun clone(): SelectorArgs {
+    public override fun clone(): SelectorArgs {
         return SelectorArgs(args.clone() as HashMap<String, SelectorArg>)
     }
 }

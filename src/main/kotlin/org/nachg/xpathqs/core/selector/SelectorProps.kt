@@ -1,11 +1,23 @@
 package org.nachg.xpathqs.core.selector
 
-data class SelectorProps(
+open class SelectorProps(
     val prefix: String = "//",
     val tag: String = "*",
-    val args: SelectorArgs = SelectorArgs()
-) {
-    fun toXpath(): String {
+    val props: SelectorArgs = SelectorArgs()
+): BaseSelectorProps(props) {
+    override fun toXpath(): String {
         return "$prefix$tag${args.toXpath()}"
+    }
+
+    fun clone(
+        prefix: String = this.prefix,
+        tag: String = this.tag,
+        props: SelectorArgs = this.props
+    ): SelectorProps {
+        return SelectorProps(prefix, tag, props.clone())
+    }
+
+    override fun clone(): SelectorProps {
+        return SelectorProps(prefix, tag, props.clone())
     }
 }

@@ -17,7 +17,7 @@ open class Block(
     constructor(sel: Selector): this(
         isBlank = false,
         base = sel.base.clone(),
-        props = sel.props.copy()
+        props = sel.props.clone()
     )
 
     override fun toXpath(): String {
