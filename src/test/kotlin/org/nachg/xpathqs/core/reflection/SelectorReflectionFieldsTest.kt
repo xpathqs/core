@@ -3,7 +3,7 @@ package org.nachg.xpathqs.core.reflection
 import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import org.junit.jupiter.api.Test
-import org.nachg.xpathqs.core.selector.Selector
+import org.nachg.xpathqs.core.selector.selector.Selector
 
 internal class SelectorReflectionFieldsTest {
 

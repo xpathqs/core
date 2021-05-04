@@ -3,8 +3,8 @@ package org.nachg.xpathqs.core.selector.extensions
 import assertk.assertAll
 import org.junit.jupiter.api.Test
 import org.nachg.xpathqs.core.reflection.freeze
-import org.nachg.xpathqs.core.selector.Selector
-import org.nachg.xpathqs.core.selector.SelectorFactory.tagSelector
+import org.nachg.xpathqs.core.selector.selector.Selector
+import org.nachg.xpathqs.core.util.SelectorFactory.tagSelector
 import org.nachg.xpathqs.core.selector.get
 import org.nachg.xpathqs.core.selector.tag
 import org.nachg.xpathqs.xpathShouldBe

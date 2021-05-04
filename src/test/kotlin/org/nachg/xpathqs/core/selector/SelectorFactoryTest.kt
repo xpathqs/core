@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 
-import org.nachg.xpathqs.core.selector.SelectorFactory.tagSelector
+import org.nachg.xpathqs.core.util.SelectorFactory.tagSelector
 
 internal class SelectorFactoryTest {
 

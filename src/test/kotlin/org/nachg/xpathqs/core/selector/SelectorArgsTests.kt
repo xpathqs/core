@@ -3,6 +3,9 @@ package org.nachg.xpathqs.core.selector
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
+import org.nachg.xpathqs.core.selector.args.JoinType
+import org.nachg.xpathqs.core.selector.args.SelectorArg
+import org.nachg.xpathqs.core.selector.args.SelectorArgs
 
 internal class SelectorArgsTests {
 

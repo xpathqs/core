@@ -1,4 +1,4 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.args
 
 class SelectorArgs(
     private val args: HashMap<String, SelectorArg> = HashMap()

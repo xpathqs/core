@@ -1,6 +1,13 @@
 package org.nachg.xpathqs.core.selector
 
 import org.nachg.xpathqs.core.reflection.setProps
+import org.nachg.xpathqs.core.selector.args.KVSelectorArg
+import org.nachg.xpathqs.core.selector.args.SelectorArg
+import org.nachg.xpathqs.core.selector.base.BaseSelector
+import org.nachg.xpathqs.core.selector.base.ISelector
+import org.nachg.xpathqs.core.selector.compose.ComposeSelector
+import org.nachg.xpathqs.core.selector.selector.Selector
+import org.nachg.xpathqs.core.util.SelectorFactory.compose
 
 fun <T : Selector> T.tag(value: String): T {
     val res = this.clone()
@@ -18,4 +25,8 @@ operator fun <T : BaseSelector> T.get(arg: SelectorArg): T {
         arg
     )
     return res
+}
+
+operator fun <T : ISelector> T.div(right: ISelector): ComposeSelector {
+    return compose(this.clone(), right.clone())
 }

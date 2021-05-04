@@ -1,4 +1,4 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.args
 
 open class SelectorArg(
     internal val value: String,

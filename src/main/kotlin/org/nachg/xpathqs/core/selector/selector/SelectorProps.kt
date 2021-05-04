@@ -1,10 +1,13 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.selector
+
+import org.nachg.xpathqs.core.selector.args.SelectorArgs
+import org.nachg.xpathqs.core.selector.base.BaseSelectorProps
 
 open class SelectorProps(
     val prefix: String = "//",
     val tag: String = "*",
-    val props: SelectorArgs = SelectorArgs()
-) : BaseSelectorProps(props) {
+    args: SelectorArgs = SelectorArgs()
+) : BaseSelectorProps(args) {
     override fun toXpath(): String {
         return "$prefix$tag${args.toXpath()}"
     }
@@ -12,12 +15,12 @@ open class SelectorProps(
     fun clone(
         prefix: String = this.prefix,
         tag: String = this.tag,
-        props: SelectorArgs = this.props
+        props: SelectorArgs = this.args
     ): SelectorProps {
         return SelectorProps(prefix, tag, props.clone())
     }
 
     override fun clone(): SelectorProps {
-        return SelectorProps(prefix, tag, props.clone())
+        return SelectorProps(prefix, tag, args.clone())
     }
 }
