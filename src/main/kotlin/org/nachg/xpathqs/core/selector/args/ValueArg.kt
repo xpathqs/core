@@ -1,7 +1,7 @@
 package org.nachg.xpathqs.core.selector.args
 
-open class SelectorArg(
-    internal val value: String,
+open class ValueArg(
+    internal open val value: String = "",
     internal var joinType: JoinType = JoinType.NONE
 ) {
     fun toXpath(): String {

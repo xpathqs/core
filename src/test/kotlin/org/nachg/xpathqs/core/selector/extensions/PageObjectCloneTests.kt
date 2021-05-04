@@ -6,20 +6,19 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotSameAs
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.nachg.xpathqs.core.reflection.Page_WithBase
+import org.nachg.xpathqs.core.reflection.PageWithBase
 import org.nachg.xpathqs.core.reflection.SelectorParser
-import org.nachg.xpathqs.core.selector.clone
 
 class PageObjectCloneTests {
     @BeforeEach
     fun before() {
-        SelectorParser(Page_WithBase).parse()
+        SelectorParser(PageWithBase).parse()
     }
 
     @Test
     fun checkClone() {
-        val origin = Page_WithBase
-        val cloned = Page_WithBase.clone()
+        val origin = PageWithBase
+        val cloned = PageWithBase.clone()
 
         assertAll {
             assertThat(origin)

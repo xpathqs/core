@@ -6,7 +6,7 @@ import org.nachg.xpathqs.core.selector.base.ISelector
 import org.nachg.xpathqs.core.selector.base.SelectorState
 
 class XpathSelector(
-    val xpath: String = "",
+    private val xpath: String = "",
 
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),

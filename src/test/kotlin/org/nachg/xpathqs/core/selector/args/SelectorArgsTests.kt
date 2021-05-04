@@ -1,11 +1,11 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.args
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.nachg.xpathqs.core.selector.args.JoinType
-import org.nachg.xpathqs.core.selector.args.SelectorArg
 import org.nachg.xpathqs.core.selector.args.SelectorArgs
+import org.nachg.xpathqs.core.selector.args.ValueArg
 
 internal class SelectorArgsTests {
 
@@ -20,10 +20,9 @@ internal class SelectorArgsTests {
         assertThat(
             SelectorArgs()
                 .add(
-                    SelectorArg("last()")
+                    ValueArg("last()")
                 ).toXpath()
-        )
-            .isEqualTo("[last()]")
+        ).isEqualTo("[last()]")
     }
 
     @Test
@@ -31,12 +30,11 @@ internal class SelectorArgsTests {
         assertThat(
             SelectorArgs()
                 .add(
-                    SelectorArg("first()")
+                    ValueArg("first()")
                 ).add(
-                    SelectorArg("last()")
+                    ValueArg("last()")
                 ).toXpath()
-        )
-            .isEqualTo("[first() and last()]")
+        ).isEqualTo("[first() and last()]")
     }
 
     @Test
@@ -44,12 +42,11 @@ internal class SelectorArgsTests {
         assertThat(
             SelectorArgs()
                 .add(
-                    SelectorArg("first()")
+                    ValueArg("first()")
                 ).add(
-                    SelectorArg("last()", JoinType.OR)
+                    ValueArg("last()", JoinType.OR)
                 ).toXpath()
-        )
-            .isEqualTo("[first() or last()]")
+        ).isEqualTo("[first() or last()]")
     }
 
     @Test
@@ -57,13 +54,12 @@ internal class SelectorArgsTests {
         assertThat(
             SelectorArgs()
                 .add(
-                    SelectorArg("first()")
+                    ValueArg("first()")
                 ).add(
-                    SelectorArg("second()", JoinType.OR)
+                    ValueArg("second()", JoinType.OR)
                 ).add(
-                    SelectorArg("last()", JoinType.AND)
+                    ValueArg("last()", JoinType.AND)
                 ).toXpath()
-        )
-            .isEqualTo("[first() or second() and last()]")
+        ).isEqualTo("[first() or second() and last()]")
     }
 }

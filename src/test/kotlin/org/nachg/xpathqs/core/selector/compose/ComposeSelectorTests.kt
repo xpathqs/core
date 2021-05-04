@@ -1,8 +1,8 @@
 package org.nachg.xpathqs.core.selector.compose
 
 import org.junit.jupiter.api.Test
-import org.nachg.xpathqs.core.selector.div
-import org.nachg.xpathqs.core.selector.get
+import org.nachg.xpathqs.core.selector.extensions.div
+import org.nachg.xpathqs.core.selector.extensions.get
 import org.nachg.xpathqs.core.util.SelectorFactory.compose
 import org.nachg.xpathqs.core.util.SelectorFactory.tagSelector
 import org.nachg.xpathqs.xpathShouldBe

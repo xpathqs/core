@@ -4,6 +4,7 @@ import org.nachg.xpathqs.core.reflection.freeze
 import org.nachg.xpathqs.core.reflection.setBase
 import org.nachg.xpathqs.core.selector.base.ISelector
 import org.nachg.xpathqs.core.selector.base.SelectorState
+import org.nachg.xpathqs.core.selector.extensions.clone
 import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.selector.SelectorProps
 

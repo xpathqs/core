@@ -1,4 +1,4 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.selector
 
 import org.junit.jupiter.api.Test
 import org.nachg.xpathqs.core.selector.selector.Selector

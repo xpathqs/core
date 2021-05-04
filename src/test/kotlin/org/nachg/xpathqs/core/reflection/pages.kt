@@ -4,7 +4,7 @@ import org.nachg.xpathqs.core.selector.Block
 import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
-object Page_WithBase : Block(
+object PageWithBase : Block(
     Selector(
         props = SelectorProps(tag = "base")
     )
@@ -12,11 +12,11 @@ object Page_WithBase : Block(
     val s1 = Selector(props = SelectorProps(tag = "s1"))
 }
 
-object Page_NoBase : Block() {
+object PageNoBase : Block() {
     val s1 = Selector(props = SelectorProps(tag = "s1"))
 }
 
-object Page_WithBase_AndInnerObject : Block(
+object PageWithBaseAndInnerObject : Block(
     Selector(
         props = SelectorProps(tag = "base")
     )

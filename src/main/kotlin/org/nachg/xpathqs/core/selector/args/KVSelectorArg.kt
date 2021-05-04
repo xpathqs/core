@@ -1,13 +1,15 @@
 package org.nachg.xpathqs.core.selector.args
 
 open class KVSelectorArg(
-    protected val k: String,
-    protected val v: String,
+    open val k: String,
+    open val v: String,
     joinType: JoinType = JoinType.NONE
-) : SelectorArg(
-    value = "$k=$v",
-    joinType
+) : ValueArg(
+    joinType = joinType
 ) {
+    override val value: String
+        get() = "$k=$v"
+
     override val key: String
         get() = k
 }
