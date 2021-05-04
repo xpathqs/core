@@ -32,7 +32,7 @@ internal class ObjectWithBaseAndInnerObjectTest {
     @Test
     fun checkSelectorXpath() {
         Page_WithBase_AndInnerObject.Inner.s1_inner
-           .xpathShouldBe("//base//inner//inner_tag")
+            .xpathShouldBe("//base//inner//inner_tag")
     }
 
     @Test

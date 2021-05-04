@@ -18,7 +18,8 @@ internal class SelectorArgsTests {
             SelectorArgs()
                 .add(
                     SelectorArg("last()")
-                ).toXpath())
+                ).toXpath()
+        )
             .isEqualTo("[last()]")
     }
 
@@ -30,7 +31,8 @@ internal class SelectorArgsTests {
                     SelectorArg("first()")
                 ).add(
                     SelectorArg("last()")
-                ).toXpath())
+                ).toXpath()
+        )
             .isEqualTo("[first() and last()]")
     }
 
@@ -42,7 +44,8 @@ internal class SelectorArgsTests {
                     SelectorArg("first()")
                 ).add(
                     SelectorArg("last()", JoinType.OR)
-                ).toXpath())
+                ).toXpath()
+        )
             .isEqualTo("[first() or last()]")
     }
 
@@ -56,7 +59,8 @@ internal class SelectorArgsTests {
                     SelectorArg("second()", JoinType.OR)
                 ).add(
                     SelectorArg("last()", JoinType.AND)
-                ).toXpath())
+                ).toXpath()
+        )
             .isEqualTo("[first() or second() and last()]")
     }
 }

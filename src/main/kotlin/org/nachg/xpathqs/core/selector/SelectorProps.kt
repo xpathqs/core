@@ -4,7 +4,7 @@ open class SelectorProps(
     val prefix: String = "//",
     val tag: String = "*",
     val props: SelectorArgs = SelectorArgs()
-): BaseSelectorProps(props) {
+) : BaseSelectorProps(props) {
     override fun toXpath(): String {
         return "$prefix$tag${args.toXpath()}"
     }

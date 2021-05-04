@@ -17,52 +17,51 @@ class SelectorReflectionFields(
 
     @Suppress("UNCHECKED_CAST")
     val declaredFields: Collection<Field>
-        by lazy {
-            val res = ArrayList<Field>()
+            by lazy {
+                val res = ArrayList<Field>()
 
-            var cls = rootObj::class.java
-            res.addAll(cls.declaredFields)
-
-            while (cls.superclass.isSelectorSubtype()) {
-                cls = cls.superclass as Class<out Selector>
+                var cls = rootObj::class.java
                 res.addAll(cls.declaredFields)
-            }
 
-            removeUnnecessary(res)
-        }
+                while (cls.superclass.isSelectorSubtype()) {
+                    cls = cls.superclass as Class<out Selector>
+                    res.addAll(cls.declaredFields)
+                }
+
+                removeUnnecessary(res)
+            }
 
     val innerSelectorFields: Collection<Field>
-        by lazy {
-            val res = ArrayList<Field>()
+            by lazy {
+                val res = ArrayList<Field>()
 
-            if(rootObj::class.java.simpleName != "Selector") {
-                rootObj::class.java.declaredFields.forEach {
-                    if(it.type.isSelectorSubtype()) {
-                        res.add(it)
+                if (rootObj::class.java.simpleName != "Selector") {
+                    rootObj::class.java.declaredFields.forEach {
+                        if (it.type.isSelectorSubtype()) {
+                            res.add(it)
+                        }
                     }
                 }
-            }
 
-            removeUnnecessary(res)
-        }
+                removeUnnecessary(res)
+            }
 
     val innerObjectClasses: Collection<Class<*>>
-        by lazy {
-            val res = ArrayList<Class<*>>()
+            by lazy {
+                val res = ArrayList<Class<*>>()
 
-            if(rootObj::class.java.simpleName != "Selector") {
-                rootObj::class.java.declaredClasses.forEach {
-                    if(it.isSelectorSubtype()) {
-                        res.add(it)
+                if (rootObj::class.java.simpleName != "Selector") {
+                    rootObj::class.java.declaredClasses.forEach {
+                        if (it.isSelectorSubtype()) {
+                            res.add(it)
+                        }
                     }
                 }
+
+                res
             }
 
-            res
-        }
-
-    private fun removeUnnecessary(fields: Collection<Field>)
-        = fields
+    private fun removeUnnecessary(fields: Collection<Field>) = fields
         .filter { it.name != "INSTANCE" }
         .distinctBy { it.name }
 }

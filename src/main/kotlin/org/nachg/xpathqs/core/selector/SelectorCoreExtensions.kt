@@ -2,15 +2,15 @@ package org.nachg.xpathqs.core.selector
 
 import org.nachg.xpathqs.core.reflection.*
 
-fun <T: ISelector>T.clone(): T {
-    if(this is Selector) {
+fun <T : ISelector> T.clone(): T {
+    if (this is Selector) {
         return clone()
     }
     return this
 }
 
-fun <T: Selector>T.clone(): T {
-    if(this.state != SelectorState.FREEZE) {
+fun <T : Selector> T.clone(): T {
+    if (this.state != SelectorState.FREEZE) {
         return this
     }
 
@@ -20,7 +20,7 @@ fun <T: Selector>T.clone(): T {
     newObj.setBase(this.base.clone())
     newObj.setProps(this.props.clone())
 
-    if(newObj is Block) {
+    if (newObj is Block) {
         this as Block
 
         val children = ArrayList<Selector>()
@@ -29,7 +29,7 @@ fun <T: Selector>T.clone(): T {
         newObj.setBlank(this.isBlank)
         newObj.originBlock = this
         newObj.children = children
-        if(newObj.isObject()) {
+        if (newObj.isObject()) {
             this.children.forEach {
                 it.setBase(newObj)
             }
@@ -41,7 +41,7 @@ fun <T: Selector>T.clone(): T {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T: Selector>T.newInstance(): T {
+fun <T : Selector> T.newInstance(): T {
     val c = this::class.java.declaredConstructors.find {
         it.parameterCount == 0
     } ?: throw IllegalArgumentException("Selector doesn't have a default constructor")

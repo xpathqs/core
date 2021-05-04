@@ -1,12 +1,10 @@
 package org.nachg.xpathqs.core.selector
 
-import java.lang.StringBuilder
-
 class SelectorArgs(
     private val args: HashMap<String, SelectorArg> = HashMap()
-): Cloneable {
+) : Cloneable {
     fun toXpath(): String {
-        if(args.isEmpty()) return ""
+        if (args.isEmpty()) return ""
 
         val sb = StringBuilder()
         args.values.forEach {
@@ -22,7 +20,7 @@ class SelectorArgs(
     }
 
     fun add(arg: SelectorArg): SelectorArgs {
-        if(args.isNotEmpty() && arg.isNone) {
+        if (args.isNotEmpty() && arg.isNone) {
             arg.joinType = JoinType.AND
         }
         args[arg.key] = arg

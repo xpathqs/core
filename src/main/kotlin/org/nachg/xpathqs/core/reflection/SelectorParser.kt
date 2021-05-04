@@ -11,7 +11,7 @@ class SelectorParser(
     private val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
 ) {
     fun parse() {
-        val baseName = if(base.name.isNotEmpty()) base.name + "." else ""
+        val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
 
         rootObj.setBase(base)
         rootObj.setName(baseName + rootObj::class.simpleName!!)

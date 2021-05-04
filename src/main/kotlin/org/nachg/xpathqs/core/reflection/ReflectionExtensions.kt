@@ -21,10 +21,10 @@ fun Class<*>.getObject(): Block {
 }
 
 fun Class<*>.isSelectorSubtype(): Boolean {
-    if(this.superclass == null) {
+    if (this.superclass == null) {
         return false
     }
-    if(this == Selector::class.java) {
+    if (this == Selector::class.java) {
         return true
     }
     return Selector::class.java.isAssignableFrom(this.superclass)

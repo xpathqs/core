@@ -31,8 +31,8 @@ internal class ObjectWithBaseTest {
 
     @Test
     fun checkSelectorXpath() {
-       Page_WithBase.s1
-           .xpathShouldBe("//base//s1")
+        Page_WithBase.s1
+            .xpathShouldBe("//base//s1")
     }
 
     @Test

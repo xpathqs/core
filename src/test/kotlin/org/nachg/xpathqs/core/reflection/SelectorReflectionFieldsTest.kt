@@ -74,7 +74,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerObjectClasses() {
-        val actual =  SelectorReflectionFields(Page_WithBase_AndInnerObject).innerObjectClasses
+        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerObjectClasses
         val names = actual.map { it.simpleName }
 
         assertThat(names)

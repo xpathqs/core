@@ -12,7 +12,7 @@ class SelectorReflection(
     fun setProp(name: String, value: Any): SelectorReflection {
         val member = srf.declaredFields.find { it.name == name }
 
-        if(member != null) {
+        if (member != null) {
             member.isAccessible = true
             member.set(obj, value)
         }
