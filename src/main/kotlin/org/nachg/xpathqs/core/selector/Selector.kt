@@ -6,7 +6,7 @@ open class Selector(
     name: String = "",
 
     override val props: SelectorProps = SelectorProps()
-): BaseSelector(
+) : BaseSelector(
     state = state,
     base = base,
     name = name,

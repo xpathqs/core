@@ -6,7 +6,7 @@ import org.nachg.xpathqs.core.reflection.Page_NoBase
 import org.nachg.xpathqs.core.reflection.SelectorParser
 import org.nachg.xpathqs.xpathShouldBe
 
-internal class OneSimpleObjectWithoutBase {
+internal class ObjectWithoutBase {
 
     @BeforeEach
     fun before() {

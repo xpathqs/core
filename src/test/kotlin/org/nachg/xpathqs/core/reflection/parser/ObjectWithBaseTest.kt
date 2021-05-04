@@ -10,7 +10,7 @@ import org.nachg.xpathqs.core.reflection.SelectorParser
 import org.nachg.xpathqs.xpathShouldBe
 
 
-internal class OneSimpleObjectWithBaseTest {
+internal class ObjectWithBaseTest {
 
     @BeforeEach
     fun before() {
@@ -31,8 +31,8 @@ internal class OneSimpleObjectWithBaseTest {
 
     @Test
     fun checkSelectorXpath() {
-       Page_WithBase.s1
-           .xpathShouldBe("//base//s1")
+        Page_WithBase.s1
+            .xpathShouldBe("//base//s1")
     }
 
     @Test

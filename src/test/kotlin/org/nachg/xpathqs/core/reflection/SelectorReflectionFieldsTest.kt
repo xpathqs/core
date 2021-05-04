@@ -50,4 +50,47 @@ internal class SelectorReflectionFieldsTest {
             )
     }
 
+    @Test
+    fun innerSelectorFieldsWithInnerObject() {
+        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerSelectorFields
+        val names = actual.map { it.name }
+
+        assertThat(names)
+            .containsExactlyInAnyOrder(
+                "s1_base"
+            )
+    }
+
+    @Test
+    fun innerSelectorFieldsForInnerObject() {
+        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject.Inner).innerSelectorFields
+        val names = actual.map { it.name }
+
+        assertThat(names)
+            .containsExactlyInAnyOrder(
+                "s1_inner"
+            )
+    }
+
+    @Test
+    fun innerObjectClasses() {
+        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerObjectClasses
+        val names = actual.map { it.simpleName }
+
+        assertThat(names)
+            .containsExactlyInAnyOrder(
+                "Inner"
+            )
+    }
+
+
+    @Test
+    fun innerBlocks() {
+        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerBlocks
+
+        assertThat(actual)
+            .containsExactlyInAnyOrder(
+                Page_WithBase_AndInnerObject.Inner
+            )
+    }
 }

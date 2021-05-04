@@ -20,7 +20,7 @@ class SelectorObjectModificationTests {
         val s1 = Page_WithBase
         val s2 = Page_WithBase.tag("s2")
 
-        assertAll { 
+        assertAll {
             s1.xpathShouldBe("//base")
             s2.xpathShouldBe("//s2")
             s1.xpathShouldBe("//base")

@@ -14,11 +14,17 @@ fun Any.isSelector(): Boolean {
     return this is Selector
 }
 
+@SuppressWarnings
+fun Class<*>.getObject(): Block {
+    return this.declaredFields
+        .find { it.name == "INSTANCE" }?.get(null) as Block
+}
+
 fun Class<*>.isSelectorSubtype(): Boolean {
-    if(this.superclass == null) {
+    if (this.superclass == null) {
         return false
     }
-    if(this == Selector::class.java) {
+    if (this == Selector::class.java) {
         return true
     }
     return Selector::class.java.isAssignableFrom(this.superclass)

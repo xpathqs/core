@@ -5,7 +5,7 @@ open class SelectorArg(
     var joinType: JoinType = JoinType.NONE
 ) {
     fun toXpath(): String {
-        return when(joinType) {
+        return when (joinType) {
             JoinType.NONE -> value
             JoinType.OR -> " or $value "
             JoinType.AND -> " and $value "

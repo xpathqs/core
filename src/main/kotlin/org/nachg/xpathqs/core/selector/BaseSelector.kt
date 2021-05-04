@@ -3,7 +3,7 @@ package org.nachg.xpathqs.core.selector
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
     internal val base: ISelector = NullSelector(),
-    internal val name: String = "",
+    override val name: String = "",
 
     internal open val props: BaseSelectorProps = BaseSelectorProps()
 ) : ISelector {
