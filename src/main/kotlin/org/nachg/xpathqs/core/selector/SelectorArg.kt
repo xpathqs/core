@@ -1,8 +1,8 @@
 package org.nachg.xpathqs.core.selector
 
 open class SelectorArg(
-    val value: String,
-    var joinType: JoinType = JoinType.NONE
+    internal val value: String,
+    internal var joinType: JoinType = JoinType.NONE
 ) {
     fun toXpath(): String {
         return when (joinType) {
