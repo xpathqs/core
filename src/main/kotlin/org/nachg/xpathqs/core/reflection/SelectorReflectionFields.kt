@@ -1,5 +1,6 @@
 package org.nachg.xpathqs.core.reflection
 
+import org.nachg.xpathqs.core.selector.Block
 import org.nachg.xpathqs.core.selector.Selector
 import java.lang.reflect.Field
 
@@ -8,6 +9,10 @@ class SelectorReflectionFields(
 ) {
     val innerSelectors: Collection<Selector> by lazy {
         innerSelectorFields.map { it.get(rootObj) as Selector }
+    }
+
+    val innerBlocks: Collection<Block> by lazy {
+        innerObjectClasses.map { it.getObject() }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -39,6 +44,21 @@ class SelectorReflectionFields(
             }
 
             removeUnnecessary(res)
+        }
+
+    val innerObjectClasses: Collection<Class<*>>
+        by lazy {
+            val res = ArrayList<Class<*>>()
+
+            if(rootObj::class.java.simpleName != "Selector") {
+                rootObj::class.java.declaredClasses.forEach {
+                    if(it.isSelectorSubtype()) {
+                        res.add(it)
+                    }
+                }
+            }
+
+            res
         }
 
     private fun removeUnnecessary(fields: Collection<Field>)

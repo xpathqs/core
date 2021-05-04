@@ -6,26 +6,28 @@ import org.nachg.xpathqs.core.selector.NullSelector
 import org.nachg.xpathqs.core.selector.Selector
 
 class SelectorParser(
-    private val rootObj: Selector,
+    private val rootObj: Block,
     private val base: ISelector = NullSelector(),
     private val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
 ) {
     fun parse() {
-        if(base is NullSelector) {
-            rootObj.setName(rootObj::class.simpleName!!)
-            rootObj.freeze()
+        val baseName = if(base.name.isNotEmpty()) base.name + "." else ""
 
-            if(rootObj is Block) {
-                srf.innerSelectorFields.forEach {
-                    it.isAccessible = true
-                    val sel = it.get(rootObj) as Selector
-                    sel.setName(rootObj.name + "." + it.name)
-                    sel.setBase(rootObj)
-                    sel.freeze()
-                }
-                rootObj.children = srf.innerSelectors
-            }
+        rootObj.setBase(base)
+        rootObj.setName(baseName + rootObj::class.simpleName!!)
+        rootObj.freeze()
+
+        srf.innerSelectorFields.forEach {
+            it.isAccessible = true
+            val sel = it.get(rootObj) as Selector
+            sel.setName(rootObj.name + "." + it.name)
+            sel.setBase(rootObj)
+            sel.freeze()
+        }
+        rootObj.children = srf.innerSelectors
+
+        srf.innerBlocks.forEach {
+            SelectorParser(it, rootObj).parse()
         }
     }
-
 }

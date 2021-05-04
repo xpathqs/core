@@ -14,6 +14,12 @@ fun Any.isSelector(): Boolean {
     return this is Selector
 }
 
+@SuppressWarnings
+fun Class<*>.getObject(): Block {
+    return this.declaredFields
+        .find { it.name == "INSTANCE" }?.get(null) as Block
+}
+
 fun Class<*>.isSelectorSubtype(): Boolean {
     if(this.superclass == null) {
         return false

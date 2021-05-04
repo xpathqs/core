@@ -10,7 +10,7 @@ import org.nachg.xpathqs.core.reflection.SelectorParser
 import org.nachg.xpathqs.xpathShouldBe
 
 
-internal class OneSimpleObjectWithBaseTest {
+internal class ObjectWithBaseTest {
 
     @BeforeEach
     fun before() {
