@@ -40,7 +40,7 @@ class ComposeSelectorTests {
     }
 
     @Test
-    fun divOperatorPriorety() {
+    fun divOperatorPriority() {
         val s = tagSelector("div")[2] / tagSelector("div")[3]
         s.xpathShouldBe("(//div[position()=2]) | (//div[position()=3])")
     }

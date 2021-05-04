@@ -1,11 +1,8 @@
 package org.nachg.xpathqs.core.selector.compose
 
 import assertk.assertThat
-import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.nachg.xpathqs.core.util.SelectorFactory.tagSelector
 
 internal class ComposeSelectorPropsTests {
@@ -23,7 +20,8 @@ internal class ComposeSelectorPropsTests {
                 arrayListOf(
                     tagSelector("div")
                 )
-            ).toXpath())
+            ).toXpath()
+        )
             .isEqualTo("//div")
     }
 
@@ -35,7 +33,8 @@ internal class ComposeSelectorPropsTests {
                     tagSelector("div"),
                     tagSelector("div")
                 )
-            ).toXpath())
+            ).toXpath()
+        )
             .isEqualTo("(//div) | (//div)")
     }
 }

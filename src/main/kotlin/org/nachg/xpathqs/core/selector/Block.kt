@@ -2,10 +2,10 @@ package org.nachg.xpathqs.core.selector
 
 import org.nachg.xpathqs.core.reflection.freeze
 import org.nachg.xpathqs.core.reflection.setBase
-import org.nachg.xpathqs.core.selector.selector.SelectorProps
 import org.nachg.xpathqs.core.selector.base.ISelector
 import org.nachg.xpathqs.core.selector.base.SelectorState
 import org.nachg.xpathqs.core.selector.selector.Selector
+import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
 open class Block(
     internal val isBlank: Boolean = true,

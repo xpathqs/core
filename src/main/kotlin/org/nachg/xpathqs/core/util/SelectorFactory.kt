@@ -7,8 +7,7 @@ import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
 object SelectorFactory {
-    fun tagSelector(tag: String)
-        = Selector(props = SelectorProps(tag = tag))
+    fun tagSelector(tag: String) = Selector(props = SelectorProps(tag = tag))
 
     fun compose(vararg selectors: ISelector) =
         ComposeSelector(

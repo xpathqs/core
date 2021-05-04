@@ -8,23 +8,23 @@ import org.nachg.xpathqs.core.selector.clone
 class ComposeSelectorProps(
     internal val selectors: ArrayList<ISelector> = ArrayList(),
     args: SelectorArgs = SelectorArgs()
-): BaseSelectorProps(args = args) {
+) : BaseSelectorProps(args = args) {
 
     fun add(sel: ISelector) {
         selectors.add(sel)
     }
 
     override fun toXpath(): String {
-        if(selectors.isEmpty()) {
+        if (selectors.isEmpty()) {
             return ""
         }
-        if(selectors.size == 1) {
+        if (selectors.size == 1) {
             return selectors.first().toXpath()
         }
         var res = ""
         selectors.forEach {
             val xp = it.toXpath()
-            if(xp.isNotEmpty()) {
+            if (xp.isNotEmpty()) {
                 res += "($xp) | "
             }
         }
@@ -32,7 +32,7 @@ class ComposeSelectorProps(
         res = res.removeSuffix(" | ")
         val args = args.toXpath()
 
-        if(args.isNotEmpty()) {
+        if (args.isNotEmpty()) {
             return "($res)$args"
         }
 
@@ -40,7 +40,7 @@ class ComposeSelectorProps(
     }
 
     override fun clone(): ComposeSelectorProps {
-        val clonedSelectors =  ArrayList<ISelector>()
+        val clonedSelectors = ArrayList<ISelector>()
         selectors.forEach {
             clonedSelectors.add(it.clone())
         }
