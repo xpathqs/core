@@ -1,6 +1,7 @@
 package org.nachg.xpathqs.core.selector
 
 import org.junit.jupiter.api.Test
+import org.nachg.xpathqs.core.selector.extensions.get
 import org.nachg.xpathqs.xpathShouldBe
 
 internal class XpathSelectorTests {

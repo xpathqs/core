@@ -1,4 +1,4 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.args
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

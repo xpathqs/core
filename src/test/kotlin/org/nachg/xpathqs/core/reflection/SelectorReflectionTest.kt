@@ -17,16 +17,16 @@ internal class SelectorReflectionTest {
 
     @Test
     fun setNameForObj() {
-        SelectorReflection(Page_WithBase).setProp("name", "test_name")
-        assertThat(Page_WithBase.name)
+        SelectorReflection(PageWithBase).setProp("name", "test_name")
+        assertThat(PageWithBase.name)
             .isEqualTo("test_name")
-        assertThat(Page_WithBase.toString())
+        assertThat(PageWithBase.toString())
             .isEqualTo("test_name")
     }
 
     @Test
     fun isObject() {
-        assertThat(Page_WithBase.isObject())
+        assertThat(PageWithBase.isObject())
             .isEqualTo(true)
     }
 }

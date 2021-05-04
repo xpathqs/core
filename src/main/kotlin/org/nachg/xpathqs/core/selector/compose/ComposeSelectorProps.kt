@@ -3,7 +3,7 @@ package org.nachg.xpathqs.core.selector.compose
 import org.nachg.xpathqs.core.selector.args.SelectorArgs
 import org.nachg.xpathqs.core.selector.base.BaseSelectorProps
 import org.nachg.xpathqs.core.selector.base.ISelector
-import org.nachg.xpathqs.core.selector.clone
+import org.nachg.xpathqs.core.selector.extensions.clone
 
 class ComposeSelectorProps(
     internal val selectors: ArrayList<ISelector> = ArrayList(),

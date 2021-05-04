@@ -23,7 +23,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun declaredFieldsForBlockObject() {
-        val actual = SelectorReflectionFields(Page_WithBase).declaredFields
+        val actual = SelectorReflectionFields(PageWithBase).declaredFields
         val names = actual.map { it.name }
 
         val expected = ArrayList<String>()
@@ -41,7 +41,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorFields() {
-        val actual = SelectorReflectionFields(Page_WithBase).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBase).innerSelectorFields
         val names = actual.map { it.name }
 
         assertThat(names)
@@ -52,7 +52,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorFieldsWithInnerObject() {
-        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerSelectorFields
         val names = actual.map { it.name }
 
         assertThat(names)
@@ -63,7 +63,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorFieldsForInnerObject() {
-        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject.Inner).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject.Inner).innerSelectorFields
         val names = actual.map { it.name }
 
         assertThat(names)
@@ -74,7 +74,7 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerObjectClasses() {
-        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerObjectClasses
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerObjectClasses
         val names = actual.map { it.simpleName }
 
         assertThat(names)
@@ -86,11 +86,11 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerBlocks() {
-        val actual = SelectorReflectionFields(Page_WithBase_AndInnerObject).innerBlocks
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerBlocks
 
         assertThat(actual)
             .containsExactlyInAnyOrder(
-                Page_WithBase_AndInnerObject.Inner
+                PageWithBaseAndInnerObject.Inner
             )
     }
 }

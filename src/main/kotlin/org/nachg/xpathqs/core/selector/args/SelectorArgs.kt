@@ -1,7 +1,7 @@
 package org.nachg.xpathqs.core.selector.args
 
 class SelectorArgs(
-    private val args: HashMap<String, SelectorArg> = HashMap()
+    private val args: HashMap<String, ValueArg> = HashMap()
 ) : Cloneable {
     fun toXpath(): String {
         if (args.isEmpty()) return ""
@@ -19,7 +19,7 @@ class SelectorArgs(
         return "[$res]"
     }
 
-    fun add(arg: SelectorArg): SelectorArgs {
+    fun add(arg: ValueArg): SelectorArgs {
         if (args.isNotEmpty() && arg.isNone) {
             arg.joinType = JoinType.AND
         }
@@ -29,6 +29,6 @@ class SelectorArgs(
 
     @Suppress("UNCHECKED_CAST")
     public override fun clone(): SelectorArgs {
-        return SelectorArgs(args.clone() as HashMap<String, SelectorArg>)
+        return SelectorArgs(args.clone() as HashMap<String, ValueArg>)
     }
 }
