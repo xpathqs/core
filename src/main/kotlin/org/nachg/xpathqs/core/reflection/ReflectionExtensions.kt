@@ -1,9 +1,9 @@
 package org.nachg.xpathqs.core.reflection
 
 import org.nachg.xpathqs.core.selector.Block
-import org.nachg.xpathqs.core.selector.ISelector
-import org.nachg.xpathqs.core.selector.Selector
-import org.nachg.xpathqs.core.selector.SelectorProps
+import org.nachg.xpathqs.core.selector.base.ISelector
+import org.nachg.xpathqs.core.selector.selector.Selector
+import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
 fun Any.isObject(): Boolean {
     return this.javaClass.declaredFields

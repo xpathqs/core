@@ -1,8 +1,8 @@
 package org.nachg.xpathqs.core.reflection
 
 import org.nachg.xpathqs.core.selector.Block
-import org.nachg.xpathqs.core.selector.Selector
-import org.nachg.xpathqs.core.selector.SelectorProps
+import org.nachg.xpathqs.core.selector.selector.Selector
+import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
 object Page_WithBase : Block(
     Selector(

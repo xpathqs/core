@@ -1,7 +1,7 @@
 package org.nachg.xpathqs.core.reflection
 
 import org.nachg.xpathqs.core.selector.Block
-import org.nachg.xpathqs.core.selector.Selector
+import org.nachg.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
 class SelectorReflectionFields(

@@ -1,6 +1,9 @@
 package org.nachg.xpathqs.core.selector
 
 import org.nachg.xpathqs.core.reflection.*
+import org.nachg.xpathqs.core.selector.base.ISelector
+import org.nachg.xpathqs.core.selector.base.SelectorState
+import org.nachg.xpathqs.core.selector.selector.Selector
 
 fun <T : ISelector> T.clone(): T {
     if (this is Selector) {

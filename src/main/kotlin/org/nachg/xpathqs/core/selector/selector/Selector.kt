@@ -1,4 +1,9 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.selector
+
+import org.nachg.xpathqs.core.selector.NullSelector
+import org.nachg.xpathqs.core.selector.base.BaseSelector
+import org.nachg.xpathqs.core.selector.base.ISelector
+import org.nachg.xpathqs.core.selector.base.SelectorState
 
 open class Selector(
     state: SelectorState = SelectorState.INIT,

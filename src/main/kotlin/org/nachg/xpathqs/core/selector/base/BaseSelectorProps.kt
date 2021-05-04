@@ -1,4 +1,6 @@
-package org.nachg.xpathqs.core.selector
+package org.nachg.xpathqs.core.selector.base
+
+import org.nachg.xpathqs.core.selector.args.SelectorArgs
 
 open class BaseSelectorProps(
     val args: SelectorArgs = SelectorArgs()
