@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isNotSameAs
 import org.junit.jupiter.api.Test
 import org.nachg.xpathqs.core.reflection.freeze
-import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.clone
+import org.nachg.xpathqs.core.selector.selector.Selector
 
 class SelectorCloneTests {
 
