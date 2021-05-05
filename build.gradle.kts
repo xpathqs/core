@@ -41,3 +41,10 @@ tasks.jar {
         )
     }
 }
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = true
+    }
+}
