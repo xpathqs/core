@@ -1,6 +1,7 @@
 [![build](https://github.com/nachg/xpathqs/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs/actions/workflows/build.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](LICENSE.md)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
+[![Covarage](.github/badges/jacoco.svg)](jacoco.svg)
 # XpathQS
 
 A library for building Xpath queries in an OOP style. In a [JOOQ](https://www.jooq.org/) way, but for the XPATH.
