@@ -62,6 +62,6 @@ class SelectorReflectionFields(
             }
 
     private fun removeUnnecessary(fields: Collection<Field>) = fields
-        .filter { it.name != "INSTANCE" }
+        .filter { it.name != "INSTANCE" && it.name != "\$jacocoData"}
         .distinctBy { it.name }
 }
