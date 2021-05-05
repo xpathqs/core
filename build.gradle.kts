@@ -1,12 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.32"
-    `java-library`
-}
-
 group = "org.nachg.xpathqs"
 version = "0.0.1"
+
+plugins {
+    kotlin("jvm") version "1.4.32"
+    `java-library`
+    jacoco
+}
 
 repositories {
     mavenCentral()
@@ -38,5 +39,12 @@ tasks.jar {
                 "Implementation-Version" to project.version
             )
         )
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = true
     }
 }
