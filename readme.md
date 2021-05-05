@@ -1,8 +1,8 @@
 [![build](https://github.com/nachg/xpathqs/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs/actions/workflows/build.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs)
-[![License](https://img.shields.io/github/license/nachg/xpathqs)](https://github.com/nachg/xpathqs/blob/master/LICENSE)
 [![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
 
+[![License](https://img.shields.io/github/license/nachg/xpathqs)](https://github.com/nachg/xpathqs/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 
 # XpathQS
