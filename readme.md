@@ -29,9 +29,9 @@ Result:
 //div[contains(text(), 'test') and position()=2]
 ```
 
-For more examples you can discover [unit tests](https://github.com/nachg/xpathqs/tree/master/src/test/kotlin/org/nachg/xpathqs/core/selector)
+For more examples you can discover [unit tests](https://github.com/nachg/xpathqs/tree/master/src/test/kotlin/org/nachg/xpathqs/core/selector).
 
-## XpathQS
+## License
 
-This GitHub action is released under
+This XpathQS lib is released under
 the [MIT License](https://github.com/nachg/xpathqs/blob/master/LICENSE).
