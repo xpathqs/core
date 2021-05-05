@@ -1,7 +1,10 @@
 [![build](https://github.com/nachg/xpathqs/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs/actions/workflows/build.yml)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](LICENSE.md)
+![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs)
+[![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
+
+[![License](https://img.shields.io/github/license/nachg/xpathqs)](https://github.com/nachg/xpathqs/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![Covarage](.github/badges/jacoco.svg)](jacoco.svg)
+
 # XpathQS
 
 A library for building Xpath queries in an OOP style. In a [JOOQ](https://www.jooq.org/) way, but for the XPATH.
@@ -27,3 +30,8 @@ Result:
 ```
 
 For more examples you can discover [unit tests](https://github.com/nachg/xpathqs/tree/master/src/test/kotlin/org/nachg/xpathqs/core/selector)
+
+## XpathQS
+
+This GitHub action is released under
+the [MIT License](https://github.com/nachg/xpathqs/blob/master/LICENSE).
