@@ -1,0 +1,5 @@
+constants:
+  text_arg: "@text"
+
+timeouts:
+  default: 100
