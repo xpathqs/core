@@ -45,7 +45,7 @@ fun <T : Selector> T.clone(): T {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T : Selector> T.newInstance(): T {
+internal fun <T : Selector> T.newInstance(): T {
     val c = this::class.java.declaredConstructors.find {
         it.parameterCount == 0
     } ?: throw IllegalArgumentException("Selector doesn't have a default constructor")

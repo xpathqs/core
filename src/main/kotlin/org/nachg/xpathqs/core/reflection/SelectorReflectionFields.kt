@@ -4,7 +4,7 @@ import org.nachg.xpathqs.core.selector.Block
 import org.nachg.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
-class SelectorReflectionFields(
+internal class SelectorReflectionFields(
     private val rootObj: Selector
 ) {
     val innerSelectors: Collection<Selector> by lazy {

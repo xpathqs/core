@@ -5,7 +5,7 @@ import org.nachg.xpathqs.core.selector.base.SelectorState
 import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
-class SelectorReflection(
+internal class SelectorReflection(
     private val obj: Selector,
     private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {

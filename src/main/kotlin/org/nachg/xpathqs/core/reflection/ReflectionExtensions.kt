@@ -5,22 +5,18 @@ import org.nachg.xpathqs.core.selector.base.ISelector
 import org.nachg.xpathqs.core.selector.selector.Selector
 import org.nachg.xpathqs.core.selector.selector.SelectorProps
 
-fun Any.isObject(): Boolean {
+internal fun Any.isObject(): Boolean {
     return this.javaClass.declaredFields
         .find { it.name == "INSTANCE" } != null
 }
 
-fun Any.isSelector(): Boolean {
-    return this is Selector
-}
-
 @SuppressWarnings
-fun Class<*>.getObject(): Block {
+internal fun Class<*>.getObject(): Block {
     return this.declaredFields
         .find { it.name == "INSTANCE" }?.get(null) as Block
 }
 
-fun Class<*>.isSelectorSubtype(): Boolean {
+internal fun Class<*>.isSelectorSubtype(): Boolean {
     if (this.superclass == null) {
         return false
     }
@@ -31,31 +27,31 @@ fun Class<*>.isSelectorSubtype(): Boolean {
             || this.isAssignableFrom(Selector::class.java)
 }
 
-fun Selector.setName(name: String) {
+internal fun Selector.setName(name: String) {
     SelectorReflection(this)
         .setName(name)
 }
 
-fun Selector.setBase(base: ISelector) {
+internal fun Selector.setBase(base: ISelector) {
     SelectorReflection(this)
         .setBase(base)
 }
 
-fun Selector.setProps(props: SelectorProps) {
+internal fun Selector.setProps(props: SelectorProps) {
     SelectorReflection(this)
         .setProps(props)
 }
 
-fun Selector.freeze(): Selector {
+internal fun Selector.freeze(): Selector {
     SelectorReflection(this).freeze()
     return this
 }
 
-fun Selector.cloned(): Selector {
+internal fun Selector.cloned(): Selector {
     SelectorReflection(this).cloned()
     return this
 }
 
-fun Block.setBlank(value: Boolean) {
+internal fun Block.setBlank(value: Boolean) {
     SelectorReflection(this).setProp("isBlank", value)
 }
