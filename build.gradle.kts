@@ -7,6 +7,13 @@ plugins {
     kotlin("jvm") version "1.4.32"
     `java-library`
     jacoco
+    `maven-publish`
+    signing
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
@@ -21,6 +28,18 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.23.1")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.nachg"
+            artifactId = "xpathqs"
+            version = "0.0.1"
+
+            from(components["java"])
+        }
+    }
 }
 
 tasks.test {
