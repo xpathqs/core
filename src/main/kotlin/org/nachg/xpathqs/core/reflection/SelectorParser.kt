@@ -5,7 +5,7 @@ import org.nachg.xpathqs.core.selector.NullSelector
 import org.nachg.xpathqs.core.selector.base.ISelector
 import org.nachg.xpathqs.core.selector.selector.Selector
 
-class SelectorParser(
+internal class SelectorParser(
     private val rootObj: Block,
     private val base: ISelector = NullSelector(),
     private val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
