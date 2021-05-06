@@ -19,13 +19,13 @@ open class CoreGlobalProps(
         )
     )
 
-    //inner text attribute for the Web-based selectors
-    internal val TEXT_ARG: String
-        get() = props["constants.text_arg"] as String
-
     fun update(other: CoreGlobalProps) {
         this.props = other.props
     }
+
+    //inner text attribute for the Web-based selectors
+    internal val TEXT_ARG: String
+        get() = props["constants.text_arg"] as String
 }
 
 internal object Global: CoreGlobalProps()
