@@ -1,4 +1,1 @@
-
-rootProject.name = "XpathQS"
-
-include("lib")
+rootProject.name = "XpathQS-Core"

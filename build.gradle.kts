@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "org.nachg.xpathqs"
+group = "org.xpathqs"
 version = "0.0.1"
 
 plugins {
@@ -35,8 +35,8 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "org.nachg"
-            artifactId = "xpathqs"
+            groupId = "org.xpathqs"
+            artifactId = "xpathqs-core"
             version = "0.0.1"
 
             from(components["java"])
