@@ -26,6 +26,10 @@ open class CoreGlobalProps(
     //inner text attribute for the Web-based selectors
     val TEXT_ARG: String
         get() = props["constants.text_arg"] as? String ?: "text()"
+
+    //inner text attribute for the Web-based selectors
+    val ID_ARG: String
+        get() = props["constants.id_arg"] as? String ?: "@id"
 }
 
 internal object Global: CoreGlobalProps()
