@@ -3,6 +3,11 @@ package org.xpathqs.core.selector.args
 class SelectorArgs(
     private val args: HashMap<String, ValueArg> = HashMap()
 ) : Cloneable {
+
+    constructor(arg: ValueArg) : this() {
+        add(arg)
+    }
+
     fun toXpath(): String {
         if (args.isEmpty()) return ""
 

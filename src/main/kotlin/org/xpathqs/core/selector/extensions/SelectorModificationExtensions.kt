@@ -1,7 +1,7 @@
 package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.constants.Global
+import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
@@ -36,6 +36,12 @@ fun <T : BaseSelector> T.text(
     contains: Boolean = false,
     normalize: Boolean = false
 ) = arg(Global.TEXT_ARG, text, contains, normalize)
+
+fun <T : BaseSelector> T.id(
+    text: String,
+    contains: Boolean = false,
+    normalize: Boolean = false
+) = arg(Global.ID_ARG, text, contains, normalize)
 
 fun <T : BaseSelector> T.arg(
     argName: String,
