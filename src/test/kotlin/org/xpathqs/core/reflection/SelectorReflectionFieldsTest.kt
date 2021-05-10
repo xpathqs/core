@@ -32,6 +32,7 @@ internal class SelectorReflectionFieldsTest {
         expected.add("isBlank")
         expected.add("originBlock")
         expected.add("children")
+        expected.add("selectorsChain")
 
         assertThat(names)
             .containsExactlyInAnyOrder(

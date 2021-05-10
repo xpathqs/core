@@ -20,4 +20,7 @@ class ComposeSelector(
     override fun toXpath(): String {
         return props.toXpath()
     }
+
+    override val tag: String
+        get() = ""
 }

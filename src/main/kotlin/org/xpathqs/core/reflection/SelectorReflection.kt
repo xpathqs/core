@@ -1,12 +1,13 @@
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.selector.selector.SelectorProps
 
 internal class SelectorReflection(
-    private val obj: Selector,
+    private val obj: BaseSelector,
     private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {
     fun setProp(name: String, value: Any): SelectorReflection {
@@ -22,7 +23,9 @@ internal class SelectorReflection(
 
     fun setName(value: String) = setProp("name", value)
     fun setBase(value: ISelector) = setProp("base", value)
-    fun setProps(value: SelectorProps) = setProp("props", value)
+    fun setProps(value: BaseSelectorProps) = setProp("props", value)
+    fun setArgs(args: SelectorArgs) =
+        BaseSelectorProps::args.toField().set(obj.props, args)
 
     fun freeze() = setProp("state", SelectorState.FREEZE)
     fun cloned() = setProp("state", SelectorState.CLONED)

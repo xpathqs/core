@@ -18,9 +18,9 @@ class PropertyFacade(
         val res = HashMap<String, String>()
 
         map.forEach { (k, v) ->
-            if(v is String) {
-                res[prefix+k] = v
-            } else if(v is Map<*, *>) {
+            if (v is String) {
+                res[prefix + k] = v
+            } else if (v is Map<*, *>) {
                 res.putAll(
                     flatMap(
                         v as Map<String, Any>,

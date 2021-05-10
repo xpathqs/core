@@ -1,8 +1,11 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.extensions.repeat
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
+import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 object PageWithBase : Block(
     Selector(
@@ -13,6 +16,14 @@ object PageWithBase : Block(
 }
 
 object PageNoBase : Block() {
+    val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
+
+object PageWithBaseWithChainXpath : Block(tagSelector("div").repeat(3)) {
+    val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
+
+object PageWithBaseWithChain : Block(tagSelector("div") + tagSelector("div")) {
     val s1 = Selector(props = SelectorProps(tag = "s1"))
 }
 

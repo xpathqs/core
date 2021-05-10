@@ -8,14 +8,14 @@ import java.io.InputStream
  */
 open class CoreGlobalProps(
     protected var props: Map<String, Any>
-        = mapOf("constants.text_arg" to "text()")
+    = mapOf("constants.text_arg" to "text()")
 ) {
-    constructor(loader: PropertyFacade): this(loader.parse())
-    constructor(input: InputStream): this(PropertyFacade(input))
-    constructor(resourcePath: String): this(
+    constructor(loader: PropertyFacade) : this(loader.parse())
+    constructor(input: InputStream) : this(PropertyFacade(input))
+    constructor(resourcePath: String) : this(
         PropertyFacade(
-            CoreGlobalProps::class.java.classLoader.getResource(resourcePath)?.openStream() ?:
-            throw IllegalArgumentException("'$resourcePath' Resource can't be found")
+            CoreGlobalProps::class.java.classLoader.getResource(resourcePath)?.openStream()
+                ?: throw IllegalArgumentException("'$resourcePath' Resource can't be found")
         )
     )
 
@@ -32,4 +32,4 @@ open class CoreGlobalProps(
         get() = props["constants.id_arg"] as? String ?: "@id"
 }
 
-internal object Global: CoreGlobalProps()
+object Global : CoreGlobalProps()

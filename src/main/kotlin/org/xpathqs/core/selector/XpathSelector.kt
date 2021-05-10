@@ -14,7 +14,11 @@ class XpathSelector(
 
     props: BaseSelectorProps = BaseSelectorProps()
 ) : BaseSelector(state, base, name, props) {
+
     override fun toXpath(): String {
         return base.toXpath() + xpath + props.toXpath()
     }
+
+    override val tag: String
+        get() = xpath
 }
