@@ -15,8 +15,8 @@ internal class PropertyFacadeTest {
     fun parseWithInputStream() {
         assertThat(
             CoreGlobalProps(
-                this::class.java.classLoader.getResource(PATH)?.openStream() ?:
-                throw IllegalArgumentException("'$PATH' Resource can't be found")
+                this::class.java.classLoader.getResource(PATH)?.openStream()
+                    ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
             ).TEXT_ARG
         ).isEqualTo("@text")
     }
@@ -26,8 +26,8 @@ internal class PropertyFacadeTest {
         assertThat(
             CoreGlobalProps(
                 PropertyFacade(
-                    this::class.java.classLoader.getResource(PATH)?.openStream() ?:
-                        throw IllegalArgumentException("'$PATH' Resource can't be found")
+                    this::class.java.classLoader.getResource(PATH)?.openStream()
+                        ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
                 )
             ).TEXT_ARG
         ).isEqualTo("@text")

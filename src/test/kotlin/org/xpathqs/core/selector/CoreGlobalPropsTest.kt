@@ -18,7 +18,8 @@ internal class CoreGlobalPropsTest {
         assertThat(
             CoreGlobalProps(
                 mapOf("constants.text_arg" to "@text")
-            ).TEXT_ARG)
+            ).TEXT_ARG
+        )
             .isEqualTo("@text")
     }
 }
