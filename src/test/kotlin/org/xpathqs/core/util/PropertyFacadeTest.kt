@@ -11,14 +11,13 @@ internal class PropertyFacadeTest {
     val PATH = "config/config.yml"
 
     @Test
-
     fun parseWithInputStream() {
         assertThat(
             CoreGlobalProps(
                 this::class.java.classLoader.getResource(PATH)?.openStream()
                     ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
             ).TEXT_ARG
-        ).isEqualTo("@text")
+        ).isEqualTo("@text_test")
     }
 
     @Test
@@ -30,7 +29,7 @@ internal class PropertyFacadeTest {
                         ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
                 )
             ).TEXT_ARG
-        ).isEqualTo("@text")
+        ).isEqualTo("@text_test")
     }
 
 }

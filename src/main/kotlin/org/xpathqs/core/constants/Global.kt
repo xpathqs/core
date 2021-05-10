@@ -7,8 +7,7 @@ import java.io.InputStream
  * Class for storing global properties
  */
 open class CoreGlobalProps(
-    protected var props: Map<String, Any>
-    = mapOf("constants.text_arg" to "text()")
+    protected var props: Map<String, Any> = emptyMap()
 ) {
     constructor(loader: PropertyFacade) : this(loader.parse())
     constructor(input: InputStream) : this(PropertyFacade(input))
@@ -19,8 +18,9 @@ open class CoreGlobalProps(
         )
     )
 
-    fun update(other: CoreGlobalProps) {
+    fun update(other: CoreGlobalProps): CoreGlobalProps {
         this.props = other.props
+        return this
     }
 
     //inner text attribute for the Web-based selectors

@@ -51,12 +51,15 @@ internal class SelectorArgsTests {
         assertThat(
             SelectorArgs()
                 .add(
+                    ValueArg("before()")
+                )
+                .add(
                     ValueArg("first()")
                 ).add(
                     ValueArg("second()", JoinType.OR)
                 ).add(
                     ValueArg("last()", JoinType.AND)
                 ).toXpath()
-        ).isEqualTo("[first() or second() and last()]")
+        ).isEqualTo("[before() and first() and last() or second()]")
     }
 }

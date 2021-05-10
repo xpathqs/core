@@ -24,8 +24,7 @@ internal class SelectorReflection(
     fun setName(value: String) = setProp("name", value)
     fun setBase(value: ISelector) = setProp("base", value)
     fun setProps(value: BaseSelectorProps) = setProp("props", value)
-    fun setArgs(args: SelectorArgs) =
-        BaseSelectorProps::args.toField().set(obj.props, args)
+    fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField().set(obj.props, args)
 
     fun freeze() = setProp("state", SelectorState.FREEZE)
     fun cloned() = setProp("state", SelectorState.CLONED)

@@ -3,7 +3,11 @@ package org.xpathqs.core.reflection
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.extensions.get
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.xpathShouldBe
 
 internal class SelectorReflectionTest {
 
@@ -22,6 +26,16 @@ internal class SelectorReflectionTest {
             .isEqualTo("test_name")
         assertThat(PageWithBase.toString())
             .isEqualTo("test_name")
+    }
+
+    @Test
+    fun setArgsShouldUpdateArguments() {
+        val sel = tagSelector("tag")[2].freeze()
+        SelectorReflection(sel)
+            .setArgs(SelectorArgs())
+
+        sel
+            .xpathShouldBe("//tag")
     }
 
     @Test

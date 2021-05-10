@@ -55,4 +55,22 @@ class SelectorModificationTests {
         tagSelector("div").repeat(3)
             .xpathShouldBe("//div//div//div")
     }
+
+    @Test
+    fun onlyId() {
+        tagSelector("div").id("test")
+            .xpathShouldBe("//div[@id='test']")
+    }
+
+    @Test
+    fun idAndPosition() {
+        tagSelector("div").id("test")[2]
+            .xpathShouldBe("//div[@id='test' and position()=2]")
+    }
+
+    @Test
+    fun idContainsAndPosition() {
+        tagSelector("div").id("test", contains = true)[2]
+            .xpathShouldBe("//div[contains(@id, 'test') and position()=2]")
+    }
 }
