@@ -23,7 +23,10 @@ open class GroupSelector(
     override val tag: String
         get() = ""
 
-    override fun toXpath(): String {
+    override fun toXpath() =
+        base.toXpath() + selfXpath()
+
+    private fun selfXpath(): String {
         if (selectorsChain.isEmpty()) {
             return ""
         }
@@ -38,6 +41,6 @@ open class GroupSelector(
         if (props.isNotEmpty()) {
             return "($res)$props"
         }
-        return res
+        return  res
     }
 }
