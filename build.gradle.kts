@@ -16,12 +16,16 @@ java {
     withSourcesJar()
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.32")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
 
     implementation("org.yaml:snakeyaml:1.28")
 
