@@ -84,7 +84,6 @@ internal class SelectorReflectionFieldsTest {
             )
     }
 
-
     @Test
     fun innerBlocks() {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerBlocks

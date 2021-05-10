@@ -1,5 +1,7 @@
 package org.xpathqs.core.selector.compose
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.div
 import org.xpathqs.core.selector.extensions.get
@@ -37,6 +39,13 @@ class ComposeSelectorTests {
     fun divOperator() {
         val s = tagSelector("div") / tagSelector("div")
         s.xpathShouldBe("(//div) | (//div)")
+    }
+
+    @Test
+    fun tag() {
+        val s = tagSelector("div") / tagSelector("div")
+        assertThat(s.tag)
+            .isEqualTo("")
     }
 
     @Test

@@ -11,8 +11,10 @@ class SelectorArgs(
     fun toXpath(): String {
         if (args.isEmpty()) return ""
 
+        val sorted = args.values.sortedBy { it.joinType }
+
         val sb = StringBuilder()
-        args.values.forEach {
+        sorted.forEach {
             sb.append(it.toXpath())
         }
 
