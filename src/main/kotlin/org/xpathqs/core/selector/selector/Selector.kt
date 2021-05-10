@@ -9,11 +9,16 @@ open class Selector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
-
     override val props: SelectorProps = SelectorProps()
 ) : BaseSelector(
     state = state,
     base = base,
     name = name,
-    props = props
-)
+    props = props,
+) {
+    override val tag: String
+        get() = props.tag
+
+    val prefix: String
+        get() = props.prefix
+}

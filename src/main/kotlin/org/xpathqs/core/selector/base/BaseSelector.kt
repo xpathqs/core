@@ -4,11 +4,14 @@ import org.xpathqs.core.selector.NullSelector
 
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
+
     internal val base: ISelector = NullSelector(),
     override val name: String = "",
 
-    internal open val props: BaseSelectorProps = BaseSelectorProps()
+    internal open val props: BaseSelectorProps = BaseSelectorProps(),
 ) : ISelector {
+
+    abstract val tag: String
 
     override fun toXpath(): String {
         return base.toXpath() + props.toXpath()

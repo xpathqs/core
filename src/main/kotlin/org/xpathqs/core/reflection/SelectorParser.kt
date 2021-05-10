@@ -5,10 +5,10 @@ import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.selector.Selector
 
-internal class SelectorParser(
+class SelectorParser(
     private val rootObj: Block,
     private val base: ISelector = NullSelector(),
-    private val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
+    val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
 ) {
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""

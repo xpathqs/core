@@ -1,11 +1,12 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
-internal class SelectorReflectionFields(
-    private val rootObj: Selector
+class SelectorReflectionFields(
+    private val rootObj: BaseSelector
 ) {
     val innerSelectors: Collection<Selector> by lazy {
         innerSelectorFields.map { it.get(rootObj) as Selector }
@@ -62,6 +63,6 @@ internal class SelectorReflectionFields(
             }
 
     private fun removeUnnecessary(fields: Collection<Field>) = fields
-        .filter { it.name != "INSTANCE" && it.name != "\$jacocoData"}
+        .filter { it.name != "INSTANCE" && it.name != "\$jacocoData" }
         .distinctBy { it.name }
 }

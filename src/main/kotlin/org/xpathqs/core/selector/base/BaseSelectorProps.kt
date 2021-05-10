@@ -3,7 +3,7 @@ package org.xpathqs.core.selector.base
 import org.xpathqs.core.selector.args.SelectorArgs
 
 open class BaseSelectorProps(
-    val args: SelectorArgs = SelectorArgs()
+    internal val args: SelectorArgs = SelectorArgs(),
 ) : Cloneable {
 
     open fun toXpath(): String {
@@ -11,6 +11,8 @@ open class BaseSelectorProps(
     }
 
     public override fun clone(): BaseSelectorProps {
-        return BaseSelectorProps(args.clone())
+        return BaseSelectorProps(
+            args.clone()
+        )
     }
 }

@@ -37,4 +37,22 @@ class SelectorModificationTests {
         tagSelector("div").text("test", contains = true)[2]
             .xpathShouldBe("//div[contains(text(), 'test') and position()=2]")
     }
+
+    @Test
+    fun removeParamsTest() {
+        tagSelector("div")[2].removeParams()
+            .xpathShouldBe("//div")
+    }
+
+    @Test
+    fun prefixTest() {
+        tagSelector("div").prefix("/")
+            .xpathShouldBe("/div")
+    }
+
+    @Test
+    fun repeatTest() {
+        tagSelector("div").repeat(3)
+            .xpathShouldBe("//div//div//div")
+    }
 }
