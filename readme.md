@@ -1,8 +1,8 @@
-[![build](https://github.com/nachg/xpathqs/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs/actions/workflows/build.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs)
+[![build](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs-core)
 [![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
 
-[![License](https://img.shields.io/github/license/nachg/xpathqs)](https://github.com/nachg/xpathqs/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/nachg/xpathqs-core)](https://github.com/nachg/xpathqs-core/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 
 # XpathQS
@@ -29,9 +29,9 @@ Result:
 //div[contains(text(), 'test') and position()=2]
 ```
 
-For more examples you can discover [unit tests](https://github.com/nachg/xpathqs/tree/master/src/test/kotlin/org/nachg/xpathqs/core/selector).
+For more examples you can discover [unit tests](https://github.com/nachg/xpathqs-core/tree/master/src/test/kotlin/org/nachg/xpathqs-core/core/selector).
 
 ## License
 
 This XpathQS lib is released under
-the [MIT License](https://github.com/nachg/xpathqs/blob/master/LICENSE).
+the [MIT License](https://github.com/nachg/xpathqs-core/blob/master/LICENSE).
