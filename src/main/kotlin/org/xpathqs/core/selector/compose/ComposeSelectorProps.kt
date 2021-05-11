@@ -27,15 +27,26 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.extensions.clone
 
+/**
+ * [ComposeSelector] properties holder.
+ * @param selectors collection of combined selectors
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorPropsTests
+ */
 class ComposeSelectorProps(
     internal val selectors: ArrayList<ISelector> = ArrayList(),
     args: SelectorArgs = SelectorArgs()
 ) : BaseSelectorProps(args = args) {
 
+    /**
+     * Add new selector to the [selectors] collection
+     */
     fun add(sel: ISelector) {
         selectors.add(sel)
     }
 
+    /**
+     * Get xpath query based on [selectors]
+     */
     override fun toXpath(): String {
         if (selectors.isEmpty()) {
             return ""

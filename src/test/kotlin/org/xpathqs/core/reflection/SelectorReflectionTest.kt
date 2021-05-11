@@ -59,10 +59,4 @@ internal class SelectorReflectionTest {
         sel
             .xpathShouldBe("//tag")
     }
-
-    @Test
-    fun isObject() {
-        assertThat(PageWithBase.isObject())
-            .isEqualTo(true)
-    }
 }

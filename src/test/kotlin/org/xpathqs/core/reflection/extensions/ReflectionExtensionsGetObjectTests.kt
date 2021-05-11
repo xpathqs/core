@@ -20,16 +20,43 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.args.decorators
+package org.xpathqs.core.reflection.extensions
 
-import org.xpathqs.core.selector.args.KVSelectorArg
+import assertk.assertThat
+import assertk.assertions.*
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.getObject
+import org.xpathqs.core.reflection.isObject
+import org.xpathqs.core.selector.Block
+import java.lang.IllegalArgumentException
 
-/**
- * Decorator for normalizing [wrapper] value
- * @param wrapper object to applying normalization
- * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest
- */
-class KVNormalizeSpaceDecorator(private val wrapper: KVSelectorArg) : KVSelectorArg(wrapper.k, wrapper.v) {
-    override val v: String
-        get() = "normalize-space(${wrapper.v})"
+internal class ReflectionExtensionsGetObjectTests {
+
+    open class PageCls
+    object Page: Block()
+    object NoBasePage: PageCls()
+
+    @Test
+    fun getObjectForObject() {
+        assertThat(Page::class.java.getObject())
+            .isSameAs(Page)
+    }
+
+    @Test
+    fun getObjectForNotPageObject() {
+        assertThat {
+            NoBasePage::class.java.getObject()
+        }
+            .isFailure()
+            .hasClass(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun getObjectForClass() {
+        assertThat {
+            PageCls()::class.java.getObject()
+        }
+            .isFailure()
+            .hasClass(IllegalArgumentException::class.java)
+    }
 }

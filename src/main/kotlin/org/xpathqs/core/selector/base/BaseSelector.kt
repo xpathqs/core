@@ -24,6 +24,13 @@ package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.selector.NullSelector
 
+/**
+ * Base class for the Selectors
+ * @param state of the Selector
+ * @param base link to the root element
+ * @param name name of the selector (used for logging purposes)
+ * @param props properties for building xpath queries
+ */
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
 
@@ -33,12 +40,22 @@ abstract class BaseSelector(
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
 ) : ISelector {
 
+    /**
+     * Get selector's tag or an empty string
+     * if tag is not applicable to the Selector's type
+     */
     abstract val tag: String
 
+    /**
+     * Build selector's xpath
+     */
     override fun toXpath(): String {
         return base.toXpath() + props.toXpath()
     }
 
+    /**
+     * returns selector's name
+     */
     override fun toString(): String {
         return name
     }

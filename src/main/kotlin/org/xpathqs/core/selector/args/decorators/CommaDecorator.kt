@@ -24,11 +24,19 @@ package org.xpathqs.core.selector.args.decorators
 
 import org.xpathqs.core.selector.args.KVSelectorArg
 
+/**
+ * Decorator for adding commas to the [wrapper] value
+ * @param wrapper object to applying commas
+ * @sample org.xpathqs.core.selector.args.decorators.CommaDecoratorTest
+ */
 class CommaDecorator(private val wrapper: KVSelectorArg) : KVSelectorArg(wrapper.k, wrapper.v) {
     override val v: String
         get() = escape("'${wrapper.v}'")
 
     companion object {
+        /**
+         * Processing single comma symbol: `'` via `concat function
+         */
         fun escape(str: String): String {
             val value = str.removePrefix("'").removeSuffix("'")
             if (value.contains("'")) {

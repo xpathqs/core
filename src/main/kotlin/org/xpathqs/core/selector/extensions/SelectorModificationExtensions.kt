@@ -40,12 +40,18 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 
+/**
+ * Modifies `tag` value of [Selector]
+ */
 fun <T : Selector> T.tag(value: String): T {
     val res = this.clone()
     res.setProps(props.clone(tag = value))
     return res
 }
 
+/**
+ * Modifies `tag` value of [GroupSelector]
+ */
 fun <T : GroupSelector> T.tag(value: String): T {
     if (this.selectorsChain.size == 1) {
         val first = this.selectorsChain.first()
@@ -58,22 +64,37 @@ fun <T : GroupSelector> T.tag(value: String): T {
     return this
 }
 
+/**
+ * Modifies `prefix` value of [Selector]
+ */
 fun <T : Selector> T.prefix(value: String): T {
     val res = this.clone()
     res.setProps(props.clone(prefix = value))
     return res
 }
 
+/**
+ * Remove all arguments from the Selector
+ */
 fun <T : BaseSelector> T.removeParams(): T {
     val res = this.clone()
     SelectorReflection(res).setArgs(SelectorArgs())
     return res
 }
 
+/**
+ * Add new argument to the selector
+ */
 operator fun <T : BaseSelector> T.get(value: String) = get(ValueArg(value))
 
+/**
+ * Add position argument to the selector
+ */
 operator fun <T : BaseSelector> T.get(pos: Int) = get(KVSelectorArg("position()", pos.toString()))
 
+/**
+ * Add new argument to the selector
+ */
 operator fun <T : BaseSelector> T.get(arg: ValueArg): T {
     val res = this.clone()
     res.props.args.add(
@@ -82,6 +103,9 @@ operator fun <T : BaseSelector> T.get(arg: ValueArg): T {
     return res
 }
 
+/**
+ * Add new selector to the [GroupSelector.selectorsChain]
+ */
 operator fun <T : GroupSelector> T.plus(sel: BaseSelector): T {
     val res = this.clone()
     res.add(
@@ -90,24 +114,39 @@ operator fun <T : GroupSelector> T.plus(sel: BaseSelector): T {
     return res
 }
 
+/**
+ * Returns [GroupSelector] with based on `left` and `right` arguments
+ */
 operator fun <T : BaseSelector> T.plus(sel: BaseSelector): GroupSelector {
     return GroupSelector(selectorsChain = arrayListOf(this.clone(), sel.clone()))
 }
 
+/**
+ * Returns [GroupSelector] with based on `left` and `right` arguments
+ */
 operator fun <T : BaseSelector> T.plus(xpath: String) = this.plus(xpathSelector(xpath))
 
+/**
+ * Add `text` argument query
+ */
 fun <T : BaseSelector> T.text(
     text: String,
     contains: Boolean = false,
     normalize: Boolean = false
 ) = arg(Global.TEXT_ARG, text, contains, normalize)
 
+/**
+ * Add `id` argument query
+ */
 fun <T : BaseSelector> T.id(
     text: String,
     contains: Boolean = false,
     normalize: Boolean = false
 ) = arg(Global.ID_ARG, text, contains, normalize)
 
+/**
+ * Add argument query
+ */
 fun <T : BaseSelector> T.arg(
     argName: String,
     value: String,
@@ -134,10 +173,19 @@ fun <T : BaseSelector> T.arg(
     return res
 }
 
+/**
+ * Returns a [ComposeSelector] based on `left` and `right` arguments
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.divOperator
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.divOperatorPriority
+ */
 operator fun <T : ISelector> T.div(right: ISelector): ComposeSelector {
     return compose(this.clone(), right.clone())
 }
 
+/**
+ * Returns repeated [count] times xpath as [XpathSelector]
+ * @sample org.xpathqs.core.selector.extensions.SelectorModificationTests.repeatTest
+ */
 fun <T : BaseSelector> T.repeat(count: Int): XpathSelector {
     val xpath = this.toXpath()
 

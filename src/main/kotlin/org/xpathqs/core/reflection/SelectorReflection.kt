@@ -28,10 +28,21 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
-internal class SelectorReflection(
+/**
+ * API to work with [BaseSelector] via Reflection
+ * @param obj - object for modification
+ * @param srf - object for fields extraction
+ * @sample org.xpathqs.core.reflection.SelectorReflectionTest
+ */
+class SelectorReflection(
     private val obj: BaseSelector,
     private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {
+    /**
+     * Sets the property value to the [obj]
+     * @param name of class property
+     * @param value to set
+     */
     fun setProp(name: String, value: Any): SelectorReflection {
         val member = srf.declaredFields.find { it.name == name }
 
@@ -43,11 +54,33 @@ internal class SelectorReflection(
         return this
     }
 
+    /**
+     * Set <pre>name</pre> field of the [obj]
+     */
     fun setName(value: String) = setProp("name", value)
+
+    /**
+     * Set <pre>base</pre> field of the [obj]
+     */
     fun setBase(value: ISelector) = setProp("base", value)
+
+    /**
+     * Set <pre>props</pre> field of the [obj]
+     */
     fun setProps(value: BaseSelectorProps) = setProp("props", value)
+
+    /**
+     * Set <pre>props.args</pre> field of the [obj]
+     */
     fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField().set(obj.props, args)
 
+    /**
+     * Mark [obj] as freeze
+     */
     fun freeze() = setProp("state", SelectorState.FREEZE)
+
+    /**
+     * Mark [obj] as cloned
+     */
     fun cloned() = setProp("state", SelectorState.CLONED)
 }

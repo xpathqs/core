@@ -22,6 +22,12 @@
 
 package org.xpathqs.core.selector.args
 
+/**
+ * Key-Value implementation of [ValueArg]
+ * @param k key
+ * @param v value
+ * @param joinType the way of joining
+ */
 open class KVSelectorArg(
     open val k: String,
     open val v: String,

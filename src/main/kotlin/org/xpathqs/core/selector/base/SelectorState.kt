@@ -22,6 +22,27 @@
 
 package org.xpathqs.core.selector.base
 
+/**
+ * Enum of Selector's states using by the `clone` method
+ * to determinate clone strategy.
+ */
 enum class SelectorState {
-    INIT, CLONED, FREEZE
+    /**
+     * Default state
+     */
+    INIT,
+
+    /**
+     * State for the `cloned` selector.
+     * Sets by [org.xpathqs.core.selector.extensions.clone] method
+     * @see [org.xpathqs.core.selector.extensions.clone]
+     */
+    CLONED,
+
+    /**
+     * State for the `freeze` selector.
+     * Sets by [org.xpathqs.core.reflection.SelectorParser.parse] method
+     * @see [org.xpathqs.core.reflection.SelectorParser.parse]
+     */
+    FREEZE
 }

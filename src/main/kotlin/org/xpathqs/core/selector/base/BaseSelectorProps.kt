@@ -24,14 +24,24 @@ package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.selector.args.SelectorArgs
 
+/**
+ * Property holder for the XPATH queries
+ * @param args list of arguments
+ */
 open class BaseSelectorProps(
     internal val args: SelectorArgs = SelectorArgs(),
 ) : Cloneable {
 
+    /**
+     * returns xpath query build based on provided argumets
+     */
     open fun toXpath(): String {
         return args.toXpath()
     }
 
+    /**
+     * returns cloned object of self
+     */
     public override fun clone(): BaseSelectorProps {
         return BaseSelectorProps(
             args.clone()

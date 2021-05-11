@@ -25,15 +25,27 @@ package org.xpathqs.core.selector.selector
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelectorProps
 
+/**
+ * [Selector] properties class
+ * @param prefix - string before [tag]
+ * @param tag - string after [prefix] and before [args]
+ */
 open class SelectorProps(
     val prefix: String = "//",
     val tag: String = "*",
     args: SelectorArgs = SelectorArgs()
 ) : BaseSelectorProps(args) {
+
+    /**
+     * Get Xpath string based on [prefix] + [tag] + [args]
+     */
     override fun toXpath(): String {
         return "$prefix$tag${args.toXpath()}"
     }
 
+    /**
+     * Clone current object with ability to overriding
+     */
     fun clone(
         prefix: String = this.prefix,
         tag: String = this.tag,
@@ -42,6 +54,9 @@ open class SelectorProps(
         return SelectorProps(prefix, tag, props.clone())
     }
 
+    /**
+     * Clone current object
+     */
     override fun clone(): SelectorProps {
         return SelectorProps(prefix, tag, args.clone())
     }

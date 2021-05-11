@@ -27,6 +27,11 @@ import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
+/**
+ * Class with ability to combine several selectors with the `|` operator
+ * @param props list of selectors which will be combined inside [toXpath] method
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests
+ */
 class ComposeSelector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),

@@ -32,17 +32,37 @@ import kotlin.jvm.internal.CallableReference
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
+/**
+ * Set of functional extensions to manipulate with <pre>selectors</pre> via Reflection
+ */
+
+/**
+ * Check if <pre>Any</pre> is an instance of an <pre>object-class</pre>
+ * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
+ */
 internal fun Any.isObject(): Boolean {
     return this.javaClass.declaredFields
         .find { it.name == "INSTANCE" } != null
 }
 
-@SuppressWarnings
+/**
+ * Get an Object instance of [Block] when class is an Object-class inherited from block
+ * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsGetObjectTests
+ */
 internal fun Class<*>.getObject(): Block {
-    return this.declaredFields
-        .find { it.name == "INSTANCE" }?.get(null) as Block
+    val instanceField = this.declaredFields
+        .find { it.name == "INSTANCE" } ?: throw IllegalArgumentException(
+        "Provided class ${this.name} doesn't used as an object-class"
+    )
+
+    return instanceField.get(null) as? Block ?: throw IllegalArgumentException(
+        "Provided class $name is not inherited from the Block class"
+    )
 }
 
+/**
+ * Check class for having [BaseSelector] as an inherited parent
+ */
 internal fun Class<*>.isSelectorSubtype(): Boolean {
     if (this.superclass == null) {
         return false
@@ -54,29 +74,46 @@ internal fun Class<*>.isSelectorSubtype(): Boolean {
             || this.isAssignableFrom(BaseSelector::class.java)
 }
 
+/**
+ * Sets the <pre>name</pre> to the [BaseSelector] via reflection
+ */
 internal fun <T : BaseSelector> T.setName(name: String): T {
     SelectorReflection(this)
         .setName(name)
     return this
 }
 
+/**
+ * Sets the <pre>base</pre> to the [BaseSelector] via reflection
+ */
 internal fun <T : BaseSelector> T.setBase(base: ISelector): T {
     SelectorReflection(this)
         .setBase(base)
     return this
 }
 
+/**
+ * Sets the <pre>props</pre> to the [BaseSelector] via reflection
+ */
 internal fun <T : BaseSelector> T.setProps(props: BaseSelectorProps): T {
     SelectorReflection(this)
         .setProps(props)
     return this
 }
 
+/**
+ * Freeze [BaseSelector] which means that <pre>clone</pre> method
+ * will return a new instance
+ */
 internal fun <T : BaseSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     return this
 }
 
+/**
+ * Freeze [GroupSelector] which means that <pre>clone</pre> method
+ * will return a new instance
+ */
 internal fun <T : GroupSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     this.selectorsChain.forEach {
@@ -85,15 +122,25 @@ internal fun <T : GroupSelector> T.freeze(): T {
     return this
 }
 
+/**
+ * Mark [BaseSelector] as <pre>cloned</pre>
+ * will return this same instance from the <pre>clone</pre> method
+ */
 internal fun <T : BaseSelector> T.cloned(): T {
     SelectorReflection(this).cloned()
     return this
 }
 
+/**
+ * Sets the [Block.isBlank] property via reflection
+ */
 internal fun Block.setBlank(value: Boolean) {
     SelectorReflection(this).setProp("isBlank", value)
 }
 
+/**
+ * Converts Kotlin Reflection property to the Java Reflection field
+ */
 internal fun KProperty<*>.toField(): Field {
     val cls = (((this as CallableReference).owner) as KClass<*>).java
     return cls.declaredFields.find {

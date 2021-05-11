@@ -26,7 +26,10 @@ import org.xpathqs.core.util.PropertyFacade
 import java.io.InputStream
 
 /**
- * Class for storing global properties
+ * Base-Class for interaction with some of global properties which are platform-depended.
+ * And which should be shared between different modules.
+ * Those properties may be overridden by the code via standard inheritance.
+ * Properties can be set from the resource file via [PropertyFacade] in the YAML format, by default
  */
 open class CoreGlobalProps(
     protected var props: Map<String, Any> = emptyMap()
@@ -40,18 +43,36 @@ open class CoreGlobalProps(
         )
     )
 
+    /**
+     * Will update current properties
+     * @param other - new properties holder
+     * @return self
+     */
     fun update(other: CoreGlobalProps): CoreGlobalProps {
         this.props = other.props
         return this
     }
 
-    //inner text attribute for the Web-based selectors
+    /**
+     * Text argument parameter value.
+     * Used to work with XPATH-queries which are dealing with text
+     * Text argument is a platform depended.
+     * It is <pre>text()</pre> for the WEB and <pre>@text</pre> for the mobile
+     */
     val TEXT_ARG: String
         get() = props["constants.text_arg"] as? String ?: "text()"
 
-    //inner text attribute for the Web-based selectors
+    /**
+     * ID argument parameter value.
+     * Used to work with XPATH-queries which are dealing with ID
+     * ID argument is a platform depended.
+     * It is <pre>@id()</pre> for the WEB and <pre>@resource-id</pre> for the mobile
+     */
     val ID_ARG: String
         get() = props["constants.id_arg"] as? String ?: "@id"
 }
 
+/**
+ * Singleton to work with global properties inside <pre>org.xpathqs.core</pre> package classes
+ */
 object Global : CoreGlobalProps()

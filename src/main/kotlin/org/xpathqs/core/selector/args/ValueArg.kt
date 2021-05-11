@@ -22,10 +22,21 @@
 
 package org.xpathqs.core.selector.args
 
+/**
+ * Representation of Selector's argument value and the way of how it is combined
+ * with another arguments
+ *
+ * @param value processed value
+ * @param joinType the way of combination
+ */
 open class ValueArg(
     internal open val value: String = "",
     internal var joinType: JoinType = JoinType.NONE
 ) {
+    /**
+     * Build an argument XPATH to inject into selector's arguments block
+     * @sample org.xpathqs.core.selector.args.SelectorArgTests
+     */
     fun toXpath(): String {
         return when (joinType) {
             JoinType.NONE -> value
@@ -34,9 +45,15 @@ open class ValueArg(
         }
     }
 
+    /**
+     * unique argument key
+     */
     open val key: String
         get() = value
 
+    /**
+     * returns true when there is specific [JoinType]
+     */
     val isNone: Boolean
         get() = joinType == JoinType.NONE
 }

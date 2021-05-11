@@ -34,11 +34,23 @@ import org.xpathqs.core.selector.compose.ComposeSelectorProps
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 
+/**
+ * Builder factory methods
+ */
 object SelectorFactory {
+    /**
+     * Returns new [Selector] with specified `tag`
+     */
     fun tagSelector(tag: String = "*") = Selector(props = SelectorProps(tag = tag))
 
+    /**
+     * Returns new [XpathSelector]
+     */
     fun xpathSelector(xpath: String) = XpathSelector(xpath)
 
+    /**
+     * Returns new [Selector] with specified `text`
+     */
     fun textSelector(text: String) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
@@ -52,6 +64,9 @@ object SelectorFactory {
         )
     )
 
+    /**
+     * Returns new [Selector] with containing specified `text`
+     */
     fun textContainsSelector(text: String) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
@@ -67,6 +82,9 @@ object SelectorFactory {
         )
     )
 
+    /**
+     * Returns [Selector] with specified `id`
+     */
     fun idSelector(id: String) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
@@ -80,6 +98,9 @@ object SelectorFactory {
         )
     )
 
+    /**
+     * Returns [Selector] with contains of specified `id`
+     */
     fun idContainsSelector(id: String) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
@@ -95,6 +116,10 @@ object SelectorFactory {
         )
     )
 
+    /**
+     * Returns [ComposeSelector] based on provided [selectors]
+     * @sample  org.xpathqs.core.util.PropertyFacadeTest
+     */
     fun compose(vararg selectors: ISelector) =
         ComposeSelector(
             props = ComposeSelectorProps(

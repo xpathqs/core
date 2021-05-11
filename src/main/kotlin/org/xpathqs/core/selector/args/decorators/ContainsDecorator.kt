@@ -25,6 +25,11 @@ package org.xpathqs.core.selector.args.decorators
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 
+/**
+ * Decorator for adding `contains` to the [wrapper] value
+ * @param wrapper object to applying `contains`
+ * @sample org.xpathqs.core.selector.args.decorators.ContainsDecoratorTest
+ */
 class ContainsDecorator(private val wrapper: KVSelectorArg) : ValueArg() {
     override val value: String
         get() = "contains(${wrapper.k}, ${wrapper.v})"
