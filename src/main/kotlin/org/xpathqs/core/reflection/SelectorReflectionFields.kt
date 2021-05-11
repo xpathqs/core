@@ -27,63 +27,87 @@ import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
+/**
+ * Utility class for interaction with [BaseSelector] fields via Reflection
+ * @param rootObj object for interaction
+ * @sample org.xpathqs.core.reflection.SelectorReflectionFieldsTest
+ */
 class SelectorReflectionFields(
     private val rootObj: BaseSelector
 ) {
-    val innerSelectors: Collection<Selector> by lazy {
+    /**
+     * Returns collection of [BaseSelector]s inner objects of [rootObj]
+     */
+    val innerSelectors: Collection<BaseSelector> by lazy {
         innerSelectorFields.map { it.get(rootObj) as Selector }
     }
 
+    /**
+     * Returns collection of [Block]s inner objects of [rootObj]
+     */
     val innerBlocks: Collection<Block> by lazy {
         innerObjectClasses.map { it.getObject() }
     }
 
+    /**
+     * Returns collection of `Field`s of [rootObj] class and all subclasses
+     * until [BaseSelector]
+     */
     @Suppress("UNCHECKED_CAST")
     val declaredFields: Collection<Field>
-            by lazy {
-                val res = ArrayList<Field>()
+        by lazy {
+            val res = ArrayList<Field>()
 
-                var cls = rootObj::class.java
+            var cls = rootObj::class.java
+            res.addAll(cls.declaredFields)
+
+            while (cls.superclass.isSelectorSubtype()) {
+                cls = cls.superclass as Class<out BaseSelector>
                 res.addAll(cls.declaredFields)
-
-                while (cls.superclass.isSelectorSubtype()) {
-                    cls = cls.superclass as Class<out Selector>
-                    res.addAll(cls.declaredFields)
-                }
-
-                removeUnnecessary(res)
             }
 
+            removeUnnecessary(res)
+        }
+
+    /**
+     * Filter [declaredFields] result by [BaseSelector] fields only
+     */
     val innerSelectorFields: Collection<Field>
-            by lazy {
-                val res = ArrayList<Field>()
+        by lazy {
+            val res = ArrayList<Field>()
 
-                if (rootObj::class.java.simpleName != "Selector") {
-                    rootObj::class.java.declaredFields.forEach {
-                        if (it.type.isSelectorSubtype()) {
-                            res.add(it)
-                        }
+            if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
+                rootObj::class.java.declaredFields.forEach {
+                    if (it.type.isSelectorSubtype()) {
+                        res.add(it)
                     }
                 }
-
-                removeUnnecessary(res)
             }
 
+            removeUnnecessary(res)
+        }
+
+    /**
+     * Returns a collection of `Class` elements which are inherited from the [BaseSelector]
+     */
     val innerObjectClasses: Collection<Class<*>>
-            by lazy {
-                val res = ArrayList<Class<*>>()
+        by lazy {
+            val res = ArrayList<Class<*>>()
 
-                if (rootObj::class.java.simpleName != "Selector") {
-                    rootObj::class.java.declaredClasses.forEach {
-                        if (it.isSelectorSubtype()) {
-                            res.add(it)
-                        }
+            if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
+                rootObj::class.java.declaredClasses.forEach {
+                    if (it.isSelectorSubtype()) {
+                        res.add(it)
                     }
                 }
-
-                res
             }
 
+            res
+        }
+
+    /**
+     * Filter Unnecessary fields
+     */
     private fun removeUnnecessary(fields: Collection<Field>) = fields
         .filter { it.name != "INSTANCE" && it.name != "\$jacocoData" }
         .distinctBy { it.name }

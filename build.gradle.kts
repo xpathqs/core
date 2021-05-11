@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+import org.jetbrains.dokka.DokkaDefaults.skipDeprecated
+import org.jetbrains.dokka.plugability.configuration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "org.xpathqs"
@@ -27,6 +29,7 @@ version = "0.0.1"
 
 plugins {
     kotlin("jvm") version "1.5.0"
+    id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
     `maven-publish`
@@ -93,5 +96,15 @@ tasks.jacocoTestReport {
     reports {
         xml.isEnabled = false
         csv.isEnabled = true
+    }
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+
+    dokkaSourceSets {
+        configureEach {  // The same name as in Kotlin Multiplatform plugin, so the sources are fetched automatically
+            samples.from("src/test/kotlin/org/xpathqs/core", "src/main/kotlin/org/xpathqs/core")
+        }
+
     }
 }

@@ -76,7 +76,7 @@ fun <T : GroupSelector> T.clone(): T {
     if (newObj is Block) {
         this as Block
 
-        val children = ArrayList<Selector>()
+        val children = ArrayList<BaseSelector>()
         children.addAll(this.children)
 
         newObj.setBlank(this.isBlank)

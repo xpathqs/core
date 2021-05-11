@@ -20,16 +20,27 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.args.decorators
+package org.xpathqs.core.reflection.extensions
 
-import org.xpathqs.core.selector.args.KVSelectorArg
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.isObject
 
-/**
- * Decorator for normalizing [wrapper] value
- * @param wrapper object to applying normalization
- * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest
- */
-class KVNormalizeSpaceDecorator(private val wrapper: KVSelectorArg) : KVSelectorArg(wrapper.k, wrapper.v) {
-    override val v: String
-        get() = "normalize-space(${wrapper.v})"
+internal class ReflectionExtensionsIsObjectTests {
+
+    open class PageCls
+    object Page: PageCls()
+
+    @Test
+    fun isObjectGetObject() {
+        assertThat(Page.isObject())
+            .isEqualTo(true)
+    }
+
+    @Test
+    fun isObjectForClass() {
+        assertThat(PageCls().isObject())
+            .isEqualTo(false)
+    }
 }

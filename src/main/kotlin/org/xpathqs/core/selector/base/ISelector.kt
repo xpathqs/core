@@ -22,8 +22,18 @@
 
 package org.xpathqs.core.selector.base
 
+/**
+ * Root Interface for the Selectors interaction
+ */
 interface ISelector : Cloneable {
+    /**
+     * Build `XPATH` query
+     */
     fun toXpath(): String
+
+    /**
+     * returns selector's name
+     */
     val name: String
         get() = toXpath()
 }

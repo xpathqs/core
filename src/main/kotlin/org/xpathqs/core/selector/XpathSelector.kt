@@ -27,6 +27,12 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
+/**
+ * Implementation of xpath-string based selectors.
+ * Used for the complex xpath queries
+ *
+ * @param xpath selector's xpath
+ */
 class XpathSelector(
     private val xpath: String = "",
 

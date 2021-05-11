@@ -32,6 +32,11 @@ import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 
+/**
+ * Base class for the Selector container objects
+ * @param isBlank points that the current selector was not initialized based on
+ * some other selector via constructor
+ */
 open class Block(
     base: ISelector = NullSelector(),
     props: SelectorProps = SelectorProps(),
@@ -44,9 +49,25 @@ open class Block(
     name = name,
     selectorsChain = selectorsChain
 ) {
+    /**
+     * Points to the original object-class instance.
+     * The [GroupSelector.clone] method will update the [base] link of each
+     * [children] selectors. And will restore it in the [fixChildrenSelectors] method.
+     * Such weird implementation was introduces because of Kotlin object-class members implementation.
+     * They all compiled to the static java objects, and there is no way to clone the whole object-class member,
+     * with inner fields.
+     * @see [GroupSelector.clone]
+     */
     internal var originBlock: ISelector = NullSelector()
-    internal var children: Collection<Selector> = emptyList()
 
+    /**
+     * List of selector-based members of the current Block
+     */
+    internal var children: Collection<BaseSelector> = emptyList()
+
+    /**
+     * Initialization based on [Selector]
+     */
     constructor(sel: Selector) : this(
         isBlank = false,
         base = sel.base.clone(),
@@ -54,6 +75,9 @@ open class Block(
         selectorsChain = arrayListOf(sel.clone())
     )
 
+    /**
+     * Initialization based on [XpathSelector]
+     */
     constructor(sel: XpathSelector) : this(
         isBlank = false,
         base = sel.base.clone(),
@@ -65,6 +89,9 @@ open class Block(
         selectorsChain = arrayListOf(sel.clone())
     )
 
+    /**
+     * Initialization based on [GroupSelector]
+     */
     constructor(sel: GroupSelector) : this(
         isBlank = false,
         base = sel.base.clone(),
@@ -76,6 +103,10 @@ open class Block(
         selectorsChain = sel.selectorsChain
     )
 
+    /**
+     * Get Xpath query and restore link of [children] selectors
+     * to the origin object
+     */
     override fun toXpath(): String {
         if (isBlank) {
             return ""
@@ -88,6 +119,9 @@ open class Block(
         return res
     }
 
+    /**
+     * Restore [base] link of [children] selectors
+     */
     protected fun fixChildrenSelectors() {
         if (state == SelectorState.CLONED) {
             children.forEach {

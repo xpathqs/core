@@ -24,6 +24,9 @@ package org.xpathqs.core.selector
 
 import org.xpathqs.core.selector.base.ISelector
 
+/**
+ * Implementation of `Null Object` pattern for the ISelector
+ */
 class NullSelector : ISelector {
     override fun toXpath() = ""
     public override fun clone(): NullSelector {

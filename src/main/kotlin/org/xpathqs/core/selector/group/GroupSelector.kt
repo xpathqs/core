@@ -28,6 +28,11 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
+/**
+ * Class with ability to combine several selectors
+ * @param selectorsChain - list of selector used to build xpath
+ * @sample org.xpathqs.core.selector.group.GroupSelectorTest
+ */
 open class GroupSelector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
@@ -38,13 +43,22 @@ open class GroupSelector(
 ) : BaseSelector(
     state = state, base = base, name = name, props = props
 ) {
+    /**
+     * Add new selector to the [selectorsChain]
+     */
     internal fun add(sel: BaseSelector) {
         selectorsChain.add(sel)
     }
 
+    /**
+     * tag doesn't supported for the [GroupSelector]
+     */
     override val tag: String
         get() = ""
 
+    /**
+     * Return xpath of [base] selector + [selectorsChain] combined result
+     */
     override fun toXpath() =
         base.toXpath() + selfXpath()
 

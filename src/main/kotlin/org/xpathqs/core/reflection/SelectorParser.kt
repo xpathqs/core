@@ -27,11 +27,22 @@ import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.selector.Selector
 
+/**
+ * Class for initializing Selectors names and structure via Reflection
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseTest
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBase
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseAndInnerObjectTest
+ */
 class SelectorParser(
     private val rootObj: Block,
     private val base: ISelector = NullSelector(),
     val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
 ) {
+
+    /**
+     * Parse [Block] object with all of inner class-object and class fields
+     * inherited from the [Block] class
+     */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
 

@@ -25,6 +25,9 @@ package org.xpathqs.core.util
 import org.yaml.snakeyaml.Yaml
 import java.io.InputStream
 
+/**
+ * Reads the `Yaml` properties as a `FlatMap`
+ */
 class PropertyFacade(
     private val stream: InputStream
 ) {

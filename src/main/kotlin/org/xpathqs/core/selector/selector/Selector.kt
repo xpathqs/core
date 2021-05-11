@@ -27,6 +27,11 @@ import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
+/**
+ * This is the main 'building-block' class of Selectors interaction.
+ * @param props extended properties for building xpath-queries
+ * @sample org.xpathqs.core.selector.selector.SelectorTest
+ */
 open class Selector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
@@ -38,9 +43,17 @@ open class Selector(
     name = name,
     props = props,
 ) {
+    /**
+     * Returns tag property value
+     * @sample org.xpathqs.core.selector.selector.SelectorTest.tag
+     */
     override val tag: String
         get() = props.tag
 
+    /**
+     * Returns Selector prefix
+     * @sample org.xpathqs.core.selector.selector.SelectorTest.prefix
+     */
     val prefix: String
         get() = props.prefix
 }

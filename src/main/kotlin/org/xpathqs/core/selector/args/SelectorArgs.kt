@@ -22,14 +22,24 @@
 
 package org.xpathqs.core.selector.args
 
+/**
+ * Holder for the Selector's arguments
+ * @param args map of arguments used for building xpath
+ */
 class SelectorArgs(
     private val args: HashMap<String, ValueArg> = HashMap()
 ) : Cloneable {
 
+    /**
+     * @param arg argument to add at instantiation
+     */
     constructor(arg: ValueArg) : this() {
         add(arg)
     }
 
+    /**
+     * Build XPATH string based on [args]
+     */
     fun toXpath(): String {
         if (args.isEmpty()) return ""
 
@@ -48,6 +58,9 @@ class SelectorArgs(
         return "[$res]"
     }
 
+    /**
+     * Add new argument into [args]
+     */
     fun add(arg: ValueArg): SelectorArgs {
         if (args.isNotEmpty() && arg.isNone) {
             arg.joinType = JoinType.AND
@@ -56,6 +69,9 @@ class SelectorArgs(
         return this
     }
 
+    /**
+     * Returns deep copy of self
+     */
     @Suppress("UNCHECKED_CAST")
     public override fun clone(): SelectorArgs {
         return SelectorArgs(args.clone() as HashMap<String, ValueArg>)

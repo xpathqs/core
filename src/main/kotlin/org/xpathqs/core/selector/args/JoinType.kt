@@ -22,6 +22,10 @@
 
 package org.xpathqs.core.selector.args
 
+/**
+ * Enum specify the way of how Selector's arguments are combine
+ * @sample org.xpathqs.core.selector.args.SelectorArgTests
+ */
 enum class JoinType {
     NONE,
     AND,
