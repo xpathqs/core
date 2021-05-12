@@ -22,6 +22,8 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+version = "0.0.1"
+
 plugins {
     kotlin("jvm") version "1.5.0"
     id("org.jetbrains.dokka") version "1.4.32"
@@ -35,6 +37,8 @@ plugins {
 java {
     withJavadocJar()
     withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
 }
 
 jacoco {
@@ -88,7 +92,6 @@ publishing {
             }
             groupId = "org.xpathqs"
             artifactId = "xpathqs-core"
-            version = "0.0.1"
 
             from(components["java"])
         }
@@ -115,7 +118,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "15"
 }
 
 tasks.jar {
