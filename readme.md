@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/github/license/nachg/xpathqs-core)](https://github.com/nachg/xpathqs-core/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/xpathqs-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/xpathqs-core/)
+
 # XpathQS
 
 A library for building Xpath queries in an OOP style. In a [JOOQ](https://www.jooq.org/) way, but for the XPATH.
@@ -29,7 +31,7 @@ Result:
 //div[contains(text(), 'test') and position()=2]
 ```
 
-For more examples you can discover [unit tests](https://github.com/nachg/xpathqs-core/tree/master/src/test/kotlin/org/nachg/xpathqs-core/core/selector).
+For more examples you can discover [unit tests](https://github.com/nachg/xpathqs-core/tree/master/src/test/kotlin/org/xpathqs).
 
 ## License
 
