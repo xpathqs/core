@@ -20,18 +20,14 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.dokka.DokkaDefaults.skipDeprecated
-import org.jetbrains.dokka.plugability.configuration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-group = "org.xpathqs"
-version = "0.0.1"
 
 plugins {
     kotlin("jvm") version "1.5.0"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
+    maven
     `maven-publish`
     signing
 }
@@ -63,7 +59,33 @@ dependencies {
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        beforeEvaluate {
+            signing.sign(this@publications)
+        }
+        create<MavenPublication>("mavenJava") {
+            pom {
+                name.set("XpathQS Core")
+                description.set("A library for building Xpath queries in an OOP style")
+                url.set("https://xpathqs.org/")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("http://www.opensource.org/licenses/mit-license.php")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("nachg")
+                        name.set("Nikita A. Chegodaev")
+                        email.set("nikchgd@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/nachg/xpathqs-core.git")
+                    developerConnection.set("scm:git:ssh://github.com/nachg/xpathqs-core.git")
+                    url.set("https://xpathqs.org/")
+                }
+            }
             groupId = "org.xpathqs"
             artifactId = "xpathqs-core"
             version = "0.0.1"
@@ -71,6 +93,21 @@ publishing {
             from(components["java"])
         }
     }
+    repositories {
+        maven {
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            credentials {
+                username = project.property("ossrhUsername").toString()
+                password = project.property("ossrhPassword").toString()
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["mavenJava"])
 }
 
 tasks.test {
@@ -100,11 +137,9 @@ tasks.jacocoTestReport {
 }
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
-
     dokkaSourceSets {
-        configureEach {  // The same name as in Kotlin Multiplatform plugin, so the sources are fetched automatically
+        configureEach {
             samples.from("src/test/kotlin/org/xpathqs/core", "src/main/kotlin/org/xpathqs/core")
         }
-
     }
 }

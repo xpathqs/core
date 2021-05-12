@@ -23,18 +23,18 @@
 package org.xpathqs.core.reflection.extensions
 
 import assertk.assertThat
-import assertk.assertions.*
+import assertk.assertions.hasClass
+import assertk.assertions.isFailure
+import assertk.assertions.isSameAs
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.getObject
-import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.selector.Block
-import java.lang.IllegalArgumentException
 
 internal class ReflectionExtensionsGetObjectTests {
 
     open class PageCls
-    object Page: Block()
-    object NoBasePage: PageCls()
+    object Page : Block()
+    object NoBasePage : PageCls()
 
     @Test
     fun getObjectForObject() {

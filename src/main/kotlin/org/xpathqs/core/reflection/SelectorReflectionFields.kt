@@ -55,55 +55,55 @@ class SelectorReflectionFields(
      */
     @Suppress("UNCHECKED_CAST")
     val declaredFields: Collection<Field>
-        by lazy {
-            val res = ArrayList<Field>()
+            by lazy {
+                val res = ArrayList<Field>()
 
-            var cls = rootObj::class.java
-            res.addAll(cls.declaredFields)
-
-            while (cls.superclass.isSelectorSubtype()) {
-                cls = cls.superclass as Class<out BaseSelector>
+                var cls = rootObj::class.java
                 res.addAll(cls.declaredFields)
-            }
 
-            removeUnnecessary(res)
-        }
+                while (cls.superclass.isSelectorSubtype()) {
+                    cls = cls.superclass as Class<out BaseSelector>
+                    res.addAll(cls.declaredFields)
+                }
+
+                removeUnnecessary(res)
+            }
 
     /**
      * Filter [declaredFields] result by [BaseSelector] fields only
      */
     val innerSelectorFields: Collection<Field>
-        by lazy {
-            val res = ArrayList<Field>()
+            by lazy {
+                val res = ArrayList<Field>()
 
-            if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
-                rootObj::class.java.declaredFields.forEach {
-                    if (it.type.isSelectorSubtype()) {
-                        res.add(it)
+                if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
+                    rootObj::class.java.declaredFields.forEach {
+                        if (it.type.isSelectorSubtype()) {
+                            res.add(it)
+                        }
                     }
                 }
-            }
 
-            removeUnnecessary(res)
-        }
+                removeUnnecessary(res)
+            }
 
     /**
      * Returns a collection of `Class` elements which are inherited from the [BaseSelector]
      */
     val innerObjectClasses: Collection<Class<*>>
-        by lazy {
-            val res = ArrayList<Class<*>>()
+            by lazy {
+                val res = ArrayList<Class<*>>()
 
-            if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
-                rootObj::class.java.declaredClasses.forEach {
-                    if (it.isSelectorSubtype()) {
-                        res.add(it)
+                if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
+                    rootObj::class.java.declaredClasses.forEach {
+                        if (it.isSelectorSubtype()) {
+                            res.add(it)
+                        }
                     }
                 }
-            }
 
-            res
-        }
+                res
+            }
 
     /**
      * Filter Unnecessary fields
