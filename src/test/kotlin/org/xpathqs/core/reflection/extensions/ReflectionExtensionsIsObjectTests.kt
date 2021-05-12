@@ -30,7 +30,7 @@ import org.xpathqs.core.reflection.isObject
 internal class ReflectionExtensionsIsObjectTests {
 
     open class PageCls
-    object Page: PageCls()
+    object Page : PageCls()
 
     @Test
     fun isObjectGetObject() {

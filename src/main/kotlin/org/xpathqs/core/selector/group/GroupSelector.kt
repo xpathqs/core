@@ -77,6 +77,6 @@ open class GroupSelector(
         if (props.isNotEmpty()) {
             return "($res)$props"
         }
-        return  res
+        return res
     }
 }
