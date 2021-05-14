@@ -20,33 +20,52 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.extensions
+package org.xpathqs.core.reflection
 
+import assertk.assertAll
 import assertk.assertThat
-import assertk.assertions.isEqualTo
+import assertk.assertions.*
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.isObject
+import org.xpathqs.core.reflection.packagescannertestpages.Page1
+import org.xpathqs.core.reflection.packagescannertestpages.Page2
+import org.xpathqs.core.reflection.packagescannertestpages.innerpackage.Page3
 
-internal class ReflectionExtensionsIsObjectTests {
-
-    open class PageCls
-    object Page : PageCls()
+internal class PackageScannerTest {
+    private val packageName = Page1::class.java.packageName
 
     @Test
-    fun isObjectGetObject() {
-        assertThat(Page.isObject())
-            .isEqualTo(true)
+    fun packageObjects() {
+        assertThat(
+            PackageScanner(packageName)
+                .packageObjects
+        )
+            .containsExactlyInAnyOrder(Page1, Page2, Page3)
     }
 
     @Test
-    fun isObjectForClass() {
-        assertThat(PageCls().isObject())
-            .isEqualTo(false)
-    }
+    fun scan() {
+        assertAll {
+            assertThat(Page1.name)
+                .isEmpty()
 
-    @Test
-    fun isObjectForObjectClass() {
-        assertThat(Page::class.java.isObject())
-            .isEqualTo(true)
+            assertThat(Page2.name)
+                .isEmpty()
+
+            assertThat(Page3.name)
+                .isEmpty()
+        }
+
+        PackageScanner(packageName).scan()
+
+        assertAll {
+            assertThat(Page1.name)
+                .isEqualTo("Page1")
+
+            assertThat(Page2.name)
+                .isEqualTo("Page2")
+
+            assertThat(Page3.name)
+                .isEqualTo("Page3")
+        }
     }
 }

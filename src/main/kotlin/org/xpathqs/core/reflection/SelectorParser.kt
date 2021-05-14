@@ -33,7 +33,7 @@ import org.xpathqs.core.selector.selector.Selector
  * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBase
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseAndInnerObjectTest
  */
-class SelectorParser(
+internal class SelectorParser(
     private val rootObj: Block,
     private val base: ISelector = NullSelector(),
     val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)

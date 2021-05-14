@@ -41,8 +41,16 @@ import kotlin.reflect.KProperty
  * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
  */
 internal fun Any.isObject(): Boolean {
+    if(this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name ==  "INSTANCE"
+            } != null
+    }
     return this.javaClass.declaredFields
-        .find { it.name == "INSTANCE" } != null
+        .find {
+            it.name == "INSTANCE"
+        } != null
 }
 
 /**

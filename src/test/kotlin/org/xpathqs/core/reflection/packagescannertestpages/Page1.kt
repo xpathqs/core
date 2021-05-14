@@ -20,33 +20,8 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.extensions
+package org.xpathqs.core.reflection.packagescannertestpages
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.isObject
+import org.xpathqs.core.selector.Block
 
-internal class ReflectionExtensionsIsObjectTests {
-
-    open class PageCls
-    object Page : PageCls()
-
-    @Test
-    fun isObjectGetObject() {
-        assertThat(Page.isObject())
-            .isEqualTo(true)
-    }
-
-    @Test
-    fun isObjectForClass() {
-        assertThat(PageCls().isObject())
-            .isEqualTo(false)
-    }
-
-    @Test
-    fun isObjectForObjectClass() {
-        assertThat(Page::class.java.isObject())
-            .isEqualTo(true)
-    }
-}
+object Page1: Block()
