@@ -39,7 +39,7 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.map { it.get(rootObj) as Selector }
+        innerSelectorFields.map { it.get(rootObj) as BaseSelector }
     }
 
     /**
@@ -79,6 +79,7 @@ class SelectorReflectionFields(
                 if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
                     rootObj::class.java.declaredFields.forEach {
                         if (it.type.isSelectorSubtype()) {
+                            it.isAccessible = true
                             res.add(it)
                         }
                     }
