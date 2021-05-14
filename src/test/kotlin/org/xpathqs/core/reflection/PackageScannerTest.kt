@@ -24,7 +24,9 @@ package org.xpathqs.core.reflection
 
 import assertk.assertAll
 import assertk.assertThat
-import assertk.assertions.*
+import assertk.assertions.containsExactlyInAnyOrder
+import assertk.assertions.isEmpty
+import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.packagescannertestpages.Page1
 import org.xpathqs.core.reflection.packagescannertestpages.Page2

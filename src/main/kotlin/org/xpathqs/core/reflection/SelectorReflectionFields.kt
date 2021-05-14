@@ -24,7 +24,6 @@ package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
 /**

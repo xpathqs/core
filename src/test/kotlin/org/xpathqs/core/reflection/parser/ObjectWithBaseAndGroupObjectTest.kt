@@ -28,7 +28,6 @@ import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithBaseAndInnerGroupObject
-import org.xpathqs.core.reflection.PageWithBaseAndInnerObject
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.xpathShouldBe
 

@@ -24,4 +24,4 @@ package org.xpathqs.core.reflection.packagescannertestpages.innerpackage
 
 import org.xpathqs.core.selector.Block
 
-object Page3: Block()
+object Page3 : Block()

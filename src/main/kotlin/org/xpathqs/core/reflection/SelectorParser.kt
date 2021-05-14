@@ -26,7 +26,6 @@ import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.selector.Selector
 
 /**
  * Class for initializing Selectors names and structure via Reflection
