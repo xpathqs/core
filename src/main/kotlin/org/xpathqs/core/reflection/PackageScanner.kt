@@ -20,33 +20,37 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.extensions
+package org.xpathqs.core.reflection
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.isObject
+import org.reflections.Reflections
+import org.xpathqs.core.selector.Block
 
-internal class ReflectionExtensionsIsObjectTests {
+/**
+ * Scans all [org.xpathqs.core.selector.Block] classes via reflection
+ * @param scanner helper class to extract all object-classes
+ * which has [org.xpathqs.core.selector.Block] as a parent
+ * @see [SelectorParser]
+ */
+class PackageScanner(
+    private val scanner: Reflections
+) {
 
-    open class PageCls
-    object Page : PageCls()
+    /**
+     * Scan provided package
+     */
+    constructor(packageName: String): this(Reflections(packageName))
 
-    @Test
-    fun isObjectGetObject() {
-        assertThat(Page.isObject())
-            .isEqualTo(true)
+    val packageObjects: Collection<Block> by lazy {
+           scanner.getSubTypesOf(Block::class.java).filter {
+            it.isObject()
+        }.map {
+            it.getObject()
+        }
     }
 
-    @Test
-    fun isObjectForClass() {
-        assertThat(PageCls().isObject())
-            .isEqualTo(false)
-    }
-
-    @Test
-    fun isObjectForObjectClass() {
-        assertThat(Page::class.java.isObject())
-            .isEqualTo(true)
+    fun scan() {
+        packageObjects.forEach {
+            SelectorParser(it).parse()
+        }
     }
 }
