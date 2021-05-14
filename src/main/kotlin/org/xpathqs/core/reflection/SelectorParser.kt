@@ -24,8 +24,8 @@ package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.NullSelector
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.selector.Selector
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -52,7 +52,7 @@ internal class SelectorParser(
 
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
-            val sel = it.get(rootObj) as Selector
+            val sel = it.get(rootObj) as BaseSelector
             sel.setName(rootObj.name + "." + it.name)
             sel.setBase(rootObj)
             sel.freeze()

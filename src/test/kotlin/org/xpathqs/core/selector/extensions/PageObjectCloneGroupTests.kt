@@ -20,8 +20,40 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.selector.Block
+import assertk.assertAll
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNotSameAs
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.PageWithGroupBase
+import org.xpathqs.core.reflection.SelectorParser
 
-object Page2 : Block()
+class PageObjectCloneGroupTests {
+    @BeforeEach
+    fun before() {
+        SelectorParser(PageWithGroupBase).parse()
+    }
+
+    @Test
+    fun checkClone() {
+        val origin = PageWithGroupBase
+        val cloned = PageWithGroupBase.clone()
+
+        assertAll {
+            assertThat(origin)
+                .isNotSameAs(cloned)
+
+            assertThat(origin.props)
+                .isNotSameAs(cloned.props)
+
+            assertThat(origin.children)
+                .isNotSameAs(cloned.children)
+
+            assertThat(origin.children.size)
+                .isEqualTo(cloned.children.size)
+        }
+    }
+}

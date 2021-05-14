@@ -20,8 +20,24 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.reflection.parser
 
-import org.xpathqs.core.selector.Block
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.PageWithInhGroup
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.xpathShouldBe
 
-object Page2 : Block()
+internal class ObjectWithoutBaseForInhBlock {
+
+    @BeforeEach
+    fun before() {
+        SelectorParser(PageWithInhGroup).parse()
+    }
+
+    @Test
+    fun checkSelectorXpathWithNoBase() {
+        PageWithInhGroup.s1
+            .xpathShouldBe("//div//p")
+    }
+}

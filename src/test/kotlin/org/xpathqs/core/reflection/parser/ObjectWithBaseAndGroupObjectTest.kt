@@ -20,54 +20,46 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection
+package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
 import assertk.assertThat
-import assertk.assertions.containsExactlyInAnyOrder
-import assertk.assertions.isEmpty
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.packagescannertestpages.Page1
-import org.xpathqs.core.reflection.packagescannertestpages.Page2
-import org.xpathqs.core.reflection.packagescannertestpages.innerpackage.Page3
+import org.xpathqs.core.reflection.PageWithBaseAndInnerGroupObject
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.xpathShouldBe
 
-internal class PackageScannerTest {
-    private val packageName = Page1::class.java.packageName
 
-    @Test
-    fun packageObjects() {
-        assertThat(
-            PackageScanner(packageName)
-                .packageObjects
-        )
-            .containsExactlyInAnyOrder(Page1, Page2, Page3)
+internal class ObjectWithBaseAndGroupObjectTest {
+
+    @BeforeEach
+    fun before() {
+        SelectorParser(PageWithBaseAndInnerGroupObject).parse()
     }
 
     @Test
-    fun scan() {
-        assertAll {
-            assertThat(Page1.name)
-                .isEmpty()
+    fun checkInnerName() {
+        assertThat(PageWithBaseAndInnerGroupObject.Inner.name)
+            .isEqualTo("PageWithBaseAndInnerGroupObject.Inner")
+    }
 
-            assertThat(Page2.name)
-                .isEmpty()
+    @Test
+    fun checkSelectorName() {
+        assertThat(PageWithBaseAndInnerGroupObject.Inner.s1_inner.name)
+            .isEqualTo("PageWithBaseAndInnerGroupObject.Inner.s1_inner")
+    }
 
-            assertThat(Page3.name)
-                .isEmpty()
-        }
+    @Test
+    fun checkSelectorXpath() {
+        PageWithBaseAndInnerGroupObject.Inner.s1_inner
+            .xpathShouldBe("//base//div//p//inner_tag")
+    }
 
-        PackageScanner(packageName).scan()
-
-        assertAll {
-            assertThat(Page1.name)
-                .isEqualTo("Page1")
-
-            assertThat(Page2.name)
-                .isEqualTo("Page2")
-
-            assertThat(Page3.name)
-                .isEqualTo("Page3")
-        }
+    @Test
+    fun checkPageChildren() {
+        assertThat(PageWithBaseAndInnerGroupObject.Inner.children)
+            .hasSize(1)
     }
 }

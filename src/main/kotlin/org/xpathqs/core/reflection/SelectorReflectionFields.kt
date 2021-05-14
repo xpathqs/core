@@ -24,7 +24,6 @@ package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 
 /**
@@ -39,7 +38,7 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.map { it.get(rootObj) as Selector }
+        innerSelectorFields.map { it.get(rootObj) as BaseSelector }
     }
 
     /**
@@ -79,6 +78,7 @@ class SelectorReflectionFields(
                 if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
                     rootObj::class.java.declaredFields.forEach {
                         if (it.type.isSelectorSubtype()) {
+                            it.isAccessible = true
                             res.add(it)
                         }
                     }

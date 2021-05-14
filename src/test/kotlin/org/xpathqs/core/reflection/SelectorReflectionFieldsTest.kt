@@ -85,6 +85,28 @@ internal class SelectorReflectionFieldsTest {
     }
 
     @Test
+    fun innerSelectorFieldsWithInnerGroupObject() {
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectorFields
+        val names = actual.map { it.name }
+
+        assertThat(names)
+            .containsExactlyInAnyOrder(
+                "s1_base"
+            )
+    }
+
+    @Test
+    fun innerSelectorsWithInnerGroupObject() {
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectors
+        val names = actual.map { it.toXpath() }
+
+        assertThat(names)
+            .containsExactlyInAnyOrder(
+                "//base_tag"
+            )
+    }
+
+    @Test
     fun innerSelectorFieldsForInnerObject() {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject.Inner).innerSelectorFields
         val names = actual.map { it.name }

@@ -29,12 +29,24 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
+open class Block2 : Block()
+
 object PageWithBase : Block(
     Selector(
         props = SelectorProps(tag = "base")
     )
 ) {
     val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
+
+object PageWithGroupBase : Block(
+    tagSelector("div") + tagSelector("p")
+) {
+    val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
+
+object PageWithInhGroup : Block2() {
+    val s1 = tagSelector("div") + tagSelector("p")
 }
 
 object PageNoBase : Block() {
@@ -60,6 +72,20 @@ object PageWithBaseAndInnerObject : Block(
         Selector(
             props = SelectorProps(tag = "inner")
         )
+    ) {
+        val s1_inner = Selector(props = SelectorProps(tag = "inner_tag"))
+    }
+}
+
+object PageWithBaseAndInnerGroupObject : Block(
+    Selector(
+        props = SelectorProps(tag = "base")
+    )
+) {
+    val s1_base = Selector(props = SelectorProps(tag = "base_tag"))
+
+    object Inner : Block(
+        tagSelector("div") + tagSelector("p")
     ) {
         val s1_inner = Selector(props = SelectorProps(tag = "inner_tag"))
     }

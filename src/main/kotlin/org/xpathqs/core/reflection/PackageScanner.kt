@@ -38,10 +38,10 @@ class PackageScanner(
     /**
      * Scan provided package
      */
-    constructor(packageName: String): this(Reflections(packageName))
+    constructor(packageName: String) : this(Reflections(packageName))
 
     val packageObjects: Collection<Block> by lazy {
-           scanner.getSubTypesOf(Block::class.java).filter {
+        scanner.getSubTypesOf(Block::class.java).filter {
             it.isObject()
         }.map {
             it.getObject()
