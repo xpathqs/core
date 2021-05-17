@@ -1,5 +1,7 @@
 constants:
   text_arg: "@text_test"
+  upperCase: "true"
+  id_arg: "@resource-id"
 
 timeouts:
   default: 100

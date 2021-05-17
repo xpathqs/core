@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.selector.selector
 
+import org.xpathqs.core.constants.Global
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelectorProps
 
@@ -40,6 +41,7 @@ open class SelectorProps(
      * Get Xpath string based on [prefix] + [tag] + [args]
      */
     override fun toXpath(): String {
+        val tag = if (Global.UPPER_CASE_FOR_TAG) this.tag.uppercase() else this.tag
         return "$prefix$tag${args.toXpath()}"
     }
 
