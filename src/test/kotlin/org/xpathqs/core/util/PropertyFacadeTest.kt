@@ -24,13 +24,26 @@ package org.xpathqs.core.util
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 import org.xpathqs.core.constants.CoreGlobalProps
+import org.xpathqs.core.constants.Global
+import org.xpathqs.core.selector.extensions.id
+import org.xpathqs.core.selector.extensions.text
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.xpathShouldBe
 
 internal class PropertyFacadeTest {
 
     val PATH = "config/config.yml"
+
+    @AfterEach
+    fun restoreDefaults() {
+        Global.update(
+            CoreGlobalProps("config/configDefault.yml")
+        )
+    }
 
     @Test
     fun parseWithInputStream() {
@@ -52,6 +65,21 @@ internal class PropertyFacadeTest {
                 )
             ).TEXT_ARG
         ).isEqualTo("@text_test")
+    }
+
+    @Test
+    fun tagSelectorDefault() {
+        tagSelector("div").text("hello").id("someId")
+            .xpathShouldBe("//div[text()='hello' and @id='someId']")
+    }
+
+    @Test
+    fun tagSelectorOverridden() {
+        Global.update(
+            CoreGlobalProps("config/config.yml")
+        )
+        tagSelector("div").text("hello").id("someId")
+            .xpathShouldBe("//DIV[@text_test='hello' and @resource-id='someId']")
     }
 
 }

@@ -70,6 +70,13 @@ open class CoreGlobalProps(
      */
     val ID_ARG: String
         get() = props["constants.id_arg"] as? String ?: "@id"
+
+    /**
+     * Converts tags in [org.xpathqs.core.selector.selector.Selector.toXpath] to upper case
+     * Upper case for tag is a requirement for such HTML parsers like `NekoHtml`
+     */
+    val UPPER_CASE_FOR_TAG: Boolean
+        get() = (props["constants.upperCase"] as? String)?.toBoolean() ?: false
 }
 
 /**

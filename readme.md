@@ -17,18 +17,18 @@ Apache Maven
 <dependency>
   <groupId>org.xpathqs</groupId>
   <artifactId>xpathqs-core</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.3</version>
 </dependency>
 ```
 
 Gradle Kotlin DSL
 ```kotlin
-implementation("org.xpathqs:xpathqs-core:0.0.1")
+implementation("org.xpathqs:xpathqs-core:0.0.3")
 ```
 
 Gradle Groovy DSL
 ```groovy
-implementation 'org.xpathqs:xpathqs-core:0.0.1'
+implementation 'org.xpathqs:xpathqs-core:0.0.3'
 ```
 
 ## Quick Example
