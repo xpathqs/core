@@ -91,9 +91,6 @@ internal class SelectorReflectionFieldsTest {
 
         val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectorFields
         val names = actual.map {
-            println(it.javaClass.canonicalName)
-            println( (it).name)
-            println( it.name)
             it.name
         }
 
@@ -105,12 +102,13 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorsWithInnerGroupObject() {
+        SelectorParser(PageWithBaseAndInnerGroupObject).parse()
         val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectors
         val names = actual.map { it.toXpath() }
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "//base_tag"
+                "//base//base_tag"
             )
     }
 
