@@ -31,7 +31,7 @@ import java.lang.reflect.Field
  * @param rootObj object for interaction
  * @sample org.xpathqs.core.reflection.SelectorReflectionFieldsTest
  */
-class SelectorReflectionFields(
+internal class SelectorReflectionFields(
     private val rootObj: BaseSelector
 ) {
     /**
@@ -75,12 +75,10 @@ class SelectorReflectionFields(
             by lazy {
                 val res = ArrayList<Field>()
 
-                if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
-                    rootObj::class.java.declaredFields.forEach {
-                        if (it.type.isSelectorSubtype()) {
-                            it.isAccessible = true
-                            res.add(it)
-                        }
+                declaredFields.forEach {
+                    if (it.type.isSelectorSubtype()) {
+                        it.isAccessible = true
+                        res.add(it)
                     }
                 }
 

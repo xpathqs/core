@@ -34,7 +34,7 @@ import org.xpathqs.core.selector.base.SelectorState
  * @param srf - object for fields extraction
  * @sample org.xpathqs.core.reflection.SelectorReflectionTest
  */
-class SelectorReflection(
+internal class SelectorReflection(
     private val obj: BaseSelector,
     private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {

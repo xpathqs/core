@@ -42,7 +42,7 @@ class PackageScanner(
 
     val packageObjects: Collection<Block> by lazy {
         scanner.getSubTypesOf(Block::class.java).filter {
-            it.isObject()
+            it.isObject() && !it.name.contains("$")
         }.map {
             it.getObject()
         }
