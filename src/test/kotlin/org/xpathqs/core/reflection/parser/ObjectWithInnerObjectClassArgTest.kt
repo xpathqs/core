@@ -20,82 +20,65 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.reflection.parser
 
 import assertk.assertAll
+import assertk.assertThat
+import assertk.assertions.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBase
-import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.reflection.*
+import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
-class SelectorObjectModificationTests {
 
+class ObjectWithInnerObjectClassArgTest {
     @BeforeEach
-    fun before() {
-        SelectorParser(PageWithBase).parse()
+    fun parse() {
+        SelectorParser(PageWithInnerObjectClassArg)
+            .parse()
     }
 
     @Test
-    fun tagTest() {
-        val s1 = PageWithBase
-        val s2 = PageWithBase.tag("s2")
+    fun innerSelectorFields() {
+        assertThat(
+            SelectorReflectionFields(PageWithInnerObjectClassArg.Holder1)
+                .innerSelectorFields
+        ).hasSize(2)
+    }
 
+    @Test
+    fun xpath() {
+        PageWithInnerObjectClassArg.Holder1
+            .xpathShouldBe("//base")
+    }
+
+    @Test
+    fun testSelectorFromClass() {
         assertAll {
-            s1.xpathShouldBe("//base")
-            s2.xpathShouldBe("//s2")
-            s1.xpathShouldBe("//base")
+            PageWithInnerObjectClassArg.Holder1.sel1
+                .xpathShouldBe("//base//s1")
+                .nameShouldBe("PageWithInnerObjectClassArg.Holder1.sel1")
         }
     }
 
     @Test
-    fun positionTest() {
-        val s1 = PageWithBase
-        val s2 = PageWithBase[2]
-
+    fun testSelectorFromClassWithPos() {
         assertAll {
-            s1.xpathShouldBe("//base")
-            s2.xpathShouldBe("//base[position()=2]")
-            s1.xpathShouldBe("//base")
+            PageWithInnerObjectClassArg.Holder1.sel1[2]
+                .xpathShouldBe("//base//s1[position()=2]")
         }
     }
 
     @Test
-    fun positionSelTest() {
+    fun testSelectorFromClassWithBasePos() {
         assertAll {
-            PageWithBase.s1
-                .xpathShouldBe("//base//s1")
-            PageWithBase[2].s1
-                .xpathShouldBe("//base[position()=2]//s1")
-            PageWithBase.s1
-                .xpathShouldBe("//base//s1")
-        }
-    }
-
-    @Test
-    fun tagTestForInnerSelector() {
-        assertAll {
-            PageWithBase.tag("s2").s1
-                .xpathShouldBe("//s2//s1")
-
-            PageWithBase.s1
-                .xpathShouldBe("//base//s1")
-
-            PageWithBase[2].s1
+            PageWithInnerObjectClassArg.Holder1[2].sel1
                 .xpathShouldBe("//base[position()=2]//s1")
 
-            PageWithBase.s1
+            PageWithInnerObjectClassArg.Holder1.sel1
                 .xpathShouldBe("//base//s1")
-        }
-    }
-
-    @Test
-    fun tagTestForInnerSelectorWithUpdate() {
-        val s = PageWithBase.tag("s2").s1.tag("ss")
-
-        assertAll {
-            s.xpathShouldBe("//s2//ss")
-            s.xpathShouldBe("//s2//ss")
         }
     }
 }

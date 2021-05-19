@@ -26,6 +26,7 @@ import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.selector.Selector
+import java.lang.reflect.Field
 
 internal class SelectorReflectionFieldsTest {
 
@@ -86,8 +87,12 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorFieldsWithInnerGroupObject() {
+        SelectorParser(PageWithBaseAndInnerGroupObject).parse()
+
         val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectorFields
-        val names = actual.map { it.name }
+        val names = actual.map {
+            it.name
+        }
 
         assertThat(names)
             .containsExactlyInAnyOrder(
@@ -97,12 +102,13 @@ internal class SelectorReflectionFieldsTest {
 
     @Test
     fun innerSelectorsWithInnerGroupObject() {
+        SelectorParser(PageWithBaseAndInnerGroupObject).parse()
         val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectors
         val names = actual.map { it.toXpath() }
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "//base_tag"
+                "//base//base_tag"
             )
     }
 

@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -38,10 +38,15 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
 
-      - name: Run Tests
-        run: ./gradlew test
+      - name: Upload test report directory
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: testDebugStuff
+          path: build/reports/tests/test/
+          if-no-files-found: warn
 
       - name: Run Test Coverage
         run: ./gradlew jacocoTestReport
@@ -70,16 +75,3 @@ jobs:
         with:
           name: jacoco-report
           path: build/reports/jacoco/
-
-      - name: Upload html test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: index.html
-          path: build/reports/tests/test/index.html
-
-      - name: Upload test report directory
-        uses: actions/upload-artifact@v2
-        with:
-          name: testDebugStuff
-          path: build/reports/tests/test/
-          if-no-files-found: warn

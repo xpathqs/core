@@ -43,12 +43,11 @@ fun <T : ISelector> T.clone(): T {
     return this
 }
 
-
 fun <T : Selector> T.clone(): T {
-    return deepClone() as T
+    return deepClone()
 }
 
-internal fun BaseSelector.deepClone(): BaseSelector {
+fun <T : BaseSelector> T.deepClone(): T {
     if (this.state != SelectorState.FREEZE) {
         return this
     }
@@ -63,12 +62,11 @@ internal fun BaseSelector.deepClone(): BaseSelector {
     return newObj
 }
 
-internal fun GroupSelector.deepClone(): GroupSelector {
-    val newObj = (this as BaseSelector).deepClone() as GroupSelector
+fun <T : GroupSelector> T.deepClone(): T {
+    val newObj = (this as BaseSelector).deepClone() as T
 
-    if (!this.isObject()) {
+    if (!this.isObject() || (this.isBlockSubtype())) {
         val origin = SelectorReflectionFields(this).innerSelectorFields
-
         origin.forEach {
             it.set(newObj, it.get(this))
         }
@@ -85,7 +83,7 @@ internal fun GroupSelector.deepClone(): GroupSelector {
 }
 
 fun <T : GroupSelector> T.clone(): T {
-    val newObj = this.deepClone() as T
+    val newObj = this.deepClone()
 
     if (newObj is Block) {
         this as Block

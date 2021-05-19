@@ -21,6 +21,7 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 version = "0.0.4"
 
@@ -115,6 +116,14 @@ signing {
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        events = setOf(
+            TestLogEvent.FAILED,
+            TestLogEvent.STANDARD_OUT,
+            TestLogEvent.STANDARD_ERROR
+        )
+    }
 }
 
 tasks.withType<KotlinCompile> {

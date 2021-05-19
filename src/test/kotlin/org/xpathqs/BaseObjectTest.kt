@@ -20,37 +20,23 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection
+package org.xpathqs
 
-import org.reflections.Reflections
-import org.xpathqs.core.selector.Block
+import org.junit.jupiter.api.AfterAll
+import org.xpathqs.core.reflection.PackageScanner
 
-/**
- * Scans all [org.xpathqs.core.selector.Block] classes via reflection
- * @param scanner helper class to extract all object-classes
- * which has [org.xpathqs.core.selector.Block] as a parent
- * @see [SelectorParser]
- */
-class PackageScanner(
-    private val scanner: Reflections
-) {
+internal class BaseObjectTest {
 
-    /**
-     * Scan provided package
-     */
-    constructor(packageName: String) : this(Reflections(packageName))
+    @AfterAll
+    fun clearObjects() {
+        PackageScanner("").packageObjects.forEach {
+            println("Clear ${it.name}")
+            it.toXpath()
 
-    val packageObjects: Collection<Block> by lazy {
-        scanner.getSubTypesOf(Block::class.java).filter {
-            it.isObject() && !it.name.contains("$")
-        }.map {
-            it.getObject()
-        }
-    }
-
-    fun scan() {
-        packageObjects.forEach {
-            SelectorParser(it).parse()
+            it.children.forEach {
+                println("Clear sel: ${it.name}")
+                it.toXpath()
+            }
         }
     }
 }

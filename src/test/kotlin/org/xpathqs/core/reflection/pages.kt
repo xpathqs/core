@@ -23,6 +23,7 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.extensions.repeat
 import org.xpathqs.core.selector.selector.Selector
@@ -99,8 +100,41 @@ class SomeHolder : Block(tagSelector("hold")) {
     val sel1 = tagSelector("div")
 }
 
+open class HolderWithArgs(
+    base: Selector,
+    val sel1: BaseSelector,
+    val sel2: BaseSelector
+): Block(base)
+
 object PageWithBlockMembers : Block(tagSelector("base")) {
     val holder1 = SomeHolder()
     val holder2 = SomeHolder()
 }
 
+object PageWithBlockArgMembers: Block() {
+    val holder1 = HolderWithArgs(
+        tagSelector("base"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    val holder2 = HolderWithArgs(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+}
+
+object PageWithInnerObjectClassArg: Block() {
+    object Holder1: HolderWithArgs(
+        tagSelector("base"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    object Holder2: HolderWithArgs(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+}

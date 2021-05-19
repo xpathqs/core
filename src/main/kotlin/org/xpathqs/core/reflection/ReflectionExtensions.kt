@@ -26,6 +26,7 @@ import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.extensions.deepClone
 import org.xpathqs.core.selector.group.GroupSelector
 import java.lang.reflect.Field
 import kotlin.jvm.internal.CallableReference
@@ -53,6 +54,13 @@ internal fun Any.isObject(): Boolean {
         } != null
 }
 
+/**
+ * Check if object is a subtype of [Block]
+ * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
+ */
+internal fun Any.isBlockSubtype(): Boolean {
+    return this is Block && this.javaClass.superclass.simpleName != "Block"
+}
 /**
  * Get an Object instance of [Block] when class is an Object-class inherited from block
  * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsGetObjectTests
