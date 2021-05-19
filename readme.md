@@ -17,7 +17,7 @@ Apache Maven
 <dependency>
   <groupId>org.xpathqs</groupId>
   <artifactId>xpathqs-core</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 </dependency>
 ```
 

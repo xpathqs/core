@@ -30,6 +30,10 @@ import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
 
+/**
+ * Deep clone of the [ISelector] objects
+ * Implementation depends on the selector type
+ */
 fun <T : ISelector> T.clone(): T {
     if (this is Selector) {
         return clone()
@@ -39,7 +43,12 @@ fun <T : ISelector> T.clone(): T {
     return this
 }
 
+
 fun <T : Selector> T.clone(): T {
+    return deepClone() as T
+}
+
+internal fun BaseSelector.deepClone(): BaseSelector {
     if (this.state != SelectorState.FREEZE) {
         return this
     }
@@ -47,24 +56,23 @@ fun <T : Selector> T.clone(): T {
     val newObj = this.newInstance()
 
     newObj.setName(this.name)
-    newObj.setBase(this.base.clone())
+    newObj.setBase(this.base)
     newObj.setProps(this.props.clone())
 
     newObj.cloned()
     return newObj
 }
 
+internal fun GroupSelector.deepClone(): GroupSelector {
+    val newObj = (this as BaseSelector).deepClone() as GroupSelector
 
-fun <T : GroupSelector> T.clone(): T {
-    if (this.state != SelectorState.FREEZE) {
-        return this
+    if (!this.isObject()) {
+        val origin = SelectorReflectionFields(this).innerSelectorFields
+
+        origin.forEach {
+            it.set(newObj, it.get(this))
+        }
     }
-
-    val newObj = this.newInstance()
-
-    newObj.setName(this.name)
-    newObj.setBase(this.base.clone())
-    newObj.setProps(this.props.clone())
 
     val selectorsChain = ArrayList<BaseSelector>()
     this.selectorsChain.forEach {
@@ -73,24 +81,25 @@ fun <T : GroupSelector> T.clone(): T {
 
     newObj.selectorsChain = selectorsChain
 
+    return newObj
+}
+
+fun <T : GroupSelector> T.clone(): T {
+    val newObj = this.deepClone() as T
+
     if (newObj is Block) {
         this as Block
 
         val children = ArrayList<BaseSelector>()
-        children.addAll(this.children)
+        this.children.forEach {
+            children.add(it.setBase(newObj))
+        }
 
         newObj.setBlank(this.isBlank)
-        newObj.originBlock = this
         newObj.children = children
-
-        if (newObj.isObject()) {
-            this.children.forEach {
-                it.setBase(newObj)
-            }
-        }
+        newObj.originBlock = this
     }
 
-    newObj.cloned()
     return newObj
 }
 

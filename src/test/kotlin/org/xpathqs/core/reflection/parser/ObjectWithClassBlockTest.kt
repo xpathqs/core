@@ -22,22 +22,47 @@
 
 package org.xpathqs.core.reflection.parser
 
+import assertk.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageNoBase
+import org.xpathqs.core.reflection.PageWithBlockMembers
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
-internal class ObjectWithoutBase {
 
+class ObjectWithClassBlockTest {
     @BeforeEach
-    fun before() {
-        SelectorParser(PageNoBase).parse()
+    fun parse() {
+        SelectorParser(PageWithBlockMembers).parse()
     }
 
     @Test
-    fun checkSelectorXpathWithNoBase() {
-        PageNoBase.s1
-            .xpathShouldBe("//s1")
+    fun testSelectorFromClass() {
+        assertAll {
+            PageWithBlockMembers.holder1.sel1
+                .xpathShouldBe("//base//hold//div")
+                .nameShouldBe("PageWithBlockMembers.SomeHolder.sel1")
+        }
+    }
+
+    @Test
+    fun testSelectorFromClassWithPos() {
+        assertAll {
+            PageWithBlockMembers.holder1.sel1[2]
+                .xpathShouldBe("//base//hold//div[position()=2]")
+        }
+    }
+
+    @Test
+    fun testSelectorFromClassWithBasePos() {
+        assertAll {
+            PageWithBlockMembers.holder1[2].sel1
+                .xpathShouldBe("//base//hold[position()=2]//div")
+
+            PageWithBlockMembers.holder1.sel1
+                .xpathShouldBe("//base//hold//div")
+        }
     }
 }

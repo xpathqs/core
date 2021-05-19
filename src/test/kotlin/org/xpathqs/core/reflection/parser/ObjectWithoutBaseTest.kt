@@ -20,22 +20,24 @@
  * SOFTWARE.
  */
 
-package org.xpathqs
+package org.xpathqs.core.reflection.parser
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.xpathqs.core.selector.base.ISelector
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.PageNoBase
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.xpathShouldBe
 
-fun <T : ISelector> T.xpathShouldBe(xpath: String): T {
-    assertThat(this.toXpath())
-        .isEqualTo(xpath)
+internal class ObjectWithoutBaseTest {
 
-    return this
-}
+    @BeforeEach
+    fun before() {
+        SelectorParser(PageNoBase).parse()
+    }
 
-fun <T : ISelector> T.nameShouldBe(name: String): T {
-    assertThat(this.name)
-        .isEqualTo(name)
-
-    return this
+    @Test
+    fun checkSelectorXpathWithNoBase() {
+        PageNoBase.s1
+            .xpathShouldBe("//s1")
+    }
 }
