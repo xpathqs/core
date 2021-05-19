@@ -50,14 +50,19 @@ internal class SelectorParser(
         rootObj.setName(baseName + rootObj::class.simpleName!!)
         rootObj.freeze()
 
+        rootObj.children = srf.innerSelectors
+
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
             val sel = it.get(rootObj) as BaseSelector
             sel.setName(rootObj.name + "." + it.name)
             sel.setBase(rootObj)
             sel.freeze()
+
+            if (sel is Block) {
+                SelectorParser(sel, rootObj).parse()
+            }
         }
-        rootObj.children = srf.innerSelectors
 
         srf.innerBlocks.forEach {
             SelectorParser(it, rootObj).parse()

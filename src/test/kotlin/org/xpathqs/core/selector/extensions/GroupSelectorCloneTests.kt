@@ -20,62 +20,53 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.parser
+package org.xpathqs.core.selector.extensions
 
 import assertk.assertAll
 import assertk.assertThat
-import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import assertk.assertions.isSameAs
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBaseAndInnerObject
+import org.xpathqs.core.reflection.PageWithBlockMembers
 import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.selector.extensions.get
-import org.xpathqs.xpathShouldBe
+import org.xpathqs.core.reflection.SomeHolder
+import org.xpathqs.core.selector.base.SelectorState
 
-
-internal class ObjectWithBaseAndInnerObjectTest {
+class GroupSelectorCloneTests {
 
     @BeforeEach
-    fun before() {
-        SelectorParser(PageWithBaseAndInnerObject).parse()
+    fun parse() {
+        SelectorParser(PageWithBlockMembers)
+            .parse()
     }
 
     @Test
-    fun checkInnerName() {
-        assertThat(PageWithBaseAndInnerObject.Inner.name)
-            .isEqualTo("PageWithBaseAndInnerObject.Inner")
-    }
+    fun membersShouldNotBeCloned() {
+        val cloned = PageWithBlockMembers.clone()
 
-    @Test
-    fun checkSelectorName() {
-        assertThat(PageWithBaseAndInnerObject.Inner.s1_inner.name)
-            .isEqualTo("PageWithBaseAndInnerObject.Inner.s1_inner")
-    }
-
-    @Test
-    fun checkSelectorXpath() {
-        PageWithBaseAndInnerObject.Inner.s1_inner
-            .xpathShouldBe("//base//inner//inner_tag")
-    }
-
-    @Test
-    fun checkPageChildren() {
-        assertThat(PageWithBaseAndInnerObject.Inner.children)
-            .hasSize(1)
-    }
-
-    @Test
-    fun checkInnerPosition() {
         assertAll {
-            PageWithBaseAndInnerObject.Inner.s1_inner
-                .xpathShouldBe("//base//inner//inner_tag")
+            assertThat(cloned.holder1.state)
+                .isEqualTo(SelectorState.FREEZE)
 
-            PageWithBaseAndInnerObject.Inner[2].s1_inner
-                .xpathShouldBe("//base//inner[position()=2]//inner_tag")
+            assertThat(cloned.holder2.state)
+                .isEqualTo(SelectorState.FREEZE)
+        }
+    }
 
-            PageWithBaseAndInnerObject.Inner.s1_inner
-                .xpathShouldBe("//base//inner//inner_tag")
+    @Test
+    fun eachMemberOfRootClsShouldHaveClonedState() {
+        val member = SomeHolder()
+        SelectorParser(member).parse()
+
+        val cloned = member.clone()
+
+        assertAll {
+            assertThat(cloned.state)
+                .isEqualTo(SelectorState.CLONED)
+
+            assertThat(cloned.sel1.base)
+                .isSameAs(cloned)
         }
     }
 }

@@ -73,6 +73,10 @@ object PageWithBaseAndInnerObject : Block(
             props = SelectorProps(tag = "inner")
         )
     ) {
+        object L2 : Block() {
+            val asd = tagSelector("asd")
+        }
+
         val s1_inner = Selector(props = SelectorProps(tag = "inner_tag"))
     }
 }
@@ -90,3 +94,13 @@ object PageWithBaseAndInnerGroupObject : Block(
         val s1_inner = Selector(props = SelectorProps(tag = "inner_tag"))
     }
 }
+
+class SomeHolder : Block(tagSelector("hold")) {
+    val sel1 = tagSelector("div")
+}
+
+object PageWithBlockMembers : Block(tagSelector("base")) {
+    val holder1 = SomeHolder()
+    val holder2 = SomeHolder()
+}
+

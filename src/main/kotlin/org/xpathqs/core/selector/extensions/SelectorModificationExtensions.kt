@@ -104,6 +104,31 @@ operator fun <T : BaseSelector> T.get(arg: ValueArg): T {
 }
 
 /**
+ * Add position argument to the [GroupSelector]
+ */
+operator fun <T : GroupSelector> T.get(pos: Int) = get(KVSelectorArg("position()", pos.toString()))
+
+/**
+ * Add new argument to the [GroupSelector]
+ */
+operator fun <T : GroupSelector> T.get(value: String) = get(ValueArg(value))
+
+/**
+ * Modifies `tag` value of [GroupSelector]
+ */
+fun <T : GroupSelector> T.get(arg: ValueArg): T {
+    if (this.selectorsChain.size == 1) {
+        val first = this.selectorsChain.first()
+        if (first is BaseSelector) {
+            val res = this.clone()
+            res.selectorsChain = arrayListOf(first[arg])
+            return res
+        }
+    }
+    return this
+}
+
+/**
  * Add new selector to the [GroupSelector.selectorsChain]
  */
 operator fun <T : GroupSelector> T.plus(sel: BaseSelector): T {

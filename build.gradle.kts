@@ -22,7 +22,7 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-version = "0.0.3"
+version = "0.0.4"
 
 plugins {
     kotlin("jvm") version "1.5.0"

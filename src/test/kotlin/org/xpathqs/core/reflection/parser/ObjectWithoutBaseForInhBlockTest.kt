@@ -28,7 +28,7 @@ import org.xpathqs.core.reflection.PageWithInhGroup
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.xpathShouldBe
 
-internal class ObjectWithoutBaseForInhBlock {
+internal class ObjectWithoutBaseForInhBlockTest {
 
     @BeforeEach
     fun before() {
