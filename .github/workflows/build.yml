@@ -73,12 +73,14 @@ jobs:
 
       - name: Upload html test report
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: index.html
           path: build/reports/tests/test/index.html
 
       - name: Upload test report directory
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: testDebugStuff
           path: build/reports/tests/test/
