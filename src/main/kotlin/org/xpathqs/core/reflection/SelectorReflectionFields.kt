@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
 import java.lang.reflect.Field
@@ -58,11 +59,13 @@ internal class SelectorReflectionFields(
                 val res = ArrayList<Field>()
 
                 var cls = rootObj::class.java
-                res.addAll(cls.declaredFields)
-
-                while (cls.superclass.isSelectorSubtype()) {
-                    cls = cls.superclass as Class<out BaseSelector>
+                if(cls.isScanAvailable) {
                     res.addAll(cls.declaredFields)
+
+                    while (cls.superclass.isSelectorSubtype() && cls.isScanAvailable) {
+                        cls = cls.superclass as Class<out BaseSelector>
+                        res.addAll(cls.declaredFields)
+                    }
                 }
 
                 removeUnnecessary(res)
@@ -91,15 +94,18 @@ internal class SelectorReflectionFields(
     val innerObjectClasses: Collection<Class<*>>
             by lazy {
                 val res = ArrayList<Class<*>>()
-
-                if (rootObj::class.java.simpleName != BaseSelector::class.java.simpleName) {
-                    rootObj::class.java.declaredClasses.forEach {
-                        if (it.isSelectorSubtype()) {
-                            res.add(it)
+                val rootCls = rootObj::class.java
+                if(rootCls.isScanAvailable) {
+                    if (rootCls.simpleName != BaseSelector::class.java.simpleName) {
+                        rootCls.declaredClasses.forEach {
+                            if (it.isSelectorSubtype()) {
+                                if(it.isScanAvailable) {
+                                    res.add(it)
+                                }
+                            }
                         }
                     }
                 }
-
                 res
             }
 
@@ -107,6 +113,16 @@ internal class SelectorReflectionFields(
      * Filter Unnecessary fields
      */
     private fun removeUnnecessary(fields: Collection<Field>) = fields
-        .filter { it.name != "INSTANCE" && it.name != "\$jacocoData" }
+        .filter {
+            it.name != "INSTANCE"
+                    && it.name != "\$jacocoData"
+                    && it.isScanAvailable
+        }
         .distinctBy { it.name }
+
+    private val Field.isScanAvailable: Boolean
+        get() = !this.isAnnotationPresent(NoScan::class.java)
+
+    private val Class<*>.isScanAvailable: Boolean
+        get() = !this.isAnnotationPresent(NoScan::class.java)
 }

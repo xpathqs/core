@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.extensions.plus
@@ -106,6 +107,13 @@ open class HolderWithArgs(
     val sel2: BaseSelector
 ): Block(base)
 
+open class HolderWithArgsNoScan(
+    base: Selector,
+    val sel1: BaseSelector,
+    @NoScan
+    val sel2: BaseSelector
+): Block(base)
+
 object PageWithBlockMembers : Block(tagSelector("base")) {
     val holder1 = SomeHolder()
     val holder2 = SomeHolder()
@@ -133,6 +141,61 @@ object PageWithInnerObjectClassArg: Block() {
     )
 
     object Holder2: HolderWithArgs(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+}
+
+object PageWithNoScan: Block(tagSelector("base")) {
+    val s1 = tagSelector("s1")
+    @NoScan val s2 = tagSelector("s2")
+
+    object InnerObject1: Block(tagSelector("base2")) {
+        val s1 = tagSelector("s1")
+        @NoScan val s2 = tagSelector("s1")
+    }
+
+    @NoScan
+    object InnerObject2: Block(tagSelector("base2")) {
+        val s1 = tagSelector("s1")
+        val s2 = tagSelector("s1")
+    }
+
+    val holder1 = HolderWithArgs(
+        tagSelector("base"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    @NoScan
+    val holder2 = HolderWithArgs(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    val holder_ns1 = HolderWithArgsNoScan(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    @NoScan
+    val holder_ns2 = HolderWithArgsNoScan(
+        tagSelector("base_2"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    object Holder3: HolderWithArgs(
+        tagSelector("base"),
+        tagSelector("s1"),
+        tagSelector("s2")
+    )
+
+    @NoScan
+    object Holder4: HolderWithArgs(
         tagSelector("base_2"),
         tagSelector("s1"),
         tagSelector("s2")

@@ -23,12 +23,12 @@ Apache Maven
 
 Gradle Kotlin DSL
 ```kotlin
-implementation("org.xpathqs:xpathqs-core:0.0.3")
+implementation("org.xpathqs:xpathqs-core:0.0.4")
 ```
 
 Gradle Groovy DSL
 ```groovy
-implementation 'org.xpathqs:xpathqs-core:0.0.3'
+implementation 'org.xpathqs:xpathqs-core:0.0.4'
 ```
 
 ## Quick Example
