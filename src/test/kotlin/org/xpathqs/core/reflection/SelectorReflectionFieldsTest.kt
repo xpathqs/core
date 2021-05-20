@@ -26,7 +26,6 @@ import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.selector.Selector
-import java.lang.reflect.Field
 
 internal class SelectorReflectionFieldsTest {
 
