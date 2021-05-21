@@ -23,7 +23,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.0.4"
+version = "0.0.5"
 
 plugins {
     kotlin("jvm") version "1.5.0"
@@ -33,13 +33,14 @@ plugins {
     maven
     `maven-publish`
     signing
+    id("io.codearte.nexus-staging") version "0.30.0"
 }
 
 java {
     withJavadocJar()
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 jacoco {
@@ -51,6 +52,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("org.reflections:reflections:0.9.12")
@@ -114,6 +116,10 @@ signing {
     sign(publishing.publications["mavenJava"])
 }
 
+nexusStaging {
+    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+}
+
 tasks.test {
     useJUnitPlatform()
     testLogging {
@@ -127,7 +133,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "15"
+    kotlinOptions.jvmTarget = "11"
 }
 
 tasks.jar {
