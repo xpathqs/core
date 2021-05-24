@@ -24,6 +24,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 version = "0.0.5"
+group = "org.xpathqs"
 
 plugins {
     kotlin("jvm") version "1.5.0"
