@@ -46,7 +46,12 @@ internal class SelectorReflectionFields(
      * Returns collection of [Block]s inner objects of [rootObj]
      */
     val innerBlocks: Collection<Block> by lazy {
-        innerObjectClasses.map { it.getObject() }
+        innerObjectClasses
+            .filter {
+                it.isObject()
+             }.map {
+                it.getObject()
+             }
     }
 
     /**
@@ -114,9 +119,10 @@ internal class SelectorReflectionFields(
      */
     private fun removeUnnecessary(fields: Collection<Field>) = fields
         .filter {
-            it.name != "INSTANCE"
-                    && it.name != "\$jacocoData"
-                    && it.isScanAvailable
+            it.name != "INSTANCE" //remove object-class instances
+                    && it.name != "\$jacocoData" //remove jacoco data
+                    && it.isScanAvailable //remove fields annotated with "@NoScan
+                    && !it.name.contains("this$") //remove inner classes link
         }
         .distinctBy { it.name }
 

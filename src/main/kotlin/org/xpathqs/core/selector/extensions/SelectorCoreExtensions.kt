@@ -62,6 +62,7 @@ fun <T : BaseSelector> T.deepClone(): T {
     return newObj
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T : GroupSelector> T.deepClone(): T {
     val newObj = (this as BaseSelector).deepClone() as T
 
@@ -103,10 +104,19 @@ fun <T : GroupSelector> T.clone(): T {
 
 @Suppress("UNCHECKED_CAST")
 internal fun <T : BaseSelector> T.newInstance(): T {
-    val c = this::class.java.declaredConstructors.find {
-        it.parameterCount == 0
-    } ?: throw IllegalArgumentException("Selector doesn't have a default constructor")
+    if(this.isInnerClass()) {
+        val c = this::class.java.declaredConstructors.find {
+            it.parameterCount == 1
+        } ?: throw IllegalArgumentException("Selector doesn't have a default constructor")
 
-    c.isAccessible = true
-    return c.newInstance() as T
+        c.isAccessible = true
+        return c.newInstance(this.getInnerClassMember()) as T
+    } else {
+        val c = this::class.java.declaredConstructors.find {
+            it.parameterCount == 0
+        } ?: throw IllegalArgumentException("Selector doesn't have a default constructor")
+
+        c.isAccessible = true
+        return c.newInstance() as T
+    }
 }
