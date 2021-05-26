@@ -165,3 +165,21 @@ internal fun KProperty<*>.toField(): Field {
         isAccessible = true
     }
 }
+
+/**
+ * Check if the provided object is a member of an inner class
+ */
+internal fun Any.isInnerClass(): Boolean {
+    return getInnerClassMember() != null
+}
+
+/**
+ * Return member of inner class
+ */
+internal fun Any.getInnerClassMember(): Any? {
+    val f = this::class.java.declaredFields.find {
+        it.name.contains("this$")
+    }
+    f?.isAccessible = true
+    return f?.get(this)
+}

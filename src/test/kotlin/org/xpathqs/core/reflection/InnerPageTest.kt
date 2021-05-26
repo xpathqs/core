@@ -20,43 +20,33 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.reflection
 
-import assertk.assertAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.freeze
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
+import org.xpathqs.core.selector.extensions.get
 import org.xpathqs.xpathShouldBe
 
-class SelectorModificationTests {
+class PageWithInnerClassMembersTest {
 
     @Test
-    fun tagTest() {
-        val s1 = Selector().freeze()
-        val s2 = s1.tag("s2")
+    fun testXpath() {
+        PageWithInnerClassMembers.table1.rows.app
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]/div[position()=1]")
+    }
 
-        assertAll {
-            s1.xpathShouldBe("//*")
-            s2.xpathShouldBe("//s2")
+    @Test
+    fun testXpathWithPosition() {
+        PageWithInnerClassMembers.table1.rows[2].app
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+    }
+
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun init() {
+            SelectorParser(PageWithInnerClassMembers).parse()
         }
-    }
-
-    @Test
-    fun removeParamsTest() {
-        tagSelector("div")[2].removeParams()
-            .xpathShouldBe("//div")
-    }
-
-    @Test
-    fun prefixTest() {
-        tagSelector("div").prefix("/")
-            .xpathShouldBe("/div")
-    }
-
-    @Test
-    fun repeatTest() {
-        tagSelector("div").repeat(3)
-            .xpathShouldBe("//div//div//div")
     }
 }

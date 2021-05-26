@@ -20,43 +20,50 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.reflection.pages
 
-import assertk.assertAll
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.freeze
+import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.textNotEmpty
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.xpathShouldBe
 
-class SelectorModificationTests {
+object HtmlTags {
+    val DIV: Selector
+        get() = tagSelector("div")
+}
 
-    @Test
-    fun tagTest() {
-        val s1 = Selector().freeze()
-        val s2 = s1.tag("s2")
+class AppTable(pos: Int = 1) : Block(
+    SelectorFactory.xpathSelector("//div[./div/div/span[text()='Application']]")[pos]
+) {
+    inner class Row : Block(
+        SelectorFactory.xpathSelector("/div[count(.//div/div) > 3]")
+    ) {
+        open inner class Col(num: Int = 1) : Block(
+            SelectorFactory.xpathSelector("/div")[num]
+        )
 
-        assertAll {
-            s1.xpathShouldBe("//*")
-            s2.xpathShouldBe("//s2")
+        inner class App : Col(1) {
+            val id = HtmlTags.DIV.textNotEmpty()[1]
+            val from = HtmlTags.DIV.textNotEmpty()[2]
+            val date = HtmlTags.DIV.textNotEmpty()[3]
         }
+
+        val app = App()
+
+        inner class Principal : Col(2) {
+            val title = HtmlTags.DIV.textNotEmpty()[1]
+            val inn = HtmlTags.DIV.textNotEmpty()[2]
+        }
+
+        val principal = Principal()
     }
 
-    @Test
-    fun removeParamsTest() {
-        tagSelector("div")[2].removeParams()
-            .xpathShouldBe("//div")
-    }
+    val rows = Row()
+}
 
-    @Test
-    fun prefixTest() {
-        tagSelector("div").prefix("/")
-            .xpathShouldBe("/div")
-    }
-
-    @Test
-    fun repeatTest() {
-        tagSelector("div").repeat(3)
-            .xpathShouldBe("//div//div//div")
-    }
+object PageWithInnerClassMembers : Block() {
+    val table1 = AppTable(1)
+    val table2 = AppTable(2)
 }
