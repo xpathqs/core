@@ -25,11 +25,18 @@ package org.xpathqs.core.reflection
 import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.selector.Selector
 
 internal class SelectorReflectionFieldsTest {
 
-    private val selectorFields = arrayOf("state", "base", "props", "name")
+    private val selectorFields = arrayOf(
+        BaseSelector::state.name,
+        BaseSelector::base.name,
+        BaseSelector::props.name,
+        BaseSelector::name.name,
+        BaseSelector::annotations.name,
+    )
 
     @Test
     fun declaredFieldsForSelector() {

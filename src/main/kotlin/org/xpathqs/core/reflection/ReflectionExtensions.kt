@@ -183,3 +183,12 @@ internal fun Any.getInnerClassMember(): Any? {
     f?.isAccessible = true
     return f?.get(this)
 }
+
+/**
+ * Sets the <pre>base</pre> to the [BaseSelector] via reflection
+ */
+internal fun <T : BaseSelector> T.setAnnotations(annotations: Collection<Annotation>): T {
+    SelectorReflection(this)
+        .setAnnotations(annotations)
+    return this
+}

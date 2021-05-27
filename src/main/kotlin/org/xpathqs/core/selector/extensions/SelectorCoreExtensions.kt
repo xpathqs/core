@@ -56,6 +56,7 @@ fun <T : BaseSelector> T.deepClone(): T {
 
     newObj.setName(this.name)
     newObj.setBase(this.base)
+    newObj.setAnnotations(this.annotations)
     newObj.setProps(this.props.clone())
 
     newObj.cloned()
