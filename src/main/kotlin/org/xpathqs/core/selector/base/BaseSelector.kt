@@ -30,6 +30,7 @@ import org.xpathqs.core.selector.NullSelector
  * @param base link to the root element
  * @param name name of the selector (used for logging purposes)
  * @param props properties for building xpath queries
+ * @param annotations list of annotations for selector
  */
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
@@ -38,6 +39,7 @@ abstract class BaseSelector(
     override val name: String = "",
 
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
+    val annotations: Collection<Annotation> = emptyList()
 ) : ISelector {
 
     /**

@@ -30,7 +30,7 @@ import org.xpathqs.core.selector.base.ISelector
 /**
  * Class for initializing Selectors names and structure via Reflection
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseTest
- * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBase
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBaseTest
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseAndInnerObjectTest
  */
 internal class SelectorParser(
@@ -48,6 +48,7 @@ internal class SelectorParser(
 
         rootObj.setBase(base)
         rootObj.setName(baseName + rootObj::class.simpleName!!)
+        rootObj.setAnnotations(rootObj::class.annotations.toList())
         rootObj.freeze()
 
         rootObj.children = srf.innerSelectors
@@ -55,8 +56,9 @@ internal class SelectorParser(
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
             val sel = it.get(rootObj) as BaseSelector
-            sel.setName(rootObj.name + "." + it.name)
             sel.setBase(rootObj)
+            sel.setName(rootObj.name + "." + it.name)
+            sel.setAnnotations(it.annotations.toList())
             sel.freeze()
 
             if (sel is Block) {

@@ -57,17 +57,17 @@ internal class SelectorReflection(
     /**
      * Set <pre>name</pre> field of the [obj]
      */
-    fun setName(value: String) = setProp("name", value)
+    fun setName(value: String) = setProp(BaseSelector::name.name, value)
 
     /**
      * Set <pre>base</pre> field of the [obj]
      */
-    fun setBase(value: ISelector) = setProp("base", value)
+    fun setBase(value: ISelector) = setProp(BaseSelector::base.name, value)
 
     /**
      * Set <pre>props</pre> field of the [obj]
      */
-    fun setProps(value: BaseSelectorProps) = setProp("props", value)
+    fun setProps(value: BaseSelectorProps) = setProp(BaseSelector::props.name, value)
 
     /**
      * Set <pre>props.args</pre> field of the [obj]
@@ -77,10 +77,17 @@ internal class SelectorReflection(
     /**
      * Mark [obj] as freeze
      */
-    fun freeze() = setProp("state", SelectorState.FREEZE)
+    fun freeze() = setProp(BaseSelector::state.name, SelectorState.FREEZE)
 
     /**
      * Mark [obj] as cloned
      */
-    fun cloned() = setProp("state", SelectorState.CLONED)
+    fun cloned() = setProp(BaseSelector::state.name, SelectorState.CLONED)
+
+    /**
+     * Set [BaseSelector.annotations] field of the [BaseSelector]
+     * @param annotations collection of annotation classes provided via reflection
+     */
+    fun setAnnotations(annotations: Collection<Annotation>)
+        = setProp(BaseSelector::annotations.name, annotations)
 }
