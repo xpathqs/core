@@ -26,6 +26,7 @@ import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.group.GroupSelector
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -45,21 +46,13 @@ internal class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
-
-        rootObj.setBase(base)
-        rootObj.setName(baseName + rootObj::class.simpleName!!)
-        rootObj.setAnnotations(rootObj::class.annotations.toList())
-        rootObj.freeze()
-
+        setFields(rootObj, base, baseName + rootObj::class.simpleName!!, rootObj::class.annotations)
         rootObj.children = srf.innerSelectors
 
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
             val sel = it.get(rootObj) as BaseSelector
-            sel.setBase(rootObj)
-            sel.setName(rootObj.name + "." + it.name)
-            sel.setAnnotations(it.annotations.toList())
-            sel.freeze()
+            setFields(sel, rootObj, rootObj.name + "." + it.name, it.annotations.toList())
 
             if (sel is Block) {
                 SelectorParser(sel, rootObj).parse()
@@ -68,6 +61,18 @@ internal class SelectorParser(
 
         srf.innerBlocks.forEach {
             SelectorParser(it, rootObj).parse()
+        }
+    }
+
+    private fun setFields(to: BaseSelector, base: ISelector, name: String, annotations: Collection<Annotation>) {
+        to.setBase(base)
+        to.setName(name)
+        to.setAnnotations(annotations)
+
+        if(to is GroupSelector) {
+            to.freeze()
+        } else {
+            to.freeze()
         }
     }
 }
