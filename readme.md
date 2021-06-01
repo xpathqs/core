@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/github/license/nachg/xpathqs-core)](https://github.com/nachg/xpathqs-core/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 
+![logo](./logo.png)
 # XpathQS
 
 A library for building Xpath queries in an OOP style. In a [JOOQ](https://www.jooq.org/) way, but for the XPATH.
