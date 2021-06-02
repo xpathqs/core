@@ -18,18 +18,18 @@ Apache Maven
 <dependency>
   <groupId>org.xpathqs</groupId>
   <artifactId>xpathqs-core</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.6</version>
 </dependency>
 ```
 
 Gradle Kotlin DSL
 ```kotlin
-implementation("org.xpathqs:xpathqs-core:0.0.4")
+implementation("org.xpathqs:xpathqs-core:0.0.6")
 ```
 
 Gradle Groovy DSL
 ```groovy
-implementation 'org.xpathqs:xpathqs-core:0.0.4'
+implementation 'org.xpathqs:xpathqs-core:0.0.6'
 ```
 
 ## Quick Example
@@ -60,6 +60,24 @@ Result:
 
 For more examples you can
 discover [unit tests](https://github.com/nachg/xpathqs-core/tree/master/src/test/kotlin/org/xpathqs).
+
+## Immutability
+
+...
+
+# Coding conventions
+
+1. One line per func call
+
+## Unit Tests notation
+
+## Self Documentation
+
+Each public method should:
+
+* contain java-doc
+* have a contract and requirements
+* have a link to the unit-tests associated with a concrete requirement
 
 ## License
 
