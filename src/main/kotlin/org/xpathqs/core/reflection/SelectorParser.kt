@@ -22,15 +22,18 @@
 
 package org.xpathqs.core.reflection
 
-import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.group.GroupSelector
+import java.lang.reflect.Field
+import java.lang.reflect.Modifier
 
 /**
  * Class for initializing Selectors names and structure via Reflection
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseTest
- * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBase
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBaseTest
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseAndInnerObjectTest
  */
 internal class SelectorParser(
@@ -45,19 +48,23 @@ internal class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
-
-        rootObj.setBase(base)
-        rootObj.setName(baseName + rootObj::class.simpleName!!)
-        rootObj.freeze()
-
+        setFields(
+            to = rootObj,
+            base = base,
+            name = baseName + rootObj::class.simpleName!!,
+            annotations = rootObj::class.annotations
+        )
         rootObj.children = srf.innerSelectors
 
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
             val sel = it.get(rootObj) as BaseSelector
-            sel.setName(rootObj.name + "." + it.name)
-            sel.setBase(rootObj)
-            sel.freeze()
+            setFields(
+                to = sel,
+                base = rootObj,
+                name = rootObj.name + "." + it.name,
+                field = it
+            )
 
             if (sel is Block) {
                 SelectorParser(sel, rootObj).parse()
@@ -66,6 +73,43 @@ internal class SelectorParser(
 
         srf.innerBlocks.forEach {
             SelectorParser(it, rootObj).parse()
+        }
+    }
+
+    private fun setFields(
+        to: BaseSelector,
+        base: ISelector,
+        name: String,
+        field: Field
+    ) {
+        //     removeFinalStatic(field)
+        to.setField(field)
+        setFields(to, base, name, field.annotations.toList())
+    }
+
+    private fun removeFinalStatic(field: Field) {
+        field.isAccessible = true
+
+        val modifiersField: Field = Field::class.java.getDeclaredField("modifiers")
+        modifiersField.isAccessible = true
+        modifiersField.setInt(field, field.modifiers and Modifier.FINAL.inv())
+        modifiersField.setInt(field, field.modifiers and Modifier.STATIC.inv())
+    }
+
+    private fun setFields(
+        to: BaseSelector,
+        base: ISelector,
+        name: String,
+        annotations: Collection<Annotation>
+    ) {
+        to.setBase(base)
+        to.setName(name)
+        to.setAnnotations(annotations)
+
+        if (to is GroupSelector) {
+            to.freeze()
+        } else {
+            to.freeze()
         }
     }
 }

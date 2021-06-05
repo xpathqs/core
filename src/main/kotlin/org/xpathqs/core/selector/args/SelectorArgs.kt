@@ -43,6 +43,9 @@ class SelectorArgs(
     fun toXpath(): String {
         if (args.isEmpty()) return ""
 
+        if (args.size == 1) {
+            args.values.first().joinType = JoinType.NONE
+        }
         val sorted = args.values.sortedBy { it.joinType }
 
         val sb = StringBuilder()

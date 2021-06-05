@@ -20,50 +20,34 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.base
+package org.xpathqs.core.selector.xpath
 
 import org.xpathqs.core.selector.NullSelector
-import java.lang.reflect.Field
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.BaseSelectorProps
+import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.base.SelectorState
 
 /**
- * Base class for the Selectors
- * @param state of the Selector
- * @param base link to the root element
- * @param name name of the selector (used for logging purposes)
- * @param props properties for building xpath queries
- * @param annotations list of annotations for selector
- * @param field associated field of the root object.
- *      It may be NULL, when there is no root object
+ * Implementation of xpath-string based selectors.
+ * Used for the complex xpath queries
+ *
+ * @param xpath selector's xpath
  */
-abstract class BaseSelector(
-    internal val state: SelectorState = SelectorState.INIT,
+class XpathSelector(
+    internal var xpath: String = "",
 
-    internal val base: ISelector = NullSelector(),
-    override val name: String = "",
+    state: SelectorState = SelectorState.INIT,
+    base: ISelector = NullSelector(),
+    name: String = "",
 
-    internal open val props: BaseSelectorProps = BaseSelectorProps(),
-    val annotations: Collection<Annotation> = emptyList(),
+    props: BaseSelectorProps = BaseSelectorProps()
+) : BaseSelector(state, base, name, props) {
 
-    internal val field: Field? = null
-) : ISelector {
-
-    /**
-     * Get selector's tag or an empty string
-     * if tag is not applicable to the Selector's type
-     */
-    abstract val tag: String
-
-    /**
-     * Build selector's xpath
-     */
     override fun toXpath(): String {
-        return base.toXpath() + props.toXpath()
+        return base.toXpath() + xpath + props.toXpath()
     }
 
-    /**
-     * returns selector's name
-     */
-    override fun toString(): String {
-        return name
-    }
+    override val tag: String
+        get() = xpath
 }

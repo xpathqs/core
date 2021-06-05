@@ -20,8 +20,51 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.base.extension
 
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.base.canBeCloned
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.GIVEN
 
-object Page2 : Block()
+class CanBeClonedTest {
+    class BlockCls : Block()
+    object R1 : Block() {
+        val m = BlockCls()
+        val s = tagSelector("tag")
+    }
+
+    class R2Cls : Block() {
+        val m = BlockCls()
+    }
+
+    /**
+     * Require #1 check
+     * @see [org.xpathqs.core.selector.base.canBeCloned]
+     */
+    @Test
+    fun r1_canBeClonedForObject() =
+        GIVEN {
+            R1.parse()
+        }.WHEN {
+            R1.m.canBeCloned()
+        }.THEN {
+            false
+        }
+
+    /**
+     * Require #2 check
+     * @see [org.xpathqs.core.selector.base.canBeCloned]
+     */
+    @Test
+    fun r2_canBeClonedForMember() =
+        GIVEN {
+            R2Cls().parse()
+        }.WHEN {
+            given.m.canBeCloned()
+        }.THEN {
+            true
+        }
+}

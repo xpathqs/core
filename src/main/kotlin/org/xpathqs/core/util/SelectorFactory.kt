@@ -23,7 +23,6 @@
 package org.xpathqs.core.util
 
 import org.xpathqs.core.constants.Global
-import org.xpathqs.core.selector.XpathSelector
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
@@ -33,6 +32,7 @@ import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
+import org.xpathqs.core.selector.xpath.XpathSelector
 
 /**
  * Builder factory methods

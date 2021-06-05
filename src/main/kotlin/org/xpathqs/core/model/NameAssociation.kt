@@ -20,8 +20,12 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
-import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.extensions.simpleName
+import java.lang.reflect.Field
 
-object Page2 : Block()
+class NameAssociation : IModelAssociation {
+    override fun isSelectorMatchToField(field: Field, sel: BaseSelector) = field.name == sel.simpleName
+}

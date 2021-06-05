@@ -20,8 +20,40 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.reflection.parser
 
-import org.xpathqs.core.selector.block.Block
+import assertk.assertAll
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.reflection.pages.AppTable
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
+import org.xpathqs.shouldBeFreeze
 
-object Page2 : Block()
+class MemberWithInnerClass {
+
+    @Test
+    fun parseMember() {
+        val obj = AppTable(1)
+        SelectorParser(obj).parse()
+        checkState(obj)
+    }
+
+    @Test
+    fun parseObject() {
+        SelectorParser(PageWithInnerClassMembers).parse()
+        checkState(PageWithInnerClassMembers.table1)
+        checkState(PageWithInnerClassMembers.table2)
+    }
+
+    private fun checkState(obj: AppTable) {
+        assertAll {
+            obj.shouldBeFreeze()
+            obj.rows.shouldBeFreeze()
+            obj.rows.app.shouldBeFreeze()
+            obj.rows.principal.shouldBeFreeze()
+            obj.rows.app.date.shouldBeFreeze()
+            obj.rows.app.from.shouldBeFreeze()
+            obj.rows.app.id.shouldBeFreeze()
+        }
+    }
+}

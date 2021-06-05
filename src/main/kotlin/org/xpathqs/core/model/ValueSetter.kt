@@ -20,8 +20,15 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
-import org.xpathqs.core.selector.block.Block
-
-object Page2 : Block()
+class ValueSetter(
+    val associations: Collection<ModelAssociation>,
+    val extractor: ISelectorValueExtractor
+) {
+    fun init(obj: Any) {
+        associations.forEach {
+            it.applyTo(obj, extractor)
+        }
+    }
+}

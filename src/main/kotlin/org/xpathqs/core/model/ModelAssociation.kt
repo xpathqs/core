@@ -20,8 +20,20 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
-import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.reflection.toField
+import org.xpathqs.core.selector.base.BaseSelector
+import java.lang.reflect.Field
+import kotlin.reflect.KProperty
 
-object Page2 : Block()
+data class ModelAssociation(
+    val sel: BaseSelector,
+    val field: Field
+) {
+    constructor(sel: BaseSelector, prop: KProperty<*>) : this(sel, prop.toField())
+
+    fun applyTo(source: Any, extractor: ISelectorValueExtractor) {
+        field.set(source, extractor.apply(this))
+    }
+}

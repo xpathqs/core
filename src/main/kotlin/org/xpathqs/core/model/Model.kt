@@ -20,8 +20,29 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
+import org.xpathqs.core.reflection.SelectorReflectionFields
 import org.xpathqs.core.selector.block.Block
 
-object Page2 : Block()
+class Model(
+    private val cls: Class<*>,
+    private val block: Block,
+    private val assocList: Collection<IModelAssociation> = listOf(
+        NameAssociation()
+    )
+) {
+    val associations: Collection<ModelAssociation> by lazy {
+        val fields = cls.declaredFields
+        val selectors = SelectorReflectionFields(block).innerSelectors
+
+        val ass =
+            AssociationFinder(
+                fields.toList(),
+                selectors,
+                assocList
+            )
+
+        ass.mappings
+    }
+}

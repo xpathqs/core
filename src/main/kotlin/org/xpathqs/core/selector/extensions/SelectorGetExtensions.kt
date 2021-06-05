@@ -20,8 +20,14 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.base.BaseSelector
 
-object Page2 : Block()
+/**
+ * returns selector's name without parent name
+ */
+val <T : BaseSelector> T.simpleName: String
+    get() {
+        return name.substringAfterLast(".")
+    }

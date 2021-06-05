@@ -30,6 +30,7 @@ import org.xpathqs.core.reflection.PageWithBaseWithChainXpath
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
 class SelectorCloneTests {
@@ -57,4 +58,14 @@ class SelectorCloneTests {
             .xpathShouldBe("//div//div//s1")
     }
 
+    @Test
+    fun cloneSelectorWithArgs() {
+        val s1 = tagSelector("div")[1].freeze()
+        val s2 = s1.clone().freeze()
+        val s3 = s2[3]
+
+        s1.xpathShouldBe("//div[position()=1]")
+        s2.xpathShouldBe("//div[position()=1]")
+        s3.xpathShouldBe("//div[position()=3]")
+    }
 }

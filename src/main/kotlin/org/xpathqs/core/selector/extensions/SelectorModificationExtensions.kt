@@ -22,21 +22,15 @@
 
 package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.constants.Global
-import org.xpathqs.core.reflection.SelectorReflection
 import org.xpathqs.core.reflection.setProps
-import org.xpathqs.core.selector.XpathSelector
 import org.xpathqs.core.selector.args.KVSelectorArg
-import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.args.ValueArg
-import org.xpathqs.core.selector.args.decorators.CommaDecorator
-import org.xpathqs.core.selector.args.decorators.ContainsDecorator
-import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 
@@ -70,15 +64,6 @@ fun <T : GroupSelector> T.tag(value: String): T {
 fun <T : Selector> T.prefix(value: String): T {
     val res = this.clone()
     res.setProps(props.clone(prefix = value))
-    return res
-}
-
-/**
- * Remove all arguments from the Selector
- */
-fun <T : BaseSelector> T.removeParams(): T {
-    val res = this.clone()
-    SelectorReflection(res).setArgs(SelectorArgs())
     return res
 }
 
@@ -117,15 +102,16 @@ operator fun <T : GroupSelector> T.get(value: String) = get(ValueArg(value))
  * Modifies `tag` value of [GroupSelector]
  */
 fun <T : GroupSelector> T.get(arg: ValueArg): T {
+    val res = this.clone()
     if (this.selectorsChain.size == 1) {
         val first = this.selectorsChain.first()
-        if (first is BaseSelector) {
-            val res = this.clone()
-            res.selectorsChain = arrayListOf(first[arg])
-            return res
-        }
+        res.selectorsChain = arrayListOf(first[arg])
+    } else {
+        res.props.args.add(
+            arg
+        )
     }
-    return this
+    return res
 }
 
 /**
@@ -151,52 +137,6 @@ operator fun <T : BaseSelector> T.plus(sel: BaseSelector): GroupSelector {
  */
 operator fun <T : BaseSelector> T.plus(xpath: String) = this.plus(xpathSelector(xpath))
 
-/**
- * Add `text` argument query
- */
-fun <T : BaseSelector> T.text(
-    text: String,
-    contains: Boolean = false,
-    normalize: Boolean = false
-) = arg(Global.TEXT_ARG, text, contains, normalize)
-
-/**
- * Add `id` argument query
- */
-fun <T : BaseSelector> T.id(
-    text: String,
-    contains: Boolean = false,
-    normalize: Boolean = false
-) = arg(Global.ID_ARG, text, contains, normalize)
-
-/**
- * Add argument query
- */
-fun <T : BaseSelector> T.arg(
-    argName: String,
-    value: String,
-    contains: Boolean = false,
-    normalize: Boolean = false
-): T {
-    val res = this.clone()
-
-    var arg: ValueArg =
-        CommaDecorator(KVSelectorArg(argName, value))
-
-    if (normalize) {
-        arg = KVNormalizeSpaceDecorator(arg as KVSelectorArg)
-    }
-
-    if (contains) {
-        arg = ContainsDecorator(arg as KVSelectorArg)
-    }
-
-    res.props.args.add(
-        arg
-    )
-
-    return res
-}
 
 /**
  * Returns a [ComposeSelector] based on `left` and `right` arguments

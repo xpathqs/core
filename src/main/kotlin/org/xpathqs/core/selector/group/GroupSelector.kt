@@ -46,8 +46,9 @@ open class GroupSelector(
     /**
      * Add new selector to the [selectorsChain]
      */
-    internal fun add(sel: BaseSelector) {
+    internal fun add(sel: BaseSelector): GroupSelector {
         selectorsChain.add(sel)
+        return this
     }
 
     /**

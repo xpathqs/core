@@ -20,8 +20,34 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.selector.block.Block
+import assertk.assertAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
+import org.xpathqs.core.selector.block.deepClone
+import org.xpathqs.shouldBeCloned
 
-object Page2 : Block()
+class PageObjectCloneForInnerClassTests {
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun init() {
+            SelectorParser(PageWithInnerClassMembers).parse()
+        }
+    }
+
+    @Test
+    fun checkClone() {
+        val cloned = PageWithInnerClassMembers.table1.rows.deepClone()
+
+        assertAll {
+            cloned.shouldBeCloned()
+            cloned.app.shouldBeCloned()
+            cloned.principal.shouldBeCloned()
+            cloned.app.id.shouldBeCloned()
+        }
+    }
+}

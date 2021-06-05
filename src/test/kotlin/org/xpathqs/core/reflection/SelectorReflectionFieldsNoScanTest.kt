@@ -20,53 +20,43 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.reflection
 
-import assertk.assertAll
 import assertk.assertThat
-import assertk.assertions.isEqualTo
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.BeforeEach
+import assertk.assertions.hasSize
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBlockMembers
-import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.reflection.SomeHolder
-import org.xpathqs.core.selector.base.SelectorState
 
-class GroupSelectorCloneTests {
+internal class SelectorReflectionFieldsNoScanTest {
 
-    @BeforeEach
-    fun parse() {
-        SelectorParser(PageWithBlockMembers)
-            .parse()
+    @Test
+    fun noScanForInnerSelectorTopLevel() {
+        assertThat(
+            SelectorReflectionFields(PageWithNoScan)
+                .innerSelectors
+        ).hasSize(3)
     }
 
     @Test
-    fun membersShouldNotBeCloned() {
-        val cloned = PageWithBlockMembers.clone()
-
-        assertAll {
-            assertThat(cloned.holder1.state)
-                .isEqualTo(SelectorState.FREEZE)
-
-            assertThat(cloned.holder2.state)
-                .isEqualTo(SelectorState.FREEZE)
-        }
+    fun noScanForInnerObjectTopLevel() {
+        assertThat(
+            SelectorReflectionFields(PageWithNoScan)
+                .innerObjectClasses
+        ).hasSize(2)
     }
 
     @Test
-    fun eachMemberOfRootClsShouldHaveClonedState() {
-        val member = SomeHolder()
-        SelectorParser(member).parse()
+    fun noScanForMemberSelectorTopLevel() {
+        assertThat(
+            SelectorReflectionFields(PageWithNoScan.holder1)
+                .innerSelectors
+        ).hasSize(2)
+    }
 
-        val cloned = member.clone()
-
-        assertAll {
-            assertThat(cloned.state)
-                .isEqualTo(SelectorState.CLONED)
-
-            assertThat(cloned.sel1.base)
-                .isSameAs(cloned)
-        }
+    @Test
+    fun noScanForMemberObjectSelectorTopLevel() {
+        assertThat(
+            SelectorReflectionFields(PageWithNoScan.InnerObject1)
+                .innerSelectors
+        ).hasSize(1)
     }
 }

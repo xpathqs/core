@@ -20,8 +20,19 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.annotations
 
-import org.xpathqs.core.selector.block.Block
-
-object Page2 : Block()
+/**
+ * Annotation to tell [org.xpathqs.core.reflection.PackageScanner] to
+ * ignore annotated object/class for scanning and updating via reflection.
+ * <strong>Important!</strong> [AnnotationTarget.PROPERTY] target should be avoided. If it will
+ * be present, than Java-Reflection API will not work at all for this annotations
+ * @sample org.xpathqs.core.reflection.PageWithNoScan
+ * @sample org.xpathqs.core.reflection.parser.ObjectWithNoScanTest
+ */
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+annotation class NoScan

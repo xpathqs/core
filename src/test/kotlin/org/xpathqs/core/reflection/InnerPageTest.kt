@@ -20,24 +20,48 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.reflection
 
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
 import org.xpathqs.core.selector.extensions.get
-import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.xpathShouldBe
 
-internal class XpathSelectorTests {
+class PageWithInnerClassMembersTest {
 
     @Test
-    fun toXpathWithoutProps() {
-        XpathSelector("//div")
-            .xpathShouldBe("//div")
+    fun testXpath() {
+        PageWithInnerClassMembers.table1.rows.app
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]/div[position()=1]")
     }
 
     @Test
-    fun getTest() {
-        XpathSelector("//div")["position()=last()"]
-            .xpathShouldBe("//div[position()=last()]")
+    fun testXpathWithPosition() {
+        PageWithInnerClassMembers.table1.rows[2].app
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+    }
+
+    @Test
+    fun fieldPropertyForAllMembers() {
+        PageWithInnerClassMembers.table1
+    }
+
+    @Test
+    fun test2() {
+
+        PageWithInnerClassMembers.table1.rows[2].app
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+
+        PageWithInnerClassMembers.table1.rows
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
+    }
+
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun init() {
+            SelectorParser(PageWithInnerClassMembers).parse()
+        }
     }
 }

@@ -20,8 +20,11 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
-import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.base.BaseSelector
+import java.lang.reflect.Field
 
-object Page2 : Block()
+interface IModelAssociation {
+    fun isSelectorMatchToField(field: Field, sel: BaseSelector): Boolean
+}

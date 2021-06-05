@@ -20,8 +20,49 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.reflection.extensions
 
-import org.xpathqs.core.selector.block.Block
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.isInnerClass
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.GIVEN
 
-object Page2 : Block()
+class ReflectionExtensionsTest {
+    class TestCls {
+        inner class InnerCls
+
+        val innerMember = InnerCls()
+
+        class Class2
+
+        val member = Class2()
+    }
+
+    /**
+     * Check require #1 of [org.xpathqs.core.reflection.isInnerClass]
+     */
+    @Test
+    fun isInnerClassForSelector() =
+        GIVEN {
+            tagSelector("div")
+        }
+            .WHEN {
+                given.isInnerClass()
+            }
+            .THEN {
+                false
+            }
+
+    /**
+     * Check require #2 of [org.xpathqs.core.reflection.isInnerClass]
+     */
+    @Test
+    fun isInnerClassForInnerClassMember() =
+        GIVEN {
+            TestCls()
+        }.WHEN {
+            given.innerMember.isInnerClass()
+        }.THEN {
+            true
+        }
+}

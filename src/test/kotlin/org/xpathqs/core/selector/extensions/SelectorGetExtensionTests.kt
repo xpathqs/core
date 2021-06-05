@@ -20,8 +20,21 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.extensions
 
-import org.xpathqs.core.selector.block.Block
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.PageWithBase
+import org.xpathqs.core.reflection.SelectorParser
 
-object Page2 : Block()
+class SelectorGetExtensionTests {
+    @Test
+    fun simpleName() {
+        SelectorParser(PageWithBase)
+            .parse()
+
+        assertThat(PageWithBase.s1.simpleName)
+            .isEqualTo("s1")
+    }
+}

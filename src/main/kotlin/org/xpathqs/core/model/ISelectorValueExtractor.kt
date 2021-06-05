@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.model
 
-import org.xpathqs.core.selector.block.Block
-
-object Page2 : Block()
+interface ISelectorValueExtractor {
+    fun apply(assoc: ModelAssociation): Any
+}

@@ -25,11 +25,14 @@ package org.xpathqs.core.selector.extensions
 import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import assertk.assertions.isNotSameAs
+import assertk.assertions.isSameAs
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithGroupBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.selector.block.deepClone
 
 class PageObjectCloneGroupTests {
     @BeforeEach
@@ -40,7 +43,7 @@ class PageObjectCloneGroupTests {
     @Test
     fun checkClone() {
         val origin = PageWithGroupBase
-        val cloned = PageWithGroupBase.clone()
+        val cloned = PageWithGroupBase.deepClone()
 
         assertAll {
             assertThat(origin)
@@ -50,10 +53,13 @@ class PageObjectCloneGroupTests {
                 .isNotSameAs(cloned.props)
 
             assertThat(origin.children)
-                .isNotSameAs(cloned.children)
+                .isSameAs(cloned.children)
 
             assertThat(origin.children.size)
                 .isEqualTo(cloned.children.size)
+
+            assertThat(cloned.s1.field)
+                .isNotNull()
         }
     }
 }

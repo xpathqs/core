@@ -20,8 +20,14 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.packagescannertestpages
+package org.xpathqs.core.selector.xpath
 
-import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.deepClone
 
-object Page2 : Block()
+@Suppress("UNCHECKED_CAST")
+internal fun XpathSelector.deepClone(): XpathSelector {
+    val cloned = (this as BaseSelector).deepClone() as XpathSelector
+    cloned.xpath = this.xpath
+    return cloned
+}

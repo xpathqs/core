@@ -28,7 +28,7 @@ import assertk.assertions.isFailure
 import assertk.assertions.isSameAs
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.getObject
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 
 internal class ReflectionExtensionsGetObjectTests {
 
