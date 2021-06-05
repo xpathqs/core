@@ -28,7 +28,7 @@ import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 data class TestModel(

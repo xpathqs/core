@@ -36,6 +36,7 @@ internal class SelectorReflectionFieldsTest {
         BaseSelector::props.name,
         BaseSelector::name.name,
         BaseSelector::annotations.name,
+        BaseSelector::field.name,
     )
 
     @Test
@@ -62,6 +63,7 @@ internal class SelectorReflectionFieldsTest {
         expected.add("originBlock")
         expected.add("children")
         expected.add("selectorsChain")
+        expected.add("originFieldProps")
 
         assertThat(names)
             .containsExactlyInAnyOrder(

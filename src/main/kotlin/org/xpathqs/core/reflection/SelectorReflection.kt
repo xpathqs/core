@@ -27,6 +27,7 @@ import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
+import java.lang.reflect.Field
 
 /**
  * API to work with [BaseSelector] via Reflection
@@ -43,7 +44,7 @@ internal class SelectorReflection(
      * @param name of class property
      * @param value to set
      */
-    fun setProp(name: String, value: Any): SelectorReflection {
+    fun setProp(name: String, value: Any?): SelectorReflection {
         val member = srf.declaredFields.find { it.name == name }
 
         if (member != null) {
@@ -88,6 +89,10 @@ internal class SelectorReflection(
      * Set [BaseSelector.annotations] field of the [BaseSelector]
      * @param annotations collection of annotation classes provided via reflection
      */
-    fun setAnnotations(annotations: Collection<Annotation>)
-        = setProp(BaseSelector::annotations.name, annotations)
+    fun setAnnotations(annotations: Collection<Annotation>) = setProp(BaseSelector::annotations.name, annotations)
+
+    /**
+     * Sets [BaseSelector.field]
+     */
+    fun setField(field: Field?) = setProp(BaseSelector::field.name, field)
 }

@@ -24,9 +24,12 @@ package org.xpathqs.core.reflection
 
 import assertk.assertThat
 import assertk.assertions.hasSize
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
+import assertk.assertions.isNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
@@ -85,6 +88,21 @@ class SelectorAnnotationsTest {
     fun annotationsShouldBeCloned() {
         assertThat(PageWithAnnotations.s3[2].annotations)
             .hasSize(2)
+    }
+
+    @Test
+    fun noFieldForRootObj() {
+        assertThat(PageWithAnnotations.field)
+            .isNull()
+    }
+
+    @Test
+    fun fieldForSelectors() {
+        assertThat(PageWithAnnotations.s1.field)
+            .isNotNull()
+
+        assertThat(PageWithAnnotations.s1.field?.name)
+            .isEqualTo("s1")
     }
 
     companion object {

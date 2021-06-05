@@ -23,7 +23,7 @@
 package org.xpathqs.core.model
 
 import org.xpathqs.core.reflection.SelectorReflectionFields
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 
 class Model(
     private val cls: Class<*>,

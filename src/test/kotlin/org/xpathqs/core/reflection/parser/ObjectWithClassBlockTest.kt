@@ -23,6 +23,8 @@
 package org.xpathqs.core.reflection.parser
 
 import assertk.assertAll
+import assertk.assertThat
+import assertk.assertions.isNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithBlockMembers
@@ -64,5 +66,17 @@ class ObjectWithClassBlockTest {
             PageWithBlockMembers.holder1.sel1
                 .xpathShouldBe("//base//hold//div")
         }
+    }
+
+    @Test
+    fun fieldsForSelectors() {
+        assertThat(PageWithBlockMembers.holder1.field)
+            .isNotNull()
+    }
+
+    @Test
+    fun fieldsForInnerSelectors() {
+        assertThat(PageWithBlockMembers.holder1.sel1.field)
+            .isNotNull()
     }
 }

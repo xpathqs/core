@@ -20,17 +20,21 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.selector.block
 
 import org.xpathqs.core.reflection.freeze
+import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
+import org.xpathqs.core.reflection.setProps
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.extensions.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
+import org.xpathqs.core.selector.xpath.XpathSelector
 
 /**
  * Base class for the Selector container objects
@@ -60,6 +64,9 @@ open class Block(
      */
     internal var originBlock: ISelector = NullSelector()
 
+    internal var originFieldProps: BaseSelectorProps = BaseSelectorProps()
+
+
     /**
      * List of selector-based members of the current Block
      */
@@ -70,7 +77,7 @@ open class Block(
      */
     constructor(sel: Selector) : this(
         isBlank = false,
-        base = sel.base.clone(),
+        base = sel.clone(),
         props = sel.props.clone(),
         selectorsChain = arrayListOf(sel.clone())
     )
@@ -111,23 +118,44 @@ open class Block(
         if (isBlank) {
             return ""
         }
-
         val res = super.toXpath()
-
-        fixChildrenSelectors()
-
+        revertToOrigin()
         return res
+    }
+
+    protected fun revertToOrigin() {
+        if (originBlock !is NullSelector && this.isObject()) {
+            fixChildrenSelectors()
+            fixParentField()
+        }
     }
 
     /**
      * Restore [base] link of [children] selectors
      */
     protected fun fixChildrenSelectors() {
-        if (state == SelectorState.CLONED) {
-            children.forEach {
-                it.setBase(originBlock)
-            }
-            freeze()
+        children.forEach {
+            it.setBase(originBlock)
+            (it.field?.get(this) as BaseSelector).setBase(originBlock)
         }
+
+        freeze()
+    }
+
+    /**
+     * Restore origin field value for parent selector
+     */
+    protected fun fixParentField() {
+        //  BeanUtils.copyProperties(field?.get(base), originFieldValue)
+        //  field?.set(base, originFieldValue)
+        (field?.get(base) as? Block)?.setProps(originFieldProps)
+    }
+
+    fun copyProps(other: Block?) {
+        if (other == null) {
+            return
+        }
+        selectorsChain = other.selectorsChain
+        setProps(other.props)
     }
 }

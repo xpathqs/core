@@ -20,53 +20,40 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.reflection.parser
 
 import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBlockMembers
 import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.reflection.SomeHolder
-import org.xpathqs.core.selector.base.SelectorState
+import org.xpathqs.core.reflection.pages.AppTable
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
+import org.xpathqs.shouldBeFreeze
 
-class GroupSelectorCloneTests {
+class MemberWithInnerClass {
 
-    @BeforeEach
-    fun parse() {
-        SelectorParser(PageWithBlockMembers)
-            .parse()
+    @Test
+    fun parseMember() {
+        val obj = AppTable(1)
+        SelectorParser(obj).parse()
+        checkState(obj)
     }
 
     @Test
-    fun membersShouldNotBeCloned() {
-        val cloned = PageWithBlockMembers.clone()
-
-        assertAll {
-            assertThat(cloned.holder1.state)
-                .isEqualTo(SelectorState.FREEZE)
-
-            assertThat(cloned.holder2.state)
-                .isEqualTo(SelectorState.FREEZE)
-        }
+    fun parseObject() {
+        SelectorParser(PageWithInnerClassMembers).parse()
+        checkState(PageWithInnerClassMembers.table1)
+        checkState(PageWithInnerClassMembers.table2)
     }
 
-    @Test
-    fun eachMemberOfRootClsShouldHaveClonedState() {
-        val member = SomeHolder()
-        SelectorParser(member).parse()
-
-        val cloned = member.clone()
-
+    private fun checkState(obj: AppTable) {
         assertAll {
-            assertThat(cloned.state)
-                .isEqualTo(SelectorState.CLONED)
-
-            assertThat(cloned.sel1.base)
-                .isSameAs(cloned)
+            obj.shouldBeFreeze()
+            obj.rows.shouldBeFreeze()
+            obj.rows.app.shouldBeFreeze()
+            obj.rows.principal.shouldBeFreeze()
+            obj.rows.app.date.shouldBeFreeze()
+            obj.rows.app.from.shouldBeFreeze()
+            obj.rows.app.id.shouldBeFreeze()
         }
     }
 }

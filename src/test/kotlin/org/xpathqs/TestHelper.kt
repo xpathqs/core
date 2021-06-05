@@ -24,7 +24,9 @@ package org.xpathqs
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.base.SelectorState
 
 fun <T : ISelector> T.xpathShouldBe(xpath: String): T {
     assertThat(this.toXpath())
@@ -36,6 +38,18 @@ fun <T : ISelector> T.xpathShouldBe(xpath: String): T {
 fun <T : ISelector> T.nameShouldBe(name: String): T {
     assertThat(this.name)
         .isEqualTo(name)
+
+    return this
+}
+
+fun <T : ISelector> T.shouldBeFreeze() = stateShouldBe(SelectorState.FREEZE)
+
+fun <T : ISelector> T.shouldBeCloned() = stateShouldBe(SelectorState.CLONED)
+
+fun <T : ISelector> T.stateShouldBe(state: SelectorState): T {
+    this as BaseSelector
+    assertThat(this.state)
+        .isEqualTo(state)
 
     return this
 }
