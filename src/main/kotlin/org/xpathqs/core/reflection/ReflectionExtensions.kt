@@ -22,11 +22,10 @@
 
 package org.xpathqs.core.reflection
 
-import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.extensions.deepClone
+import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
 import java.lang.reflect.Field
 import kotlin.jvm.internal.CallableReference
@@ -139,6 +138,19 @@ internal fun <T : GroupSelector> T.freeze(): T {
 }
 
 /**
+ * Freeze [Block] which means that <pre>clone</pre> method
+ * will return a new instance. And all inner selectors should be frozen as well
+ */
+internal fun <T : Block> T.freeze(): T {
+    (this as GroupSelector).freeze()
+
+    this.children.forEach {
+        it.freeze()
+    }
+    return this
+}
+
+/**
  * Mark [BaseSelector] as <pre>cloned</pre>
  * will return this same instance from the <pre>clone</pre> method
  */
@@ -168,6 +180,12 @@ internal fun KProperty<*>.toField(): Field {
 
 /**
  * Check if the provided object is a member of an inner class
+ *
+ * Require #1 - false for any objects instead of inner class members
+ * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsTest.isInnerClassForSelector
+ *
+ * Require #2 - true for the inner class member
+ * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsTest.isInnerClassForInnerClassMember
  */
 internal fun Any.isInnerClass(): Boolean {
     return getInnerClassMember() != null
@@ -190,5 +208,23 @@ internal fun Any.getInnerClassMember(): Any? {
 internal fun <T : BaseSelector> T.setAnnotations(annotations: Collection<Annotation>): T {
     SelectorReflection(this)
         .setAnnotations(annotations)
+    return this
+}
+
+/**
+ * Sets field
+ */
+internal fun <T : BaseSelector> T.setField(field: Field?): T {
+    SelectorReflection(this)
+        .setField(field)
+    return this
+}
+
+/**
+ * Parse [Block].
+ * @see SelectorParser.parse
+ */
+internal fun <T : Block> T.parse(): T {
+    SelectorParser(this).parse()
     return this
 }

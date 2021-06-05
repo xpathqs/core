@@ -23,12 +23,12 @@
 package org.xpathqs.core.reflection
 
 import org.reflections.Reflections
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 
 /**
- * Scans all [org.xpathqs.core.selector.Block] classes via reflection
+ * Scans all [org.xpathqs.core.selector.block.Block] classes via reflection
  * @param scanner helper class to extract all object-classes
- * which has [org.xpathqs.core.selector.Block] as a parent
+ * which has [org.xpathqs.core.selector.block.Block] as a parent
  * @see [SelectorParser]
  */
 class PackageScanner(

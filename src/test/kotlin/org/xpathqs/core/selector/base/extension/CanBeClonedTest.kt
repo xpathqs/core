@@ -20,50 +20,51 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.pages
+package org.xpathqs.core.selector.base.extension
 
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.base.canBeCloned
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.extensions.get
-import org.xpathqs.core.selector.extensions.textNotEmpty
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.GIVEN
 
-object HtmlTags {
-    val DIV: Selector
-        get() = tagSelector("div")
-}
-
-class AppTable(pos: Int = 1) : Block(
-    SelectorFactory.xpathSelector("//div[./div/div/span[text()='Application']]")[pos]
-) {
-    inner class Row : Block(
-        SelectorFactory.xpathSelector("/div[count(.//div/div) > 3]")
-    ) {
-        open inner class Col(num: Int = 1) : Block(
-            SelectorFactory.xpathSelector("/div")[num]
-        )
-
-        inner class App : Col(1) {
-            val id = HtmlTags.DIV.textNotEmpty()[1]
-            val from = HtmlTags.DIV.textNotEmpty()[2]
-            val date = HtmlTags.DIV.textNotEmpty()[3]
-        }
-
-        val app = App()
-
-        inner class Principal : Col(2) {
-            val title = HtmlTags.DIV.textNotEmpty()[1]
-            val inn = HtmlTags.DIV.textNotEmpty()[2]
-        }
-
-        val principal = Principal()
+class CanBeClonedTest {
+    class BlockCls : Block()
+    object R1 : Block() {
+        val m = BlockCls()
+        val s = tagSelector("tag")
     }
 
-    val rows = Row()
-}
+    class R2Cls : Block() {
+        val m = BlockCls()
+    }
 
-object PageWithInnerClassMembers : Block() {
-    val table1 = AppTable(1)
-    val table2 = AppTable(2)
+    /**
+     * Require #1 check
+     * @see [org.xpathqs.core.selector.base.canBeCloned]
+     */
+    @Test
+    fun r1_canBeClonedForObject() =
+        GIVEN {
+            R1.parse()
+        }.WHEN {
+            R1.m.canBeCloned()
+        }.THEN {
+            false
+        }
+
+    /**
+     * Require #2 check
+     * @see [org.xpathqs.core.selector.base.canBeCloned]
+     */
+    @Test
+    fun r2_canBeClonedForMember() =
+        GIVEN {
+            R2Cls().parse()
+        }.WHEN {
+            given.m.canBeCloned()
+        }.THEN {
+            true
+        }
 }

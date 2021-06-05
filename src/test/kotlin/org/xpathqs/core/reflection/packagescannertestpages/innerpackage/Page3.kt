@@ -22,6 +22,6 @@
 
 package org.xpathqs.core.reflection.packagescannertestpages.innerpackage
 
-import org.xpathqs.core.selector.Block
+import org.xpathqs.core.selector.block.Block
 
 object Page3 : Block()

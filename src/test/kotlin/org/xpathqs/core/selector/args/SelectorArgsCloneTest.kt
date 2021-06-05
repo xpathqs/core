@@ -20,33 +20,22 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.selector.args
 
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.base.SelectorState
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
 
-/**
- * Implementation of xpath-string based selectors.
- * Used for the complex xpath queries
- *
- * @param xpath selector's xpath
- */
-class XpathSelector(
-    private val xpath: String = "",
+class SelectorArgsCloneTest {
 
-    state: SelectorState = SelectorState.INIT,
-    base: ISelector = NullSelector(),
-    name: String = "",
+    @Test
+    fun test1() {
+        val args = SelectorArgs()
+        args.add(ValueArg("some res"))
 
-    props: BaseSelectorProps = BaseSelectorProps()
-) : BaseSelector(state, base, name, props) {
+        val cloned = args.clone()
 
-    override fun toXpath(): String {
-        return base.toXpath() + xpath + props.toXpath()
+        assertThat(args.toXpath())
+            .isEqualTo(cloned.toXpath())
     }
-
-    override val tag: String
-        get() = xpath
 }

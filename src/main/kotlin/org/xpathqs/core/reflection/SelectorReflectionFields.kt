@@ -23,8 +23,8 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.NoScan
-import org.xpathqs.core.selector.Block
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.block.Block
 import java.lang.reflect.Field
 
 /**

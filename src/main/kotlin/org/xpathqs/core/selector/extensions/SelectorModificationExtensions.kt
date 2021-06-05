@@ -23,7 +23,6 @@
 package org.xpathqs.core.selector.extensions
 
 import org.xpathqs.core.reflection.setProps
-import org.xpathqs.core.selector.XpathSelector
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
@@ -31,6 +30,7 @@ import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 
@@ -102,13 +102,16 @@ operator fun <T : GroupSelector> T.get(value: String) = get(ValueArg(value))
  * Modifies `tag` value of [GroupSelector]
  */
 fun <T : GroupSelector> T.get(arg: ValueArg): T {
+    val res = this.clone()
     if (this.selectorsChain.size == 1) {
         val first = this.selectorsChain.first()
-        val res = this.clone()
         res.selectorsChain = arrayListOf(first[arg])
-        return res
+    } else {
+        res.props.args.add(
+            arg
+        )
     }
-    return this
+    return res
 }
 
 /**

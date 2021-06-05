@@ -26,10 +26,12 @@ import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotSameAs
+import assertk.assertions.isSameAs
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.selector.block.deepClone
 
 class PageObjectCloneTests {
     @BeforeEach
@@ -40,7 +42,7 @@ class PageObjectCloneTests {
     @Test
     fun checkClone() {
         val origin = PageWithBase
-        val cloned = PageWithBase.clone()
+        val cloned = PageWithBase.deepClone()
 
         assertAll {
             assertThat(origin)
@@ -50,7 +52,7 @@ class PageObjectCloneTests {
                 .isNotSameAs(cloned.props)
 
             assertThat(origin.children)
-                .isNotSameAs(cloned.children)
+                .isSameAs(cloned.children)
 
             assertThat(origin.children.size)
                 .isEqualTo(cloned.children.size)
