@@ -23,7 +23,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.0.6"
+version = "0.0.7"
 group = "org.xpathqs"
 
 plugins {
@@ -91,13 +91,13 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/nachg/xpathqs-core.git")
-                    developerConnection.set("scm:git:ssh://github.com/nachg/xpathqs-core.git")
+                    connection.set("scm:git:git://github.com/xpathqs/core.git")
+                    developerConnection.set("scm:git:ssh://github.com/xpathqs/core.git")
                     url.set("https://xpathqs.org/")
                 }
             }
             groupId = "org.xpathqs"
-            artifactId = "xpathqs-core"
+            artifactId = "core"
 
             from(components["java"])
         }
