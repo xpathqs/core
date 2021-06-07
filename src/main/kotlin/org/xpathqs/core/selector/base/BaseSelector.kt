@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.selector.NullSelector
 import java.lang.reflect.Field
+import kotlin.reflect.KClass
 
 /**
  * Base class for the Selectors
@@ -59,6 +60,15 @@ abstract class BaseSelector(
     override fun toXpath(): String {
         return base.toXpath() + props.toXpath()
     }
+
+    /**
+     * returns true if provided annotation is present
+     * in the selector's annotation list
+     */
+    fun hasAnnotation(annotation: KClass<*>)
+        = annotations.find {
+            it.annotationClass == annotation
+        } != null
 
     /**
      * returns selector's name

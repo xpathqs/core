@@ -22,11 +22,14 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.prefix
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
@@ -82,18 +85,8 @@ internal class SelectorParser(
         name: String,
         field: Field
     ) {
-        //     removeFinalStatic(field)
         to.setField(field)
         setFields(to, base, name, field.annotations.toList())
-    }
-
-    private fun removeFinalStatic(field: Field) {
-        field.isAccessible = true
-
-        val modifiersField: Field = Field::class.java.getDeclaredField("modifiers")
-        modifiersField.isAccessible = true
-        modifiersField.setInt(field, field.modifiers and Modifier.FINAL.inv())
-        modifiersField.setInt(field, field.modifiers and Modifier.STATIC.inv())
     }
 
     private fun setFields(
@@ -105,6 +98,14 @@ internal class SelectorParser(
         to.setBase(base)
         to.setName(name)
         to.setAnnotations(annotations)
+
+        val hasBaseAnnotation = (base as? BaseSelector)?.hasAnnotation(SingleBase::class) == true
+
+        if(to.hasAnnotation(SingleBase::class) || hasBaseAnnotation) {
+            if(to is Selector) {
+                to.prefix("/")
+            }
+        }
 
         if (to is GroupSelector) {
             to.freeze()
