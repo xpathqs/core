@@ -23,7 +23,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.0.7"
+version = "0.1.0"
 group = "org.xpathqs"
 
 plugins {

@@ -30,7 +30,7 @@ import assertk.assertions.isNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 @Target(

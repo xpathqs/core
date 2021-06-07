@@ -26,7 +26,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.div
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe

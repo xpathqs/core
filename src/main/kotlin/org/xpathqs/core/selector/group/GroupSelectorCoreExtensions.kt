@@ -24,7 +24,7 @@ package org.xpathqs.core.selector.group
 
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.deepClone
-import org.xpathqs.core.selector.extensions.clone
+import org.xpathqs.core.selector.extensions.core.clone
 
 /**
  * @return clone of the [GroupSelector] object with all of it's properties

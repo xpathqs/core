@@ -25,7 +25,7 @@ package org.xpathqs.core.reflection
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.xpathShouldBe
 
 class PageWithInnerClassMembersTest {

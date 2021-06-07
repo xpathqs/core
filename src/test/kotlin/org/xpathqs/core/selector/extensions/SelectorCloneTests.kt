@@ -32,6 +32,8 @@ import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
+import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.core.get
 
 class SelectorCloneTests {
 

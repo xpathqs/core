@@ -26,7 +26,7 @@ import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setBlank
 import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.extensions.clone
+import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
 
@@ -53,7 +53,6 @@ internal fun <T : Block> T.deepClone(): T {
         }
     } else {
         this.children.forEach {
-            // val f = it.clone()
             (it.field?.get(cloned) as BaseSelector).setBase(cloned)
             it.setBase(cloned)
         }
@@ -61,41 +60,3 @@ internal fun <T : Block> T.deepClone(): T {
     }
     return cloned
 }
-
-
-/*
-fun <T : GroupSelector> T.clone(): T {
-   val newObj = this.deepClone()
-
- if (newObj is Block) {
-       this as Block
-
-       val children = ArrayList<BaseSelector>()
-       this.children.forEach {
-           children.add(it.setBase(newObj))
-       }
-
-       newObj.setBlank(this.isBlank)
-       newObj.children = children
-       newObj.originBlock = this
-   }
-
-   if(newObj.base is Block && newObj.field != null) {
-       newObj as Block
-
-       val newField = newObj.field
-
-       newObj.originFieldProps = (newField.get(newObj.base) as Block).props.clone()
-
-       //   BeanUtils.copyProperties(newObj.originFieldProps, newField.get(newObj.base) )
-       //  removeFinalModifier(newObj.field, true)
-       //    removeStaticModifier(newObj.field)
-       BeanUtils.copyProperties(newField.get(newObj.base), newObj)
-       //  println(newField.get(newObj.base))
-       //   newObj.originFieldValue = newField.get(newObj.base) as ISelector
-       //   newObj.field?.set(newObj.base, newObj)
-   }
-
-    return newObj
-}
-*/

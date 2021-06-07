@@ -31,7 +31,7 @@ import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.block.deepClone
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
 import org.xpathqs.stateShouldBe

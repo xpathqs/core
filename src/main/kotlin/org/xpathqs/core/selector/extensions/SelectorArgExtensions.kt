@@ -31,6 +31,7 @@ import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.extensions.core.clone
 
 /**
  * Add `text` argument query

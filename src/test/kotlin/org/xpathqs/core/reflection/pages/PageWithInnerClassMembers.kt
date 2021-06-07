@@ -23,7 +23,7 @@
 package org.xpathqs.core.reflection.pages
 
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.extensions.textNotEmpty
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory

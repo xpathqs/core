@@ -30,7 +30,7 @@ import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.extensions.clone
+import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
@@ -145,9 +145,7 @@ open class Block(
     /**
      * Restore origin field value for parent selector
      */
-    protected fun fixParentField() {
-        //  BeanUtils.copyProperties(field?.get(base), originFieldValue)
-        //  field?.set(base, originFieldValue)
+    private fun fixParentField() {
         (field?.get(base) as? Block)?.setProps(originFieldProps)
     }
 

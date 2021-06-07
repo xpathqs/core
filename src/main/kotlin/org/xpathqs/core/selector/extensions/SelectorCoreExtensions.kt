@@ -20,11 +20,16 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.selector.extensions.core
 
+import org.xpathqs.core.selector.args.KVSelectorArg
+import org.xpathqs.core.selector.args.ValueArg
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.group.addGroupArg
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.selector.base.deepClone as baseDeepClone
@@ -44,5 +49,27 @@ fun <T : ISelector> T.clone(): T {
         is Selector -> baseDeepClone()
         is XpathSelector -> xpathDeepClone() as T
         else -> this
+    }
+}
+
+/**
+ * Add position argument to the selector
+ */
+operator fun <T : BaseSelector> T.get(pos: Int) = get(KVSelectorArg("position()", pos.toString()))
+
+/**
+ * Add position argument to the selector
+ */
+operator fun <T : BaseSelector> T.get(arg: String) = get(ValueArg(arg))
+
+/**
+ * Deep clone of the [ISelector] objects
+ * Implementation depends on the selector's type
+ */
+@Suppress("UNCHECKED_CAST")
+operator fun <T : BaseSelector> T.get(arg: ValueArg): T {
+    return when (this) {
+        is GroupSelector -> this.addGroupArg(arg)
+        else -> this.addArg(arg)
     }
 }

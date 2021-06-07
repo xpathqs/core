@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.SomeHolder
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
@@ -86,35 +86,4 @@ class BlockSelectorCloneTest {
             PageWithBlockMembers.parse()
         }
     }
-
-
-    /*   @Test
-       fun membersShouldNotBeCloned() {
-           val cloned = PageWithBlockMembers.clone()
-
-           assertAll {
-               assertThat(cloned.holder1.state)
-                   .isEqualTo(SelectorState.FREEZE)
-
-               assertThat(cloned.holder2.state)
-                   .isEqualTo(SelectorState.FREEZE)
-           }
-       }
-
-       @Test
-       fun eachMemberOfRootClsShouldHaveClonedState() {
-           val member = SomeHolder()
-           SelectorParser(member).parse()
-
-           val cloned = member.clone()
-
-           assertAll {
-               assertThat(cloned.state)
-                   .isEqualTo(SelectorState.CLONED)
-
-               assertThat(cloned.sel1.base)
-                   .isSameAs(cloned)
-           }
-       }
-   */
 }
