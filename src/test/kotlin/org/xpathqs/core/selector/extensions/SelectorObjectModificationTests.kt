@@ -27,6 +27,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.group.tag
 import org.xpathqs.xpathShouldBe
 
 class SelectorObjectModificationTests {

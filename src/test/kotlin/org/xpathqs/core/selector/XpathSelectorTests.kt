@@ -23,7 +23,7 @@
 package org.xpathqs.core.selector
 
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.xpathShouldBe
 

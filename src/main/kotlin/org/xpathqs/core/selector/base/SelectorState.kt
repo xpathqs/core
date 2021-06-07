@@ -34,8 +34,8 @@ enum class SelectorState {
 
     /**
      * State for the `cloned` selector.
-     * Sets by [org.xpathqs.core.selector.extensions.clone] method
-     * @see [org.xpathqs.core.selector.extensions.clone]
+     * Sets by [org.xpathqs.core.selector.extensions.selfClone] method
+     * @see [org.xpathqs.core.selector.extensions.selfClone]
      */
     CLONED,
 

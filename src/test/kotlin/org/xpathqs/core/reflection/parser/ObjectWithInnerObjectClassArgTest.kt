@@ -28,7 +28,7 @@ import assertk.assertions.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.*
-import org.xpathqs.core.selector.extensions.get
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 

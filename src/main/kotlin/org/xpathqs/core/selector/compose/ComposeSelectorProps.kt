@@ -25,7 +25,7 @@ package org.xpathqs.core.selector.compose
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.extensions.clone
+import org.xpathqs.core.selector.extensions.core.clone
 
 /**
  * [ComposeSelector] properties holder.

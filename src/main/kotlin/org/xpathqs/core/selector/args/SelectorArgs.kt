@@ -73,6 +73,13 @@ class SelectorArgs(
     }
 
     /**
+     * Add new argument into [args]
+     */
+    fun add(arg: String) = add(
+        ValueArg(arg)
+    )
+
+    /**
      * Returns deep copy of self
      */
     @Suppress("UNCHECKED_CAST")

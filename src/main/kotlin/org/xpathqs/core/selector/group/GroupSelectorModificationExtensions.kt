@@ -20,30 +20,53 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.selector.group
 
-import org.xpathqs.core.reflection.setProps
+import org.xpathqs.core.selector.args.ValueArg
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.tag
 import org.xpathqs.core.selector.selector.Selector
 
 /**
- * Modifies `tag` value of [Selector]
+ * Modifies `tag` value of [GroupSelector]
  */
-fun <T : Selector> T.tag(value: String): T {
+fun <T : GroupSelector> T.tag(value: String): T {
+    if (this.selectorsChain.size == 1) {
+        val first = this.selectorsChain.first()
+        if (first is Selector) {
+            val res = this.clone()
+            res.selectorsChain = arrayListOf(first.tag(value))
+            return res
+        }
+    }
+    return this
+}
+
+/**
+ * Modifies `tag` value of [GroupSelector]
+ */
+fun <T : GroupSelector> T.addGroupArg(arg: ValueArg): T {
     val res = this.clone()
-    res.setProps(props.clone(tag = value))
+    if (this.selectorsChain.size == 1) {
+        val first = this.selectorsChain.first()
+        res.selectorsChain = arrayListOf(first.addArg(arg))
+    } else {
+        res.props.args.add(
+            arg
+        )
+    }
     return res
 }
 
 /**
- * Modifies `prefix` value of [Selector]
+ * Add new selector to the [GroupSelector.selectorsChain]
  */
-fun <T : Selector> T.prefix(value: String) = clone {
-    setProps(props.clone(prefix = value))
-}
-
-fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
+operator fun <T : GroupSelector> T.plus(sel: BaseSelector): T {
     val res = this.clone()
-    res.f()
+    res.add(
+        sel.clone()
+    )
     return res
 }
