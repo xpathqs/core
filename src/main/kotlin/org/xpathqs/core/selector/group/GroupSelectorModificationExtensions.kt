@@ -26,6 +26,7 @@ import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.prefix
 import org.xpathqs.core.selector.extensions.tag
 import org.xpathqs.core.selector.selector.Selector
 
@@ -41,6 +42,23 @@ fun <T : GroupSelector> T.tag(value: String): T {
             return res
         }
     }
+    return this
+}
+
+/**
+ * Modifies `prefix` value of [GroupSelector]
+ */
+fun <T : GroupSelector> T.prefix(value: String): T {
+    val first = this.selectorsChain.first()
+    if (first is Selector) {
+        val res = this.clone()
+        val chain: ArrayList<BaseSelector> = arrayListOf(first.prefix(value))
+        this.selectorsChain.removeFirst()
+        chain.addAll(this.selectorsChain)
+        res.selectorsChain = chain
+        return res
+    }
+
     return this
 }
 
