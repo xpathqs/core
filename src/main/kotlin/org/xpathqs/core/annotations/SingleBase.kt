@@ -23,6 +23,8 @@
 package org.xpathqs.core.annotations
 
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.selector.block.Block
 
 /**
@@ -34,6 +36,13 @@ import org.xpathqs.core.selector.block.Block
  *
  * Require #2 - all inner selectors of [Block] marked with [SingleBase] should be linked with '/'
  * @sample org.xpathqs.core.reflection.SingleBaseTest.r2_forBlock
+ *
+ * Require #3 - field of [GroupSelector] should be linked with '/'
+ * @sample org.xpathqs.core.reflection.SingleBaseTest.r3_forGroupSelector
+ *
+ * Require #4 - field of [XpathSelector] should be ignored
+ * @sample org.xpathqs.core.reflection.SingleBaseTest.r4_forXpathSelector1
+ * @sample org.xpathqs.core.reflection.SingleBaseTest.r4_forXpathSelector2
  */
 @Target(
     AnnotationTarget.CLASS,

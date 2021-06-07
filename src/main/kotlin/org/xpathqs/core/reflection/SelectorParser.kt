@@ -29,9 +29,9 @@ import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.prefix
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
-import java.lang.reflect.Modifier
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -99,10 +99,13 @@ internal class SelectorParser(
         to.setName(name)
         to.setAnnotations(annotations)
 
-        val hasBaseAnnotation = (base as? BaseSelector)?.hasAnnotation(SingleBase::class) == true
+        val forBase = (base as? BaseSelector)?.hasAnnotation(SingleBase::class) == true
+        val forSelf = to.hasAnnotation(SingleBase::class) && to !is Block
 
-        if(to.hasAnnotation(SingleBase::class) || hasBaseAnnotation) {
+        if(forSelf || forBase) {
             if(to is Selector) {
+                to.prefix("/")
+            } else if (to is GroupSelector) {
                 to.prefix("/")
             }
         }
