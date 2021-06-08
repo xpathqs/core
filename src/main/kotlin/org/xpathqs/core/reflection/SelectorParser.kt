@@ -27,7 +27,7 @@ import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.extensions.prefix
+import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.selector.selector.Selector

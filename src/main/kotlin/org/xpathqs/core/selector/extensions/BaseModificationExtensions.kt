@@ -29,6 +29,7 @@ import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
