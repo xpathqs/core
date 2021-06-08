@@ -22,6 +22,8 @@
 
 package org.xpathqs.core.selector.args
 
+import org.xpathqs.core.selector.base.ISelector
+
 /**
  * Representation of Selector's argument value and the way of how it is combined
  * with another arguments
@@ -34,10 +36,16 @@ open class ValueArg(
     internal var joinType: JoinType = JoinType.NONE
 ) {
     /**
+     * Wrap [selector] into [ValueArg]
+     */
+    constructor(selector: ISelector, joinType: JoinType = JoinType.NONE)
+        :this(selector.toXpath(), joinType)
+
+    /**
      * Build an argument XPATH to inject into selector's arguments block
      * @sample org.xpathqs.core.selector.args.SelectorArgTests
      */
-    fun toXpath(): String {
+    open fun toXpath(): String {
         return when (joinType) {
             JoinType.NONE -> value
             JoinType.OR -> " or $value "
