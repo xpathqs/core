@@ -20,11 +20,10 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.selector.selector
 
 import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.selector.Selector
 
 /**
  * Modifies `tag` value of [Selector]
@@ -42,7 +41,7 @@ fun <T : Selector> T.prefix(value: String) = clone {
     setProps(props.clone(prefix = value))
 }
 
-fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
+private fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
     val res = this.clone()
     res.f()
     return res
