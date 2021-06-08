@@ -65,7 +65,7 @@ fun <T : BaseSelector> T.arg(
     value: String,
     contains: Boolean = false,
     normalize: Boolean = false
-): T {
+) = selfClone {
     val res = this.clone()
 
     var arg: ValueArg =
@@ -82,8 +82,6 @@ fun <T : BaseSelector> T.arg(
     res.props.args.add(
         arg
     )
-
-    return res
 }
 
 /**
@@ -91,14 +89,10 @@ fun <T : BaseSelector> T.arg(
  */
 fun <T : BaseSelector> T.addStringToArgs(
     value: String
-): T {
-    val res = this.clone()
-
-    res.props.args.add(
+) = selfClone {
+    props.args.add(
         ValueArg(value)
     )
-
-    return res
 }
 
 /**
@@ -108,4 +102,26 @@ fun <T : BaseSelector> T.removeParams(): T {
     val res = this.clone()
     SelectorReflection(res).setArgs(SelectorArgs())
     return res
+}
+
+/**
+ * Add provided attribute value
+ *
+ * Require #1 - [value] argument should be added as an argument value
+ *      for all(*) properties
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_withAttributeValue
+ */
+fun <T : BaseSelector> T.withAttributeValue(value: String)
+    = arg("@*", value)
+
+/**
+ * Add provided attribute
+ *
+ * Require #1 - [attribute] name should be added as a parameter without value
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_withAttribute
+ */
+fun <T : BaseSelector> T.withAttribute(attribute: String) = selfClone {
+    props.args.add(
+        "@$attribute"
+    )
 }

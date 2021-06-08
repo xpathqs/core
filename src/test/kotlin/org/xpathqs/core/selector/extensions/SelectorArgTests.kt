@@ -82,4 +82,24 @@ class SelectorArgTests {
         tagSelector("div").text("text", normalize = true)
             .xpathShouldBe("//div[text()=normalize-space('text')]")
     }
+
+    /**
+     * Checks require #1
+     * @see org.xpathqs.core.selector.extensions.withAttributeValue
+     */
+    @Test
+    fun r1_withAttributeValue() {
+        tagSelector("div").withAttributeValue("v")
+            .xpathShouldBe("//div[@*='v']")
+    }
+
+    /**
+     * Checks require #1
+     * @see org.xpathqs.core.selector.extensions.withAttribute
+     */
+    @Test
+    fun r1_withAttribute() {
+        tagSelector("div").withAttribute("a")
+            .xpathShouldBe("//div[@a]")
+    }
 }
