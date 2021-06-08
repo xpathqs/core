@@ -115,9 +115,6 @@ open class Block(
      * to the origin object
      */
     override fun toXpath(): String {
-        if (isBlank) {
-            return ""
-        }
         val res = super.toXpath()
         revertToOrigin()
         return res
