@@ -25,6 +25,7 @@ package org.xpathqs.core.selector.args.functions
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.ValueArg
+import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.ancestor
@@ -40,7 +41,9 @@ internal class NotTest {
                 ValueArg(
                     tagSelector("div").ancestor()[
                         ContainsDecorator(
-                            KVSelectorArg("@style", "display:none")
+                            CommaDecorator(
+                                KVSelectorArg("@style", "display:none")
+                            )
                         )
                     ]
                 )
@@ -50,11 +53,13 @@ internal class NotTest {
                 ValueArg(
                     tagSelector("div").ancestor()[
                         ContainsDecorator(
-                            KVSelectorArg("@style", "display: none")
+                            CommaDecorator(
+                                KVSelectorArg("@style", "display: none")
+                            )
                         )
                     ]
                 )
             )
-        ].xpathShouldBe("//button[not(ancestor::div[contains(@style, display:none)]) and not(ancestor::div[contains(@style, display: none)])]]")
+        ].xpathShouldBe("//button[not(ancestor::div[contains(@style, 'display:none')]) and not(ancestor::div[contains(@style, 'display: none')])]")
     }
 }
