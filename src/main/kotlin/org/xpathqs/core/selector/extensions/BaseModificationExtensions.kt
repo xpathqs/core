@@ -48,6 +48,16 @@ infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
 }
 
 /**
+ * @see [contains] but for the double quote
+ * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_containsAny
+ */
+infix fun <T : BaseSelector> T.containsAny(right: Selector) = selfClone {
+    props.args.add(
+        right.prefix(".//").toXpath()
+    )
+}
+
+/**
  * Add a selector as an parameter's argument
  *
  * Require #2 - when [right] selector's xpath starts with dot then
@@ -62,6 +72,19 @@ infix fun <T : BaseSelector> T.contains(right: XpathSelector) = selfClone {
     var xpath = right.toXpath()
     if (!xpath.startsWith(".")) {
         xpath = "./$xpath"
+    }
+    props.args.add(xpath)
+}
+
+/**
+ * @see [contains] but for the double quote
+ * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_containsAny
+ * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r2_containsAnyXpathWithPrefix
+ */
+infix fun <T : BaseSelector> T.containsAny(right: XpathSelector) = selfClone {
+    var xpath = right.toXpath()
+    if (!xpath.startsWith(".")) {
+        xpath = ".//$xpath"
     }
     props.args.add(xpath)
 }
