@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.base.extension
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.contains
+import org.xpathqs.core.selector.extensions.containsAny
 import org.xpathqs.core.selector.extensions.containsParent
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.textSelector
@@ -41,6 +42,32 @@ class SelectorParametersTest {
     fun r1_contains() =
         WHEN {
             tagSelector("div") contains tagSelector("p")
+        }.ASSERT {
+            actual
+                .xpathShouldBe("//div[./p]")
+        }
+
+    /**
+     * Checks #1 require
+     * @see [org.xpathqs.core.selector.extensions.containsAny]
+     */
+    @Test
+    fun r1_containsAny() =
+        WHEN {
+            tagSelector("div") containsAny tagSelector("p")
+        }.ASSERT {
+            actual
+                .xpathShouldBe("//div[.//p]")
+        }
+
+    /**
+     * Checks #2 require
+     * @see [org.xpathqs.core.selector.extensions.containsAny]
+     */
+    @Test
+    fun r2_containsAnyXpathWithPrefix() =
+        WHEN {
+            tagSelector("div") containsAny xpathSelector("./p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[./p]")
