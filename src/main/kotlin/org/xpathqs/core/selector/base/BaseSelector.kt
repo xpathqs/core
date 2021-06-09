@@ -71,9 +71,17 @@ abstract class BaseSelector(
         } != null
 
     /**
-     * returns selector's name
+     * @return selector's string representation
+     *
+     * Require #1 - when [name] is not empty, it should be returned
+     * @sample org.xpathqs.core.selector.base.BaseSelectorToStringTest.r1_notEmptyName
+     *
+     * Require #2 - when [name] is empty, [toXpath] should be returned
+     * @sample org.xpathqs.core.selector.base.BaseSelectorToStringTest.r2_emptyName
      */
     override fun toString(): String {
-        return name
+        return name.ifEmpty {
+            toXpath()
+        }
     }
 }
