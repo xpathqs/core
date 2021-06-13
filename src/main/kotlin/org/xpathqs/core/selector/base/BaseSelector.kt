@@ -81,7 +81,7 @@ abstract class BaseSelector(
      */
     override fun toString(): String {
         return name.ifEmpty {
-            toXpath()
+            xpath
         }
     }
 }

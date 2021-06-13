@@ -45,7 +45,7 @@ class CanBeClonedTest {
      * @see [org.xpathqs.core.selector.base.canBeCloned]
      */
     @Test
-    fun r1_canBeClonedForObject() =
+    fun r1_canBeClonedForObject() {
         GIVEN {
             R1.parse()
         }.WHEN {
@@ -53,13 +53,14 @@ class CanBeClonedTest {
         }.THEN {
             false
         }
+    }
 
     /**
      * Require #2 check
      * @see [org.xpathqs.core.selector.base.canBeCloned]
      */
     @Test
-    fun r2_canBeClonedForMember() =
+    fun r2_canBeClonedForMember() {
         GIVEN {
             R2Cls().parse()
         }.WHEN {
@@ -67,4 +68,5 @@ class CanBeClonedTest {
         }.THEN {
             true
         }
+    }
 }

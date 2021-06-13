@@ -113,6 +113,9 @@ open class Block(
     /**
      * Get Xpath query and restore link of [children] selectors
      * to the origin object
+     *
+     * Require #1 - Selector properties should reverted
+     * @sample [org.xpathqs.core.selector.block.BlockSelectorXpathTest.r1_toXpath]
      */
     override fun toXpath(): String {
         val res = super.toXpath()
@@ -120,12 +123,24 @@ open class Block(
         return res
     }
 
+    /**
+     * No [revertToOrigin] for logging for logging purposes
+     *
+     * Require #1 - Selector properties should not be reverted when call for logging
+     * @sample [org.xpathqs.core.selector.block.BlockSelectorXpathTest.r1_xpath]
+     */
+    override val xpath: String
+        get() = super.toXpath()
+
     protected fun revertToOrigin() {
-        if (originBlock !is NullSelector && this.isObject()) {
+        if (originBlock !is NullSelector && this.isObject() && !isCalledForLogging()) {
             fixChildrenSelectors()
             fixParentField()
         }
     }
+
+    private fun isCalledForLogging(): Boolean =
+        Thread.currentThread().stackTrace.find { it.methodName == "xpath" } != null
 
     /**
      * Restore [base] link of [children] selectors

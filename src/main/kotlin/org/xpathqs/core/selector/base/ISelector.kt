@@ -32,6 +32,12 @@ interface ISelector : Cloneable {
     fun toXpath(): String
 
     /**
+     * Build `XPATH` query for the logging purposes
+     */
+    val xpath: String
+        get() = toXpath()
+
+    /**
      * returns selector's name
      */
     val name: String

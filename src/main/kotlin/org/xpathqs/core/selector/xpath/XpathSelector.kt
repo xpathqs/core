@@ -32,10 +32,10 @@ import org.xpathqs.core.selector.base.SelectorState
  * Implementation of xpath-string based selectors.
  * Used for the complex xpath queries
  *
- * @param xpath selector's xpath
+ * @param selfXpath selector's xpath
  */
 class XpathSelector(
-    internal var xpath: String = "",
+    internal var selfXpath: String = "",
 
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
@@ -45,9 +45,9 @@ class XpathSelector(
 ) : BaseSelector(state, base, name, props) {
 
     override fun toXpath(): String {
-        return base.toXpath() + xpath + props.toXpath()
+        return base.toXpath() + selfXpath + props.toXpath()
     }
 
     override val tag: String
-        get() = xpath
+        get() = selfXpath
 }

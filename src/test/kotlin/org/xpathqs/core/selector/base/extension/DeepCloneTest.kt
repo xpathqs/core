@@ -44,7 +44,7 @@ class DeepCloneTest {
      * @see [org.xpathqs.core.selector.base.deepClone]
      */
     @Test
-    fun r1_deepCloneForInitState() =
+    fun r1_deepCloneForInitState() {
         GIVEN {
             tagSelector("sel")
         }.WHEN {
@@ -53,13 +53,14 @@ class DeepCloneTest {
             assertThat(given)
                 .isSameAs(actual)
         }
+    }
 
     /**
      * Require #2 check
      * @see [org.xpathqs.core.selector.base.deepClone]
      */
     @Test
-    fun r2_deepCloneForFreezeSelector() =
+    fun r2_deepCloneForFreezeSelector() {
         GIVEN {
             Clone().parse().s
         }.WHEN {
@@ -88,13 +89,14 @@ class DeepCloneTest {
             /* assertThat(given.props)
                    .isEqualTo(actual.props)*/
         }
+    }
 
     /**
      * Require #3 check
      * @see [org.xpathqs.core.selector.base.deepClone]
      */
     @Test
-    fun r3_deepCloneShouldChangeState() =
+    fun r3_deepCloneShouldChangeState() {
         GIVEN {
             Clone().parse().s
         }.WHEN {
@@ -102,4 +104,5 @@ class DeepCloneTest {
         }.THEN {
             SelectorState.CLONED
         }
+    }
 }

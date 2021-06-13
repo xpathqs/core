@@ -20,46 +20,56 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection.extensions
+package org.xpathqs.core.selector.block
 
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.isInnerClass
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
 
-class ReflectionExtensionsTest {
-    class TestCls {
-        inner class InnerCls
-        val innerMember = InnerCls()
-        class Class2
-        val member = Class2()
+class BlockSelectorXpathTest {
+    object TestCls : Block(
+        tagSelector("div")
+    ) {
+        val s = tagSelector("p")
+    }
+
+    init {
+        TestCls.parse()
     }
 
     /**
-     * Check require #1 of [org.xpathqs.core.reflection.isInnerClass]
+     * Checks Require #1
+     * @see [org.xpathqs.core.selector.block.Block.xpath]
      */
     @Test
-    fun isInnerClassForSelector() {
+    fun r1_xpath() {
         GIVEN {
-            tagSelector("div")
+            TestCls[2].s
         }.WHEN {
-            given.isInnerClass()
+            given.xpath
+            given.xpath
         }.THEN {
-            false
+            "//div[position()=2]//p"
+        }.AFTER {
+            given.toXpath()
         }
     }
 
     /**
-     * Check require #2 of [org.xpathqs.core.reflection.isInnerClass]
+     * Checks Require #1
+     * @see [org.xpathqs.core.selector.block.Block.toXpath]
      */
     @Test
-    fun isInnerClassForInnerClassMember() {
+    fun r1_toXpath() {
         GIVEN {
-            TestCls()
+            TestCls[2].s
         }.WHEN {
-            given.innerMember.isInnerClass()
+            given.toXpath()
+            given.toXpath()
         }.THEN {
-            true
+            "//div//p"
         }
     }
 }
