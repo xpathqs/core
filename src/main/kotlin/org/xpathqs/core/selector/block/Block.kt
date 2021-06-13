@@ -140,7 +140,10 @@ open class Block(
     }
 
     private fun isCalledForLogging(): Boolean =
-        Thread.currentThread().stackTrace.find { it.methodName == "xpath" } != null
+        Thread.currentThread().stackTrace.find {
+            it.methodName == "xpath" ||
+                    it.methodName == "getXpath"
+        } != null
 
     /**
      * Restore [base] link of [children] selectors
