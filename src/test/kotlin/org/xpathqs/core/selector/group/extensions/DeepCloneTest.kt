@@ -62,7 +62,7 @@ class DeepCloneTest {
      * Check require #2 of [GroupSelector.deepClone]
      */
     @Test
-    fun r2_selectorsChain() =
+    fun r2_selectorsChain() {
         GIVEN {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
@@ -86,12 +86,13 @@ class DeepCloneTest {
             assertThat(actual.selectorsChain.last().toXpath())
                 .isEqualTo(given.selectorsChain.last().toXpath())
         }
+    }
 
     /**
      * Check require #3 of [GroupSelector.deepClone]
      */
     @Test
-    fun r3_xpathEquals() =
+    fun r3_xpathEquals() {
         GIVEN {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
@@ -100,12 +101,13 @@ class DeepCloneTest {
             assertThat(actual.toXpath())
                 .isEqualTo(given.toXpath())
         }
+    }
 
     /**
      * Check require #4 of [GroupSelector.deepClone]
      */
     @Test
-    fun r4_clonedModification() =
+    fun r4_clonedModification() {
         GIVEN {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
@@ -117,4 +119,5 @@ class DeepCloneTest {
             assertThat(given.toXpath())
                 .isEqualTo("//div//p")
         }
+    }
 }

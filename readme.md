@@ -1,5 +1,5 @@
 [![CI/CD](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/xpathqs-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/xpathqs-core/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/xcore/)
 ![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs-core)
 [![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
 

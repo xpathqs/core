@@ -53,19 +53,20 @@ class SingleBaseTest {
      * @see org.xpathqs.core.annotations.SingleBase
      */
     @Test
-    fun r1_forSelector() =
+    fun r1_forSelector() {
         WHEN {
             ForTest().parse().s1.toXpath()
         }.THEN {
             "//base/div"
         }
+    }
 
     /**
      * Checks #2 require
      * @see org.xpathqs.core.annotations.SingleBase
      */
     @Test
-    fun r2_forBlock() =
+    fun r2_forBlock() {
         GIVEN {
             ForTestObj.parse()
         }.WHEN {
@@ -73,25 +74,27 @@ class SingleBaseTest {
         }.THEN {
             "//base/div"
         }
+    }
 
     /**
      * Checks #3 require
      * @see org.xpathqs.core.annotations.SingleBase
      */
     @Test
-    fun r3_forGroupSelector() =
+    fun r3_forGroupSelector() {
         WHEN {
             ForTest().parse().s2.toXpath()
         }.THEN {
             "//base/div//div"
         }
+    }
 
     /**
      * Checks #4 require
      * @see org.xpathqs.core.annotations.SingleBase
      */
     @Test
-    fun r4_forXpathSelector1() =
+    fun r4_forXpathSelector1() {
         GIVEN {
             ForTestObj.parse()
         }.WHEN {
@@ -99,13 +102,14 @@ class SingleBaseTest {
         }.THEN {
             "//base/div"
         }
+    }
 
     /**
      * Checks #4 require
      * @see org.xpathqs.core.annotations.SingleBase
      */
     @Test
-    fun r4_forXpathSelector2() =
+    fun r4_forXpathSelector2() {
         GIVEN {
             ForTestObj.parse()
         }.WHEN {
@@ -113,4 +117,5 @@ class SingleBaseTest {
         }.THEN {
             "//base//div"
         }
+    }
 }

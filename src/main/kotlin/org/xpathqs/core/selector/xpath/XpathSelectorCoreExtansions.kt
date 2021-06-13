@@ -28,6 +28,6 @@ import org.xpathqs.core.selector.base.deepClone
 @Suppress("UNCHECKED_CAST")
 internal fun XpathSelector.deepClone(): XpathSelector {
     val cloned = (this as BaseSelector).deepClone() as XpathSelector
-    cloned.xpath = this.xpath
+    cloned.selfXpath = this.selfXpath
     return cloned
 }

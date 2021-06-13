@@ -49,7 +49,7 @@ class DeepCloneTest {
     object Object : BlockCls()
 
     @Test
-    fun r1_cloneOfBlockCls() =
+    fun r1_cloneOfBlockCls() {
         GIVEN {
             BlockCls().parse()
         }.WHEN {
@@ -67,6 +67,7 @@ class DeepCloneTest {
             assertThat(actual.s1.base)
                 .isSameAs(actual)
         }
+    }
 
     @Test
     fun r2_innerSelectorsState() {
@@ -97,24 +98,4 @@ class DeepCloneTest {
                 .xpathShouldBe("//div")
         }
     }
-
-    @Test
-    fun r4_asd() =
-        GIVEN {
-            BlockClsWithBase().parse()
-        }.WHEN {
-            given[2].s1.toXpath()
-        }.THEN {
-            "//base[position()=2]//div"
-        }
-
-    @Test
-    fun r22_cloneOfObject() =
-        GIVEN {
-            Object.parse()
-        }.WHEN {
-            given.deepClone()
-        }.ASSERT {
-
-        }
 }

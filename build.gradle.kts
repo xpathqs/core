@@ -58,7 +58,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("org.reflections:reflections:0.9.12")
-    implementation("org.xpathqs:gwt:0.1.0")
+    implementation("org.xpathqs:gwt:0.1.1")
 
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
