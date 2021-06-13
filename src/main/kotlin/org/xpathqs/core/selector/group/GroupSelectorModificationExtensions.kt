@@ -47,6 +47,13 @@ fun <T : GroupSelector> T.tag(value: String): T {
 
 /**
  * Modifies `prefix` value of [GroupSelector]
+ *
+ * Require #1 - Prefix should be updated only when [GroupSelector.selectorsChain]
+ * has first [Selector] element. It is actual for the Block elements
+ * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r1_prefixWithSelector]
+ *
+ * Require #2 - prefix should be ignored when first selector is not a [Selector] object
+ * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r2_prefixWithXpathSelector]
  */
 fun <T : GroupSelector> T.prefix(value: String): T {
     val first = this.selectorsChain.first()
@@ -63,7 +70,13 @@ fun <T : GroupSelector> T.prefix(value: String): T {
 }
 
 /**
- * Modifies `tag` value of [GroupSelector]
+ * Add an argument to the group
+ *
+ * Require #1 - when there is only one element then [arg] should be added to that element directly
+ * @sample [org.xpathqs.core.selector.group.extensions.AddGroupArgTest.r1_singleSelector]
+ *
+ * Require #2 - when there is more than one element than [arg] should be added to the self
+ * @sample [org.xpathqs.core.selector.group.extensions.AddGroupArgTest.r2_multipleSelector]
  */
 fun <T : GroupSelector> T.addGroupArg(arg: ValueArg): T {
     val res = this.clone()
@@ -75,16 +88,5 @@ fun <T : GroupSelector> T.addGroupArg(arg: ValueArg): T {
             arg
         )
     }
-    return res
-}
-
-/**
- * Add new selector to the [GroupSelector.selectorsChain]
- */
-operator fun <T : GroupSelector> T.plus(sel: BaseSelector): T {
-    val res = this.clone()
-    res.add(
-        sel.clone()
-    )
     return res
 }

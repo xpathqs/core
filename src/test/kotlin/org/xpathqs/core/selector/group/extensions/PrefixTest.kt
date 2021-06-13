@@ -20,74 +20,44 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.block
+package org.xpathqs.core.selector.group.extensions
 
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.GIVEN
 
-class BlockSelectorXpathTest {
-    object TestCls : Block(
-        tagSelector("div")
-    ) {
-        val s = tagSelector("p")
-    }
-
-    init {
-        TestCls.parse()
-    }
+class PrefixTest {
 
     /**
-     * Checks Require #1
-     * @see [org.xpathqs.core.selector.block.Block.xpath]
+     * Check #1 require
+     * @see org.xpathqs.core.selector.group.GroupSelector.prefix
      */
     @Test
-    fun r1_xpath() {
+    fun r1_prefixWithSelector() {
         GIVEN {
-            TestCls[2].s
+            tagSelector("div") + tagSelector("div")
         }.WHEN {
-            given.xpath
-            given.xpath
+            given.prefix("*").toXpath()
         }.THEN {
-            "//div[position()=2]//p"
-        }.AFTER {
-            given.toXpath()
+            "*div//div"
         }
     }
 
     /**
-     * Checks Require #1
-     * @see [org.xpathqs.core.selector.block.Block.toXpath]
+     * Check #2 require
+     * @see org.xpathqs.core.selector.group.GroupSelector.prefix
      */
     @Test
-    fun r1_toXpath() {
+    fun r2_prefixWithXpathSelector() {
         GIVEN {
-            TestCls[2].s
+            xpathSelector("//div") + tagSelector("div")
         }.WHEN {
-            given.toXpath()
-            given.toXpath()
+            given.prefix("*").toXpath()
         }.THEN {
-            "//div//p"
-        }
-    }
-
-    @Test
-    fun xpathForDynamic() {
-        GIVEN {
-            Block(
-                tagSelector("div")
-            )[2].parse().clone()
-        }.WHEN {
-            given.toString()
-            given.toString()
-            given.toXpath()
-        }.THEN {
-            "//div[position()=2]"
-        }.AFTER {
-            given.toXpath()
+            "//div//div"
         }
     }
 }
