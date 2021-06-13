@@ -20,74 +20,53 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.block
+package org.xpathqs.core.selector.group.extensions
 
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.args.ValueArg
+import org.xpathqs.core.selector.base.BaseSelectorProps
+import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.group.addGroupArg
+import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
 
-class BlockSelectorXpathTest {
-    object TestCls : Block(
-        tagSelector("div")
-    ) {
-        val s = tagSelector("p")
-    }
-
-    init {
-        TestCls.parse()
-    }
-
+class AddGroupArgTest {
     /**
-     * Checks Require #1
-     * @see [org.xpathqs.core.selector.block.Block.xpath]
+     * Check #1 require
+     * @see [org.xpathqs.core.selector.group.GroupSelector.addGroupArg]
      */
     @Test
-    fun r1_xpath() {
+    fun r1_singleSelector() {
         GIVEN {
-            TestCls[2].s
-        }.WHEN {
-            given.xpath
-            given.xpath
-        }.THEN {
-            "//div[position()=2]//p"
-        }.AFTER {
-            given.toXpath()
-        }
-    }
-
-    /**
-     * Checks Require #1
-     * @see [org.xpathqs.core.selector.block.Block.toXpath]
-     */
-    @Test
-    fun r1_toXpath() {
-        GIVEN {
-            TestCls[2].s
-        }.WHEN {
-            given.toXpath()
-            given.toXpath()
-        }.THEN {
-            "//div//p"
-        }
-    }
-
-    @Test
-    fun xpathForDynamic() {
-        GIVEN {
-            Block(
+            GroupSelector().add(
                 tagSelector("div")
-            )[2].parse().clone()
+            )
         }.WHEN {
-            given.toString()
-            given.toString()
-            given.toXpath()
+            given.addGroupArg(
+                ValueArg("position()=2")
+            ).toXpath()
         }.THEN {
             "//div[position()=2]"
-        }.AFTER {
-            given.toXpath()
+        }
+    }
+
+    /**
+     * Check #2 require
+     * @see [org.xpathqs.core.selector.group.GroupSelector.addGroupArg]
+     */
+    @Test
+    fun r2_multipleSelector() {
+        GIVEN {
+            tagSelector("div") + tagSelector("div")
+        }.WHEN {
+            given.addGroupArg(
+                ValueArg("position()=2")
+            ).toXpath()
+        }.THEN {
+            "(//div//div)[position()=2]"
         }
     }
 }

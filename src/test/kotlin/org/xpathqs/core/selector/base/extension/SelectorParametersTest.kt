@@ -39,102 +39,106 @@ class SelectorParametersTest {
      * @see [org.xpathqs.core.selector.extensions.contains]
      */
     @Test
-    fun r1_contains() =
+    fun r1_contains() {
         WHEN {
             tagSelector("div") contains tagSelector("p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[./p]")
         }
+    }
 
     /**
      * Checks #1 require
      * @see [org.xpathqs.core.selector.extensions.containsAny]
      */
     @Test
-    fun r1_containsAny() =
+    fun r1_containsAny() {
         WHEN {
             tagSelector("div") containsAny tagSelector("p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[.//p]")
         }
+    }
 
     /**
      * Checks #2 require
      * @see [org.xpathqs.core.selector.extensions.containsAny]
      */
     @Test
-    fun r2_containsAnyXpathWithPrefix() =
+    fun r2_containsAnyXpathWithPrefix() {
         WHEN {
             tagSelector("div") containsAny xpathSelector("./p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[./p]")
         }
+    }
 
     /**
      * Checks #2 require
      * @see [org.xpathqs.core.selector.extensions.contains]
      */
     @Test
-    fun r2_containsXpathWithPrefix() =
+    fun r2_containsXpathWithPrefix() {
         WHEN {
             tagSelector("div") contains xpathSelector("./p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[./p]")
         }
-
+    }
     /**
      * Checks #3 require
      * @see [org.xpathqs.core.selector.extensions.contains]
      */
     @Test
-    fun r3_containsXpathWithoutPrefix() =
+    fun r3_containsXpathWithoutPrefix() {
         WHEN {
             tagSelector("div") contains xpathSelector("p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[./p]")
         }
-
+    }
     /**
      * Checks #1 require
      * @see [org.xpathqs.core.selector.extensions.containsParent]
      */
     @Test
-    fun r1_containsParent() =
+    fun r1_containsParent() {
         WHEN {
             tagSelector("div") containsParent textSelector("some text")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[../*[text()='some text']]")
         }
-
+    }
     /**
      * Checks #2 require
      * @see [org.xpathqs.core.selector.extensions.containsParent]
      */
     @Test
-    fun r2_containsParentXpathWithPrefix() =
+    fun r2_containsParentXpathWithPrefix() {
         WHEN {
             tagSelector("div") containsParent xpathSelector("../p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[../p]")
         }
-
+    }
     /**
      * Checks #3 require
      * @see [org.xpathqs.core.selector.extensions.containsParent]
      */
     @Test
-    fun r3_containsParentXpathWithoutPrefix() =
+    fun r3_containsParentXpathWithoutPrefix() {
         WHEN {
             tagSelector("div") containsParent xpathSelector("p")
         }.ASSERT {
             actual
                 .xpathShouldBe("//div[../p]")
         }
+    }
 }
