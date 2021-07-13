@@ -22,7 +22,7 @@
 
 package org.xpathqs.core.reflection
 
-import org.reflections.Reflections
+import org.reflections8.Reflections
 import org.xpathqs.core.selector.block.Block
 
 /**

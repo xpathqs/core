@@ -37,6 +37,9 @@ class ObjectWithClassArgBlockTest {
     fun parse() {
         SelectorParser(PageWithBlockArgMembers)
             .parse()
+
+        SelectorParser(PageWithBlockMembers)
+            .parse()
     }
 
     @Test

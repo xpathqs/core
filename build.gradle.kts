@@ -23,7 +23,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.1.0"
+version = "0.1.1"
 group = "org.xpathqs"
 
 plugins {
@@ -57,7 +57,8 @@ dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.yaml:snakeyaml:1.28")
-    implementation("org.reflections:reflections:0.9.12")
+    implementation("net.oneandone.reflections8:reflections8:0.11.7")
+
     implementation("org.xpathqs:gwt:0.1.1")
 
     testImplementation(kotlin("test-junit5"))
