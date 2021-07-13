@@ -37,7 +37,8 @@ import org.xpathqs.xpathShouldBe
 class ObjectWithClassBlockTest {
     @BeforeEach
     fun parse() {
-        SelectorParser(PageWithBlockMembers).parse()
+        SelectorParser(PageWithBlockMembers)
+            .parse()
     }
 
     @Test
