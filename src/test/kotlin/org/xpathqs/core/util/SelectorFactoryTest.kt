@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.util
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

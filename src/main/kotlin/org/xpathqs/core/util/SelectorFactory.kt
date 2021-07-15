@@ -117,6 +117,79 @@ object SelectorFactory {
     )
 
     /**
+     * Returns [Selector] based on attribute name and value
+     *
+     * Require #1 - default values should return [Selector] without limitation
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withoutArgs]
+     *
+     * Require #2 - [name] argument should return [Selector] with attribute name
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withName]
+     *
+     * Require #3 - [value] argument should return [Selector] with attribute value
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withValue]
+     *
+     * Require #4 - [name] and [value] argument should return [Selector] with attributes name and value
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withNameAndValue]
+     *
+     * Require #5 - [name] and [valueContains] argument should return [Selector] with attributes name
+     *      and value wrapped into contains function
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withNameAndValueContains]
+     *
+     * Require #6 - [valueContains] argument should return [Selector] with attribute value wrapped into contains function
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withValueContains]
+     */
+    fun attrSelector(
+        name: String = "*",
+        value: String = "",
+        valueContains: String = ""
+    ): Selector {
+        val name = if(name.first() != '@') "@$name" else name
+        if(value.isEmpty() && valueContains.isEmpty()) {
+            return Selector(
+                props = SelectorProps(
+                    args = SelectorArgs(
+                        KVSelectorArg(
+                            k = name
+                        )
+                    )
+                )
+            )
+        } else {
+            if(value.isNotEmpty()) {
+                return Selector(
+                    props = SelectorProps(
+                        args = SelectorArgs(
+                            CommaDecorator(
+                                KVSelectorArg(
+                                    k = name,
+                                    v = value
+                                )
+                            )
+                        )
+                    )
+                )
+            } else if(valueContains.isNotEmpty()) {
+                return Selector(
+                    props = SelectorProps(
+                        args = SelectorArgs(
+                            ContainsDecorator(
+                                CommaDecorator(
+                                    KVSelectorArg(
+                                        k = name,
+                                        v = valueContains
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+        }
+
+        return tagSelector()
+    }
+
+    /**
      * Returns [ComposeSelector] based on provided [selectors]
      * @sample  org.xpathqs.core.util.PropertyFacadeTest
      */
