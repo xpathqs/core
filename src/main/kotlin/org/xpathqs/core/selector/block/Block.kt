@@ -63,7 +63,6 @@ open class Block(
      * @see [GroupSelector.clone]
      */
     internal var originBlock: ISelector = NullSelector()
-
     internal var originFieldProps: BaseSelectorProps = BaseSelectorProps()
 
 
@@ -171,4 +170,9 @@ open class Block(
         selectorsChain = other.selectorsChain
         setProps(other.props)
     }
+
+    /**
+     * Callback invoked during [org.xpathqs.core.reflection.SelectorParser.parse] method
+     */
+    open fun afterReflectionParse() {}
 }

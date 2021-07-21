@@ -48,6 +48,9 @@ internal class SelectorParser(
     /**
      * Parse [Block] object with all of inner class-object and class fields
      * inherited from the [Block] class
+     *
+     * Require #1 - after properties was initialized [Block.afterReflectionParse] callback should be invoked
+     * @sample org.xpathqs.core.reflection.parser.CallbackTest.afterReflectionParse
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
@@ -58,6 +61,7 @@ internal class SelectorParser(
             annotations = rootObj::class.annotations
         )
         rootObj.children = srf.innerSelectors
+        rootObj.afterReflectionParse()
 
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
