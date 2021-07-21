@@ -70,6 +70,7 @@ internal class SelectorParser(
             )
 
             if (sel is Block) {
+                rootObj.afterReflectionParse()
                 SelectorParser(sel, rootObj).parse()
             }
         }
