@@ -39,7 +39,7 @@ import kotlin.reflect.KClass
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
 
-    internal val base: ISelector = NullSelector(),
+    val base: ISelector = NullSelector(),
     override val name: String = "",
 
     internal open val props: BaseSelectorProps = BaseSelectorProps(),

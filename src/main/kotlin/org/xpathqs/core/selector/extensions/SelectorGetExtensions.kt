@@ -22,7 +22,9 @@
 
 package org.xpathqs.core.selector.extensions
 
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.ISelector
 
 /**
  * returns selector's name without parent name
@@ -30,4 +32,29 @@ import org.xpathqs.core.selector.base.BaseSelector
 val <T : BaseSelector> T.simpleName: String
     get() {
         return name.substringAfterLast(".")
+    }
+
+/**
+ * returns selector's root parent
+ *
+ * Require #1 - When Selector doesn't have base, [NullSelector] should be returned
+ * @sample org.xpathqs.core.reflection.extensions.RootParentTest.r1_rootParent
+ *
+ * Require #2 - When Selector has one level base, that base should be returned
+ * @sample org.xpathqs.core.reflection.extensions.RootParentTest.r2_rootParent
+ *
+ * Require #3 - When Selector has two and more level base, the latest should be returned
+ * @sample org.xpathqs.core.reflection.extensions.RootParentTest.r3_rootParent
+ */
+val <T : BaseSelector> T.rootParent: ISelector
+    get() {
+        var parent = this.base as? BaseSelector
+        while (parent != null) {
+            if(parent.base !is NullSelector) {
+                parent = parent.base as? BaseSelector
+            } else {
+                break
+            }
+        }
+        return parent ?: NullSelector()
     }
