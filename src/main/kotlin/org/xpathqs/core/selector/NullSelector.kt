@@ -32,4 +32,8 @@ class NullSelector : ISelector {
     public override fun clone(): NullSelector {
         return this
     }
+
+    override fun equals(other: Any?): Boolean {
+        return other is NullSelector
+    }
 }
