@@ -20,9 +20,11 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection
+package org.xpathqs.core.reflection.testpackage
 
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.scan
+import org.xpathqs.core.reflection.scanPackage
 import org.xpathqs.core.reflection.testpage1.Page2
 import org.xpathqs.core.reflection.testpage2.Page3
 import org.xpathqs.core.selector.block.Block

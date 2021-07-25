@@ -24,7 +24,7 @@ package org.xpathqs.core.reflection
 
 /**
  * Run [PackageScanner] via member function
- * @sample org.xpathqs.core.reflection.PackageScannerExtensions.packageMethodScan
+ * @sample org.xpathqs.core.reflection.testpackage.PackageScannerExtensions.packageMethodScan
  */
 fun Package.scan() {
     PackageScanner(this.name)
@@ -33,7 +33,7 @@ fun Package.scan() {
 
 /**
  * Run [PackageScanner] via package name
- * @sample org.xpathqs.core.reflection.PackageScannerExtensions.packageStringScan
+ * @sample org.xpathqs.core.reflection.testpackage.PackageScannerExtensions.packageStringScan
  */
 fun String.scanPackage() {
     PackageScanner(this)
@@ -42,7 +42,7 @@ fun String.scanPackage() {
 
 /**
  * Run [PackageScanner] via reflection
- * @sample org.xpathqs.core.reflection.PackageScannerExtensions.packageMethodArgScan
+ * @sample org.xpathqs.core.reflection.testpackage.PackageScannerExtensions.packageMethodArgScan
  */
 fun scanPackage(obj: Any) {
     obj.javaClass.`package`.scan()
