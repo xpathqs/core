@@ -65,7 +65,6 @@ open class Block(
     internal var originBlock: ISelector = NullSelector()
     internal var originFieldProps: BaseSelectorProps = BaseSelectorProps()
 
-
     /**
      * List of selector-based members of the current Block
      */
