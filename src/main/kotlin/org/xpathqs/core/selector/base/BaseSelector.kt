@@ -62,15 +62,6 @@ abstract class BaseSelector(
     }
 
     /**
-     * returns true if provided annotation is present
-     * in the selector's annotation list
-     */
-    fun hasAnnotation(annotation: KClass<*>)
-        = annotations.find {
-            it.annotationClass == annotation
-        } != null
-
-    /**
      * @return selector's string representation
      *
      * Require #1 - when [name] is not empty, it should be returned
