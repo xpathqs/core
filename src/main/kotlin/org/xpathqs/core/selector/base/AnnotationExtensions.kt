@@ -59,3 +59,47 @@ fun BaseSelector.hasParentAnnotation(annotation: KClass<*>)
  */
 fun BaseSelector.hasAnyParentAnnotation(annotation: KClass<*>)
     = this.parents.find { it.hasAnnotation(annotation) } != null
+
+/**
+ * @return provided annotation object
+ *
+ * Require #1 - When selector has provided annotation object - it should return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r1_findAnnotation]
+ *
+ * Require #2 - When selector doesn't have provided annotation object - null should be return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r2_findAnnotation]
+ */
+inline fun<reified T> BaseSelector.findAnnotation(): T? {
+    return annotations.find {
+        it.annotationClass.java == T::class.java
+    } as? T
+}
+
+/**
+ * @return provided annotation object of parent [org.xpathqs.core.selector.block.Block]
+ *
+ * Require #1 - When selector's parent has provided annotation object - it should return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r1_findParentAnnotation]
+ *
+ * Require #2 - When selector's parent doesn't have provided annotation object - null should be return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r2_findParentAnnotation]
+ */
+inline fun<reified T> BaseSelector.findParentAnnotation(): T? {
+    return (base as? BaseSelector)?.findAnnotation()
+}
+
+/**
+ * @return provided annotation object of any of selector's parent
+ *
+ * Require #1 - When selector's parent has provided annotation object - it should return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r1_findParentAnnotation]
+ *
+ * Require #2 - When selector's parent doesn't have provided annotation object - null should be return
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r2_findParentAnnotation]
+ */
+inline fun<reified T> BaseSelector.findAnyParentAnnotation(): T? {
+    return this.parents.find {
+        it.findAnnotation<T>() != null
+    }?.findAnnotation()
+}
+
