@@ -24,6 +24,8 @@ package org.xpathqs.core.selector.base
 
 import assertk.assertThat
 import assertk.assertions.isFalse
+import assertk.assertions.isNotNull
+import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.annotations.NoScan
@@ -36,7 +38,9 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
     AnnotationTarget.FIELD
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class TestAnnotation
+annotation class TestAnnotation(
+    val text: String = ""
+)
 
 @TestAnnotation
 object Page1 : Block() {
@@ -88,4 +92,57 @@ class BaseSelectorAnnotationsTest {
             .isFalse()
     }
 
+    /**
+     * Check Require #1 of [BaseSelector.findAnnotation]
+     */
+    @Test
+    fun r1_findAnnotation() {
+        assertThat(Page1.findAnnotation<TestAnnotation>())
+            .isNotNull()
+    }
+
+    /**
+     * Check Require #2 of [BaseSelector.findAnnotation]
+     */
+    @Test
+    fun r2_findAnnotation() {
+        assertThat(Page1.findAnnotation<NoScan>())
+            .isNull()
+    }
+
+    /**
+     * Check Require #1 of [BaseSelector.findParentAnnotation]
+     */
+    @Test
+    fun r1_findParentAnnotation() {
+        assertThat(Page1.s1.findParentAnnotation<TestAnnotation>())
+            .isNotNull()
+    }
+
+    /**
+     * Check Require #2 of [BaseSelector.findParentAnnotation]
+     */
+    @Test
+    fun r2_findParentAnnotation() {
+        assertThat(Page1.Inner.s1.findParentAnnotation<TestAnnotation>())
+            .isNull()
+    }
+
+    /**
+     * Check Require #1 of [BaseSelector.findAnyParentAnnotation]
+     */
+    @Test
+    fun r1_findAnyParentAnnotation() {
+        assertThat(Page1.Inner.s1.findAnyParentAnnotation<TestAnnotation>())
+            .isNotNull()
+    }
+
+    /**
+     * Check Require #2 of [BaseSelector.findAnyParentAnnotation]
+     */
+    @Test
+    fun r2_findAnyParentAnnotation() {
+        assertThat(Page1.Inner.s1.findParentAnnotation<NoScan>())
+            .isNull()
+    }
 }
