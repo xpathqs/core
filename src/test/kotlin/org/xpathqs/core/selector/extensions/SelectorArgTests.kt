@@ -72,6 +72,12 @@ class SelectorArgTests {
     }
 
     @Test
+    fun normalizedTextNotEmpty() {
+        tagSelector("div").normalizedTextNotEmpty()
+            .xpathShouldBe("//div[string-length(normalize-space(text())) > 0]")
+    }
+
+    @Test
     fun textWithContainsAndNormalize() {
         tagSelector("div").text("text", contains = true, normalize = true)
             .xpathShouldBe("//div[contains(text(), normalize-space('text'))]")
@@ -101,5 +107,15 @@ class SelectorArgTests {
     fun r1_withAttribute() {
         tagSelector("div").withAttribute("a")
             .xpathShouldBe("//div[@a]")
+    }
+
+    /**
+     * Checks require #1
+     * @see org.xpathqs.core.selector.extensions.childCount
+     */
+    @Test
+    fun r1_childCount() {
+        tagSelector("div").childCount(0)
+            .xpathShouldBe("//div[count(*)=0]")
     }
 }

@@ -24,8 +24,8 @@ package org.xpathqs.core.selector.base.extension
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.scanPackage
-import org.xpathqs.core.selector.base.parents
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.parents
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 

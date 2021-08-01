@@ -58,3 +58,29 @@ val <T : BaseSelector> T.rootParent: ISelector
         }
         return parent ?: NullSelector()
     }
+
+
+/**
+ * @return all [BaseSelector]'s parents
+ *
+ * Require #1 - when selector doesn't have any parent then empty list should be returned
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r1_parents]
+ *
+ * Require #2 - when selector have one parent, it should be returned
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r2_parents]
+ *
+ * Require #3 - when selector have more than one parent, they all should be returned
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_parents]
+ */
+val BaseSelector.parents: Collection<BaseSelector>
+    get() {
+        val res = ArrayList<BaseSelector>()
+
+        var base = this.base
+        while (base is BaseSelector) {
+            res.add(base)
+            base = base.base
+        }
+
+        return res
+    }
