@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.selector.base
 
+import org.xpathqs.core.selector.extensions.parents
 import kotlin.reflect.KClass
 
 

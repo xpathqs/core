@@ -49,6 +49,11 @@ fun <T : BaseSelector> T.textNotEmpty()
         = addStringToArgs("string-length(${Global.TEXT_ARG}) > 0")
 
 /**
+ * Add `string-length(normalize-space([Global.TEXT_ARG])) > 0` argument
+ */
+fun <T : BaseSelector> T.normalizedTextNotEmpty()
+        = addStringToArgs("string-length(normalize-space(${Global.TEXT_ARG})) > 0")
+/**
  * Add `id` argument query
  */
 fun <T : BaseSelector> T.id(
@@ -125,3 +130,16 @@ fun <T : BaseSelector> T.withAttribute(attribute: String) = selfClone {
         "@$attribute"
     )
 }
+
+/**
+ * Add count of any children to the xpath
+ *
+ * Require #1 - [count] elements of [tag] should be added into xpath
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_childCount
+ */
+fun <T : BaseSelector> T.childCount(count: Int, tag: String = "*")
+    = selfClone {
+        props.args.add(
+            KVSelectorArg("count($tag)", count.toString())
+        )
+    }
