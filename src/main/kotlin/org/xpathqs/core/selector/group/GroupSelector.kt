@@ -64,20 +64,21 @@ open class GroupSelector(
         base.toXpath() + selfXpath()
 
     private fun selfXpath(): String {
-        if (selectorsChain.isEmpty()) {
-            return ""
+        return if (selectorsChain.isEmpty()) {
+            ""
+        } else if (selectorsChain.size == 1) {
+            selectorsChain.first().toXpath()
+        } else {
+            var res = ""
+            selectorsChain.forEach {
+                res += it.toXpath()
+            }
+            val props = props.toXpath()
+            if (props.isNotEmpty()) {
+                "($res)$props"
+            } else {
+                res
+            }
         }
-        if (selectorsChain.size == 1) {
-            return selectorsChain.first().toXpath()
-        }
-        var res = ""
-        selectorsChain.forEach {
-            res += it.toXpath()
-        }
-        val props = props.toXpath()
-        if (props.isNotEmpty()) {
-            return "($res)$props"
-        }
-        return res
     }
 }

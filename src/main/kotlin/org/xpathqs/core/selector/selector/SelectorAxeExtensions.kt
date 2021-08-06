@@ -68,7 +68,8 @@ fun <T : Selector> T.namespace() = prefix("namespace::")
 fun <T : Selector> T.parent() = prefix("parent::")
 
 /**
- * Selects all nodes that appear before the current node in the document, except ancestors, attribute nodes and namespace nodes
+ * Selects all nodes that appear before the current node in the document,
+ * except ancestors, attribute nodes and namespace nodes
  */
 fun <T : Selector> T.preceding() = prefix("preceding::")
 

@@ -20,24 +20,41 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.selector.selector
 
-import org.xpathqs.core.selector.base.ISelector
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.constants.CoreGlobalProps
+import org.xpathqs.core.constants.Global
+import org.xpathqs.core.reflection.scanPackage
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.contains
+import org.xpathqs.core.selector.extensions.text
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.xpathShouldBe
 
-/**
- * Implementation of `Null Object` pattern for the ISelector
- */
-class NullSelector : ISelector {
-    override fun toXpath() = ""
-    public override fun clone(): NullSelector {
-        return this
+object Page: Block() {
+    object SignUp: Block(tagSelector("div") contains tagSelector("h1").text("Where the world builds software", contains = true)) {
+        val title = tagSelector("h1")
+    }
+}
+
+class UpperCaseTest {
+
+    @AfterEach
+    fun restoreDefaults() {
+        Global.update(
+            CoreGlobalProps("config/configDefault.yml")
+        )
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is NullSelector
-    }
-
-    override fun hashCode(): Int {
-        return 0
+    @Test
+    fun normalCase() {
+        Global.update(
+            CoreGlobalProps("config/config.yml")
+        )
+        scanPackage(this)
+        Page.SignUp.title
+            .xpathShouldBe("//DIV[./H1[contains(@text_test, 'Where the world builds software')]]//H1")
     }
 }

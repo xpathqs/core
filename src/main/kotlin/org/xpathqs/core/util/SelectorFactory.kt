@@ -25,6 +25,7 @@ package org.xpathqs.core.util
 import org.xpathqs.core.constants.Global
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.base.ISelector
@@ -135,7 +136,8 @@ object SelectorFactory {
      *      and value wrapped into contains function
      * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withNameAndValueContains]
      *
-     * Require #6 - [valueContains] argument should return [Selector] with attribute value wrapped into contains function
+     * Require #6 - [valueContains] argument should return [Selector] with attribute value
+     *    wrapped into contains function
      * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withValueContains]
      */
     fun attrSelector(
@@ -143,50 +145,38 @@ object SelectorFactory {
         value: String = "",
         valueContains: String = ""
     ): Selector {
-        val name = if(name.first() != '@') "@$name" else name
-        if(value.isEmpty() && valueContains.isEmpty()) {
-            return Selector(
-                props = SelectorProps(
-                    args = SelectorArgs(
-                        KVSelectorArg(
-                            k = name
-                        )
-                    )
-                )
-            )
+        val checkedName = if(name.first() != '@') "@$name" else name
+        val arg = if(value.isEmpty() && valueContains.isEmpty()) {
+            KVSelectorArg(k = checkedName)
         } else {
             if(value.isNotEmpty()) {
-                return Selector(
-                    props = SelectorProps(
-                        args = SelectorArgs(
-                            CommaDecorator(
-                                KVSelectorArg(
-                                    k = name,
-                                    v = value
-                                )
-                            )
-                        )
+                 CommaDecorator(
+                    KVSelectorArg(
+                        k = checkedName,
+                        v = value
                     )
                 )
             } else if(valueContains.isNotEmpty()) {
-                return Selector(
-                    props = SelectorProps(
-                        args = SelectorArgs(
-                            ContainsDecorator(
-                                CommaDecorator(
-                                    KVSelectorArg(
-                                        k = name,
-                                        v = valueContains
-                                    )
-                                )
-                            )
+                 ContainsDecorator(
+                    CommaDecorator(
+                        KVSelectorArg(
+                            k = checkedName,
+                            v = valueContains
                         )
                     )
                 )
+            } else {
+                ValueArg()
             }
         }
 
-        return tagSelector()
+        return Selector(
+            props = SelectorProps(
+                args = SelectorArgs(
+                    arg
+                )
+            )
+        )
     }
 
     /**

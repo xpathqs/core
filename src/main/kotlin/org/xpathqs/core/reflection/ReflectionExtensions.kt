@@ -78,6 +78,7 @@ internal fun Class<*>.getObject(): Block {
 /**
  * Check class for having [BaseSelector] as an inherited parent
  */
+@Suppress("ReturnCount")
 internal fun Class<*>.isSelectorSubtype(): Boolean {
     if (this.superclass == null) {
         return false
