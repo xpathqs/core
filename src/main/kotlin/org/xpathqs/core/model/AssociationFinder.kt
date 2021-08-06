@@ -27,11 +27,11 @@ import java.lang.reflect.Field
 
 
 class AssociationFinder(
-    protected val fields: Collection<Field>,
-    protected val selectors: Collection<BaseSelector>,
-    protected val associations: Collection<IModelAssociation>
+    private val fields: Collection<Field>,
+    private val selectors: Collection<BaseSelector>,
+    private val associations: Collection<IModelAssociation>
 ) {
-    protected lateinit var unusedFields: HashSet<Field>
+    private lateinit var unusedFields: HashSet<Field>
 
     val mappings: Collection<ModelAssociation>
         get() {

@@ -48,28 +48,29 @@ class ComposeSelectorProps(
      * Get xpath query based on [selectors]
      */
     override fun toXpath(): String {
-        if (selectors.isEmpty()) {
-            return ""
+        return if (selectors.isEmpty()) {
+            ""
         }
-        if (selectors.size == 1) {
-            return selectors.first().toXpath()
-        }
-        var res = ""
-        selectors.forEach {
-            val xp = it.toXpath()
-            if (xp.isNotEmpty()) {
-                res += "($xp) | "
+        else if (selectors.size == 1) {
+            selectors.first().toXpath()
+        } else {
+            var res = ""
+            selectors.forEach {
+                val xp = it.toXpath()
+                if (xp.isNotEmpty()) {
+                    res += "($xp) | "
+                }
+            }
+
+            res = res.removeSuffix(" | ")
+            val args = args.toXpath()
+
+            if (args.isNotEmpty()) {
+                "($res)$args"
+            } else {
+                res
             }
         }
-
-        res = res.removeSuffix(" | ")
-        val args = args.toXpath()
-
-        if (args.isNotEmpty()) {
-            return "($res)$args"
-        }
-
-        return res
     }
 
     override fun clone(): ComposeSelectorProps {
