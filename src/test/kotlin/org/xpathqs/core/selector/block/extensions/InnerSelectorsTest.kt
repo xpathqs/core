@@ -24,10 +24,7 @@ package org.xpathqs.core.selector.block.extensions
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.block.allInnerSelectors
-import org.xpathqs.core.selector.block.selectorBlocks
-import org.xpathqs.core.selector.block.selectors
+import org.xpathqs.core.selector.block.*
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 
@@ -45,6 +42,21 @@ class InnerSelectorsTest {
         object Inner: Block() {
             val s1 = tagSelector("div")
             val s2 = tagSelector("div")
+        }
+    }
+
+    object PageWithInner2: Block() {
+        val s1 = tagSelector("div")
+        val s2 = tagSelector("div")
+
+        object Inner: Block() {
+            val s1 = tagSelector("div")
+            val s2 = tagSelector("div")
+
+            object Inner2: Block() {
+                val s1 = tagSelector("div")
+                val s2 = tagSelector("div")
+            }
         }
     }
 
@@ -182,6 +194,33 @@ class InnerSelectorsTest {
                 PageWithInnerClass.Inner.s1,
                 PageWithInnerClass.Inner.s2
             )
+        }
+    }
+
+    /**
+     * Check require #2 of [PageWithoutInner.allInnerSelectorBlocks]
+     */
+    @Test
+    fun r1_allInnerSelectorBlocks() {
+        WHEN {
+            PageWithInner2.allInnerSelectorBlocks
+        }.THEN {
+            arrayListOf(
+                PageWithInner2.Inner,
+                PageWithInner2.Inner.Inner2,
+            )
+        }
+    }
+
+    /**
+     * Check require #3 of [PageWithoutInner.allInnerSelectorBlocks]
+     */
+    @Test
+    fun r2_allInnerSelectorBlocks() {
+        WHEN {
+            PageWithoutInner.allInnerSelectorBlocks
+        }.THEN {
+            emptyList()
         }
     }
 }

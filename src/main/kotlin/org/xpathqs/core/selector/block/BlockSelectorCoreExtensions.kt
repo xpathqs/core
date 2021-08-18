@@ -90,11 +90,30 @@ val <T : Block> T.selectors: Collection<BaseSelector>
  * Require #3 - all other selectors except [Block]s should be ignored
  * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r3_selectorBlocks]
  */
-val <T : Block> T.selectorBlocks: Collection<BaseSelector>
+val <T : Block> T.selectorBlocks: Collection<Block>
     get() {
-        val res = ArrayList<BaseSelector>()
+        val res = ArrayList<Block>()
         res.addAll(SelectorReflectionFields(this).innerBlocks)
         res.addAll(this.children.filterIsInstance<Block>())
+        return res
+    }
+
+/**
+ * @return all inner Selector's block
+ *
+ * Require #1 - All inner [Block]s should be included
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r1_allInnerSelectorBlocks]
+ *
+ * Require #2 - Empty result when there is no inners [Block]s
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r2_allInnerSelectorBlocks]
+ */
+val <T : Block> T.allInnerSelectorBlocks: Collection<Block>
+    get() {
+        val res = ArrayList<Block>()
+        selectorBlocks.forEach {
+            res.add(it)
+            res.addAll(it.selectorBlocks)
+        }
         return res
     }
 
@@ -119,5 +138,5 @@ val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
                 res.addAll(it)
             }
         }
-        return res.filterIsInstance<BaseSelector>()
+        return res
     }
