@@ -28,6 +28,7 @@ import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.xpath.XpathSelector
@@ -174,3 +175,5 @@ fun <T : BaseSelector> T.selfClone(f: BaseSelector.() -> Unit): T {
     return res
 }
 
+val <T : BaseSelector> T.result: ResultSelector
+    get() = ResultSelector(wrapper = this.clone())
