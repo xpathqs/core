@@ -84,3 +84,87 @@ val BaseSelector.parents: Collection<BaseSelector>
 
         return res
     }
+
+/**
+ * Checks if [BaseSelector] is a child Selector of [parent]
+ *
+ * Require #1 - return true when selector is a child of parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r1_isChildOf]
+ *
+ * Require #2 - return false when selector is not a child of parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r2_isChildOf]
+ *
+ * Require #3 - return false when selector is a parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
+ */
+infix fun BaseSelector.isChildOf(parent: BaseSelector): Boolean {
+    return this.name.isNotEmpty() && (this.name + ".").startsWith(parent.name) && this.name != parent.name
+}
+
+/**
+ * Checks if [BaseSelector] is a child Selector of any from the [parents]
+ *
+ * Require #1 - return true when selector is a child of parent selectors
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r1_isChildOfForCollection]
+ *
+ * Require #2 - return false when selector is not a child of parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r2_isChildOfForCollection]
+ */
+infix fun BaseSelector.isChildOf(parents: Collection<BaseSelector>)
+    = parents.any { this isChildOf it }
+
+/**
+ * Checks if [BaseSelector] is a parent Selector of [child]
+ *
+ * Require #1 - return true when selector is a parent of child selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r1_isParentOf]
+ *
+ * Require #2 - return false when selector is not a parent of child selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r2_isChildOf]
+ *
+ * Require #3 - return false when selector is a parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
+ */
+infix fun BaseSelector.isParentOf(child: BaseSelector): Boolean {
+    return this.name.isNotEmpty() && child.name.startsWith(this.name+ ".") && this.name != child.name
+}
+
+/**
+ * Checks if [BaseSelector] is a parent Selector of any from the [children]
+ *
+ * Require #1 - return true when selector is a child of parent selectors
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r1_isParentOfForCollections]
+ *
+ * Require #2 - return false when selector is not a child of parent selector
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r2_isParentOfForCollections]
+ */
+infix fun BaseSelector.isParentOf(children: Collection<BaseSelector>)
+    = children.any { this isParentOf it }
+
+/**
+ * Revert of [isChildOf]
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.doesNotChildOf]
+ */
+infix fun BaseSelector.doesNotChildOf(parent: BaseSelector)
+    = !isChildOf(parent)
+
+/**
+ * Revert of [isParentOf]
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.doesNotParentOf]
+ */
+infix fun BaseSelector.doesNotParentOf(child: BaseSelector)
+    = !isParentOf(child)
+
+/**
+ * Revert of [isChildOf]
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.doesNotChildOfForCollections]
+ */
+infix fun BaseSelector.doesNotChildOf(parents: Collection<BaseSelector>)
+    = !isChildOf(parents)
+
+/**
+ * Revert of [isParentOf]
+ * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.doesNotParentOfForCollections]
+ */
+infix fun BaseSelector.doesNotParentOf(children: Collection<BaseSelector>)
+    = !isParentOf(children)
