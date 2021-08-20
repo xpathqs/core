@@ -38,21 +38,26 @@ import org.xpathqs.core.selector.xpath.XpathSelector
 
 /**
  * Base class for the Selector container objects
- * @param isBlank points that the current selector was not initialized based on
- * some other selector via constructor
  */
 open class Block(
     base: ISelector = NullSelector(),
     props: SelectorProps = SelectorProps(),
     selectorsChain: ArrayList<BaseSelector> = ArrayList(),
     name: String = "",
-    internal val isBlank: Boolean = true,
+    isBlank: Boolean = true
 ) : GroupSelector(
     base = base,
     props = props,
     name = name,
     selectorsChain = selectorsChain
 ) {
+   /**
+    * Points that the current selector was not initialized based on
+    * some other selector via constructor
+    */
+    var isBlank: Boolean = isBlank
+        internal set
+
     /**
      * Points to the original object-class instance.
      * The [GroupSelector.clone] method will update the [base] link of each
@@ -107,6 +112,57 @@ open class Block(
         ),
         selectorsChain = sel.selectorsChain
     )
+
+    /**
+     * Will copy properties from the XpathSelector
+     *
+     * Require - Xpath's selector properties should be copied
+     * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromXpathSelector]
+     */
+    protected fun copyFrom(sel: XpathSelector) {
+        isBlank = false
+        setBase(sel.clone())
+        setProps(
+            SelectorProps(
+                prefix = "",
+                tag = sel.tag,
+                args = sel.props.args
+            )
+        )
+        selectorsChain = arrayListOf(sel.clone())
+    }
+
+    /**
+     * Will copy properties from the Selector
+     *
+     * Require - Selector's properties should be copied
+     * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromSelector]
+     */
+    protected fun copyFrom(sel: Selector) {
+        isBlank = false
+        setBase(sel.clone())
+        setProps(sel.props.clone())
+        selectorsChain = arrayListOf(sel.clone())
+    }
+
+    /**
+     * Will copy properties from the GroupSelector
+     *
+     * Require - GroupSelector's properties should be copied
+     * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromGroupSelector]
+     */
+    protected fun copyFrom(sel: GroupSelector) {
+        isBlank = false
+        setBase(sel.clone())
+        setProps(
+            SelectorProps(
+                prefix = "",
+                tag = sel.tag,
+                args = sel.props.args
+            )
+        )
+        selectorsChain = arrayListOf(sel.clone())
+    }
 
     /**
      * Get Xpath query and restore link of [children] selectors
