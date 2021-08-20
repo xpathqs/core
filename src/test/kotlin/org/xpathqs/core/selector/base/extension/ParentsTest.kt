@@ -25,7 +25,9 @@ package org.xpathqs.core.selector.base.extension
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.scanPackage
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.extensions.parents
+import org.xpathqs.core.selector.block.allInnerSelectorBlocks
+import org.xpathqs.core.selector.block.allInnerSelectors
+import org.xpathqs.core.selector.extensions.*
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 
@@ -34,6 +36,14 @@ object Page1 : Block() {
 
     object Inner : Block() {
         val s1 = tagSelector("div")
+    }
+
+    object Inner2: Block() {
+        val s1 = tagSelector("div")
+
+        object Inner3 : Block() {
+            val s1 = tagSelector("div")
+        }
     }
 }
 
@@ -76,6 +86,174 @@ class ParentsTest {
             Page1.Inner.s1.parents
         }.THEN {
             arrayListOf(Page1.Inner, Page1)
+        }
+    }
+
+    /**
+     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     */
+    @Test
+    fun r1_isChildOf() {
+        WHEN {
+            Page1.Inner isChildOf Page1
+        }.THEN {
+            true
+        }
+    }
+
+    /**
+     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     */
+    @Test
+    fun r2_isChildOf() {
+        WHEN {
+            Page1 isChildOf Page1.Inner
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks Require #3 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     */
+    @Test
+    fun r3_isChildOf() {
+        WHEN {
+            Page1 isChildOf Page1
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     */
+    @Test
+    fun r1_isChildOfForCollection() {
+        WHEN {
+            Page1.Inner2.Inner3 isChildOf Page1.allInnerSelectorBlocks
+        }.THEN {
+            true
+        }
+    }
+
+    /**
+     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     */
+    @Test
+    fun r2_isChildOfForCollection() {
+        WHEN {
+            Page1.Inner isChildOf Page1.Inner2.allInnerSelectorBlocks
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     */
+    @Test
+    fun r1_isParentOf() {
+        WHEN {
+            Page1 isParentOf Page1.Inner
+        }.THEN {
+            true
+        }
+    }
+
+    /**
+     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     */
+    @Test
+    fun r2_isParentOf() {
+        WHEN {
+            Page1.Inner2 isParentOf Page1.Inner
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks Require #3 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     */
+    @Test
+    fun r3_isParentOf() {
+        WHEN {
+            Page1.Inner isParentOf Page1.Inner
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     */
+    @Test
+    fun r1_isParentOfForCollections() {
+        WHEN {
+            Page1 isParentOf Page1.allInnerSelectorBlocks
+        }.THEN {
+            true
+        }
+    }
+
+    /**
+     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     */
+    @Test
+    fun r2_isParentOfForCollections() {
+        WHEN {
+            Page1.Inner isParentOf Page1.Inner2.allInnerSelectorBlocks
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotChildOf]
+     */
+    @Test
+    fun doesNotChildOf() {
+        WHEN {
+            Page1.Inner doesNotChildOf Page1
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotChildOf]
+     */
+    @Test
+    fun doesNotChildOfForCollections() {
+        WHEN {
+            Page1.Inner doesNotChildOf Page1.allInnerSelectorBlocks
+        }.THEN {
+            true
+        }
+    }
+
+    /**
+     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotParentOf]
+     */
+    @Test
+    fun doesNotParentOf() {
+        WHEN {
+            Page1 doesNotParentOf Page1.Inner
+        }.THEN {
+            false
+        }
+    }
+
+    /**
+     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotParentOf]
+     */
+    @Test
+    fun doesNotParentOfForCollections() {
+        WHEN {
+            Page1 doesNotParentOf Page1.allInnerSelectorBlocks
+        }.THEN {
+            false
         }
     }
 }
