@@ -62,4 +62,22 @@ class SelectorModificationTests {
         tagSelector("div").repeat(3)
             .xpathShouldBe("//div//div//div")
     }
+
+    /**
+     * Checks Require #1 of [parentCount]
+     */
+    @Test
+    fun parentCount_r1() {
+        tagSelector("div").parentCount(2)
+            .xpathShouldBe("//div/../..")
+    }
+
+    /**
+     * Checks Require #2 of [parentCount]
+     */
+    @Test
+    fun parentCount_r2() {
+        tagSelector("div").parentCount(0)
+            .xpathShouldBe("//div")
+    }
 }
