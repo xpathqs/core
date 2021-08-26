@@ -40,7 +40,7 @@ import java.lang.reflect.Field
  * @sample org.xpathqs.core.reflection.parser.ObjectWithoutBaseTest
  * @sample org.xpathqs.core.reflection.parser.ObjectWithBaseAndInnerObjectTest
  */
-internal class SelectorParser(
+class SelectorParser(
     private val rootObj: Block,
     private val base: ISelector = NullSelector(),
     val srf: SelectorReflectionFields = SelectorReflectionFields(rootObj)
@@ -62,7 +62,6 @@ internal class SelectorParser(
             annotations = rootObj::class.annotations
         )
         rootObj.children = srf.innerSelectors
-        rootObj.afterReflectionParse()
 
         srf.innerSelectorFields.forEach {
             it.isAccessible = true
@@ -82,6 +81,8 @@ internal class SelectorParser(
         srf.innerBlocks.forEach {
             SelectorParser(it, rootObj).parse()
         }
+
+        rootObj.afterReflectionParse()
     }
 
     private fun setFields(
