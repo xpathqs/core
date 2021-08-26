@@ -28,6 +28,7 @@ import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
+import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
@@ -52,14 +53,18 @@ object SelectorFactory {
     /**
      * Returns new [Selector] with specified `text`
      */
-    fun textSelector(text: String) = Selector(
+    fun textSelector(text: String, normalize: Boolean = Global.NORMALIZE_TEXT_VALUE) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
-                CommaDecorator(
-                    KVSelectorArg(
-                        k = Global.TEXT_ARG,
-                        v = text
-                    )
+                KVNormalizeSpaceDecorator(
+                    CommaDecorator(
+                        KVSelectorArg(
+                            k = Global.TEXT_ARG,
+                            v = text
+                        )
+                    ),
+                    normalizeK = normalize,
+                    normalizeV = Global.NORMALIZE_TEXT_ARG,
                 )
             )
         )
@@ -68,15 +73,19 @@ object SelectorFactory {
     /**
      * Returns new [Selector] with containing specified `text`
      */
-    fun textContainsSelector(text: String) = Selector(
+    fun textContainsSelector(text: String, normalize: Boolean = Global.NORMALIZE_TEXT_VALUE) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
                 ContainsDecorator(
-                    CommaDecorator(
-                        KVSelectorArg(
-                            k = Global.TEXT_ARG,
-                            v = text
-                        )
+                    KVNormalizeSpaceDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = Global.TEXT_ARG,
+                                v = text
+                            )
+                        ),
+                        normalizeK = normalize,
+                        normalizeV = Global.NORMALIZE_TEXT_ARG,
                     )
                 )
             )

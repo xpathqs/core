@@ -32,6 +32,7 @@ import org.xpathqs.core.constants.Global
 import org.xpathqs.core.selector.extensions.id
 import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
 internal class PropertyFacadeTest {
@@ -80,6 +81,15 @@ internal class PropertyFacadeTest {
         )
         tagSelector("div").text("hello").id("someId")
             .xpathShouldBe("//DIV[@text_test='hello' and @resource-id='someId']")
+    }
+
+    @Test
+    fun tagSelectorOverridden1() {
+        Global.update(
+            CoreGlobalProps("config/configWithNormalize.yml")
+        )
+        textSelector("div")
+            .xpathShouldBe("//*[normalize-space(text())=normalize-space('div')]")
     }
 
 }

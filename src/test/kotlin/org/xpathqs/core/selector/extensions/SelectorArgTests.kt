@@ -80,13 +80,13 @@ class SelectorArgTests {
     @Test
     fun textWithContainsAndNormalize() {
         tagSelector("div").text("text", contains = true, normalize = true)
-            .xpathShouldBe("//div[contains(text(), normalize-space('text'))]")
+            .xpathShouldBe("//div[contains(normalize-space(text()), 'text')]")
     }
 
     @Test
     fun textWithNormalize() {
         tagSelector("div").text("text", normalize = true)
-            .xpathShouldBe("//div[text()=normalize-space('text')]")
+            .xpathShouldBe("//div[normalize-space(text())='text']")
     }
 
     /**
