@@ -32,6 +32,8 @@ import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
+import org.xpathqs.core.selector.extensions.addArg
+import org.xpathqs.core.selector.extensions.addStringToArgs
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.selector.xpath.XpathSelector
@@ -200,4 +202,53 @@ object SelectorFactory {
                 }
             )
         )
+
+    /**
+     * Returns text selector were all [text] elements wrapped as a contains arg
+     *
+     * Require #1
+     * when [text] has more than one arguments they all should be wrapped into contains function
+     * @sample org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.r1_textWithInnerTagsSelector
+     *
+     * Require #2
+     * when [text] contains only one arg - result should same as a normal [textContainsSelector] call
+     * @sample org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.r2_textWithInnerTagsSelector
+     */
+    fun textWithInnerTagsSelector(vararg text: String): Selector {
+        return if(text.size > 1) {
+            val args = SelectorArgs(
+                ContainsDecorator(
+                    KVNormalizeSpaceDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = Global.TEXT_ARG,
+                                v = text.first()
+                            )
+                        ),
+                        normalizeK = Global.NORMALIZE_TEXT_VALUE,
+                        normalizeV = Global.NORMALIZE_TEXT_ARG,
+                    )
+                )
+            )
+            text.drop(1).forEach {
+                args.add(
+                    ContainsDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = ".",
+                                v = it
+                            )
+                        )
+                    )
+                )
+            }
+            Selector(
+                props = SelectorProps(
+                    args = args
+                )
+            )
+        } else {
+            textContainsSelector(text.first())
+        }
+    }
 }
