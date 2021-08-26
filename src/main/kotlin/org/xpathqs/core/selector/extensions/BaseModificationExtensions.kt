@@ -170,8 +170,48 @@ fun <T : BaseSelector> T.repeat(count: Int): XpathSelector {
     return xpathSelector(res)
 }
 
+/**
+ * Group selectors with 'following'
+ *
+ * Require #1 - add following to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.following_r1
+ */
 infix fun <T : BaseSelector> T.following(s: Selector): GroupSelector {
-    return this + s.prefix("//following::")
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}following::")
+}
+
+/**
+ * Group selectors with 'following-sibling'
+ *
+ * Require #1 - add following-sibling to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.followingSibling_r1
+ */
+infix fun <T : BaseSelector> T.followingSibling(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}following-sibling::")
+}
+
+/**
+ * Group selectors with 'preceding'
+ *
+ * Require #1 - add preceding to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.preceding_r1
+ */
+infix fun <T : BaseSelector> T.preceding(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}preceding::")
+}
+
+/**
+ * Group selectors with 'precedingSibling'
+ *
+ * Require #1 - add preceding to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.precedingSibling_r1
+ */
+infix fun <T : BaseSelector> T.precedingSibling(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}preceding-sibling::")
 }
 
 /**
