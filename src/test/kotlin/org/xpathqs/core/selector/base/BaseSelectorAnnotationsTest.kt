@@ -145,4 +145,22 @@ class BaseSelectorAnnotationsTest {
         assertThat(Page1.Inner.s1.findParentAnnotation<NoScan>())
             .isNull()
     }
+
+    /**
+     * Check Require #1 of [BaseSelector.findWithAnnotation]
+     */
+    @Test
+    fun r1_findWithAnnotation() {
+        assertThat(Page1.s1.findWithAnnotation(TestAnnotation::class))
+            .isNotNull()
+    }
+
+    /**
+     * Check Require #2 of [BaseSelector.findWithAnnotation]
+     */
+    @Test
+    fun r2_findWithAnnotation() {
+        assertThat(Page1.s1.findWithAnnotation(NoScan::class))
+            .isNull()
+    }
 }
