@@ -25,10 +25,13 @@ package org.xpathqs.core.selector.compose
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.selector.extensions.div
+import org.xpathqs.core.selector.extensions.*
 import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.selector.prefix
+import org.xpathqs.core.util.SelectorFactory.attrSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
 class ComposeSelectorTests {
@@ -74,5 +77,47 @@ class ComposeSelectorTests {
     fun divOperatorPriority() {
         val s = tagSelector("div")[2] / tagSelector("div")[3]
         s.xpathShouldBe("(//div[position()=2]) | (//div[position()=3])")
+    }
+
+    /**
+     * Checks Require #1 of [following]
+     */
+    @Test
+    fun following_r1() {
+        (textSelector("Some Text") following attrSelector(value = "select"))
+            .xpathShouldBe("//*[text()='Some Text']//following::*[@*='select']")
+    }
+
+    /**
+     * Checks Require #1 of [followingSibling]
+     */
+    @Test
+    fun followingSibling_r1() {
+        (tagSelector("div") followingSibling tagSelector("div"))
+            .xpathShouldBe("//div//following-sibling::div")
+    }
+
+    /**
+     * Checks Require #1 of [preceding]
+     */
+    @Test
+    fun preceding_r1() {
+        (tagSelector("div") preceding tagSelector("div"))
+            .xpathShouldBe("//div//preceding::div")
+    }
+
+    /**
+     * Checks Require #1 of [precedingSibling]
+     */
+    @Test
+    fun precedingSibling_r1() {
+        (tagSelector("div") precedingSibling tagSelector("div"))
+            .xpathShouldBe("//div//preceding-sibling::div")
+    }
+
+    @Test
+    fun precedingSibling_withSinglePrefix() {
+        (tagSelector("div") precedingSibling tagSelector("div").prefix("/"))
+            .xpathShouldBe("//div/preceding-sibling::div")
     }
 }
