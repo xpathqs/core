@@ -84,7 +84,7 @@ internal class PropertyFacadeTest {
     }
 
     @Test
-    fun tagSelectorOverridden1() {
+    fun textSelectorWithNormalization() {
         Global.update(
             CoreGlobalProps("config/configWithNormalize.yml")
         )

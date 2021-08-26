@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.selector.extensions
 
+import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
@@ -30,6 +31,7 @@ import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.postfix
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
@@ -144,7 +146,6 @@ operator fun <T : BaseSelector> T.plus(sel: BaseSelector): GroupSelector {
  */
 operator fun <T : BaseSelector> T.plus(xpath: String) = this.plus(xpathSelector(xpath))
 
-
 /**
  * Returns a [ComposeSelector] based on `left` and `right` arguments
  * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.divOperator
@@ -167,6 +168,29 @@ fun <T : BaseSelector> T.repeat(count: Int): XpathSelector {
     }
 
     return xpathSelector(res)
+}
+
+infix fun <T : BaseSelector> T.following(s: Selector): GroupSelector {
+    return this + s.prefix("//following::")
+}
+
+/**
+ * Add [count] times '/..' string at the end of the Selector's xpath
+ *
+ * Require #1 - when [count] > 0 - '/..' string should be added [count] times to the end of xpath
+ * @sample org.xpathqs.core.selector.extensions.SelectorModificationTests.parentCount_r1
+ *
+ * Require #2 = when [count] <= 0 - nothing should be added
+ * @sample org.xpathqs.core.selector.extensions.SelectorModificationTests.parentCount_r2
+ */
+fun <T : BaseSelector> T.parentCount(count: Int) = selfClone {
+    if(count > 0) {
+        var parents = ""
+        repeat(count) { parents += "/.." }
+        val p = this.props.clone()
+        p.postfix = parents
+        setProps(p)
+    }
 }
 
 fun <T : BaseSelector> T.selfClone(f: BaseSelector.() -> Unit): T {

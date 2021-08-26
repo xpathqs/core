@@ -41,6 +41,13 @@ fun <T : Selector> T.prefix(value: String) = clone {
     setProps(props.clone(prefix = value))
 }
 
+/**
+ * Modifies `postfix` value of [Selector]
+ */
+fun <T : Selector> T.postfix(value: String) = clone {
+    setProps(props.clone(postfix = value))
+}
+
 private fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
     val res = this.clone()
     res.f()

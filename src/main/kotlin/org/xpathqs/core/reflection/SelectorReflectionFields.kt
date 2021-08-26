@@ -32,7 +32,7 @@ import java.lang.reflect.Field
  * @param rootObj object for interaction
  * @sample org.xpathqs.core.reflection.SelectorReflectionFieldsTest
  */
-internal class SelectorReflectionFields(
+class SelectorReflectionFields(
     private val rootObj: BaseSelector
 ) {
     /**
