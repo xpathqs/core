@@ -77,6 +77,19 @@ open class CoreGlobalProps(
      */
     val UPPER_CASE_FOR_TAG: Boolean
         get() = (props["constants.upperCase"] as? String)?.toBoolean() ?: false
+
+    /**
+     * Add normalization value for the text selectors by the default
+     */
+    val NORMALIZE_TEXT_VALUE: Boolean
+        get() = (props["constants.normalizeTextVal"] as? String)?.toBoolean() ?: false
+
+    /**
+     * Add normalization arg for the text selectors by the default
+     */
+    val NORMALIZE_TEXT_ARG: Boolean
+        get() = (props["constants.normalizeTextArg"] as? String)?.toBoolean() ?: false
+
 }
 
 /**

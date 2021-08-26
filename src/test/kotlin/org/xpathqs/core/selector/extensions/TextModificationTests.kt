@@ -43,7 +43,7 @@ class TextModificationTests {
     @Test
     fun textNormalized() {
         tagSelector("div").text("ok", normalize = true)
-            .xpathShouldBe("//div[text()=normalize-space('ok')]")
+            .xpathShouldBe("//div[normalize-space(text())='ok']")
     }
 
     @Test
@@ -55,6 +55,6 @@ class TextModificationTests {
     @Test
     fun textContainsAndNormalized() {
         tagSelector("div").text("ok", contains = true, normalize = true)
-            .xpathShouldBe("//div[contains(text(), normalize-space('ok'))]")
+            .xpathShouldBe("//div[contains(normalize-space(text()), 'ok')]")
     }
 }
