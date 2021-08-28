@@ -22,6 +22,8 @@
 
 package org.xpathqs.core.selector.args
 
+import org.xpathqs.core.selector.base.ISelector
+
 /**
  * Holder for the Selector's arguments
  * @param args map of arguments used for building xpath
@@ -77,6 +79,16 @@ class SelectorArgs(
      */
     fun add(arg: String) = add(
         ValueArg(arg)
+    )
+
+    /**
+     * Add selector argument
+     *
+     * Require #1 - [sel] should be added to the list of arguments
+     * @sample [org.xpathqs.core.selector.args.SelectorArgsTests.addSelector_r1]
+     */
+    fun add(sel: ISelector) = add(
+        SelectorValueArg(sel)
     )
 
     /**
