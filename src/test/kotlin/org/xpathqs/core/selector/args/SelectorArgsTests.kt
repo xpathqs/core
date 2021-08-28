@@ -25,6 +25,8 @@ package org.xpathqs.core.selector.args
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.WHEN
 
 internal class SelectorArgsTests {
 
@@ -83,5 +85,19 @@ internal class SelectorArgsTests {
                     ValueArg("last()", JoinType.AND)
                 ).toXpath()
         ).isEqualTo("[before() and first() and last() or second()]")
+    }
+
+    /**
+     * Check require #1 of [SelectorArgs.add]
+     */
+    @Test
+    fun addSelector_r1() {
+        WHEN {
+            SelectorArgs()
+                .add(tagSelector("div"))
+                .toXpath()
+        }.THEN {
+            "[//div]"
+        }
     }
 }

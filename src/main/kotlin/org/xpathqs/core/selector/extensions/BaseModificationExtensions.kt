@@ -46,7 +46,7 @@ import org.xpathqs.core.util.SelectorFactory.xpathSelector
  */
 infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
     props.args.add(
-        right.prefix("./").toXpath()
+        right.prefix("./")
     )
 }
 
@@ -56,7 +56,7 @@ infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
  */
 infix fun <T : BaseSelector> T.containsAny(right: Selector) = selfClone {
     props.args.add(
-        right.prefix(".//").toXpath()
+        right.prefix(".//")
     )
 }
 
@@ -100,9 +100,7 @@ infix fun <T : BaseSelector> T.containsAny(right: XpathSelector) = selfClone {
  */
 infix fun <T : BaseSelector> T.containsParent(right: Selector) = selfClone {
     props.args.add(
-        ValueArg(
-            right.prefix("../").toXpath()
-        )
+        right.prefix("../")
     )
 }
 
