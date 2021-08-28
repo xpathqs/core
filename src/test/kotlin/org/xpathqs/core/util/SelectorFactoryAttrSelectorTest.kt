@@ -24,6 +24,7 @@ package org.xpathqs.core.util
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.util.SelectorFactory.attrSelector
+import org.xpathqs.core.util.SelectorFactory.textWithInnerTagsSelector
 import org.xpathqs.xpathShouldBe
 
 class SelectorFactoryAttrSelectorTest {
@@ -80,5 +81,23 @@ class SelectorFactoryAttrSelectorTest {
     fun withValueContains() {
         attrSelector(valueContains="val")
             .xpathShouldBe("//*[contains(@*, 'val')]")
+    }
+
+    /**
+     * Check require #1 of [textWithInnerTagsSelector]
+     */
+    @Test
+    fun r1_textWithInnerTagsSelector() {
+        textWithInnerTagsSelector("text1", "text2")
+            .xpathShouldBe("//*[contains(text(), 'text1') and contains(., 'text2')]")
+    }
+
+    /**
+     * Check require #2 of [textWithInnerTagsSelector]
+     */
+    @Test
+    fun r2_textWithInnerTagsSelector() {
+        textWithInnerTagsSelector("text1")
+            .xpathShouldBe("//*[contains(text(), 'text1')]")
     }
 }
