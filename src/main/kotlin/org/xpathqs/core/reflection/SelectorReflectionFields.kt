@@ -39,7 +39,9 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.map { it.get(rootObj) as BaseSelector }
+        innerSelectorFields.map {
+            (it.get(rootObj) as BaseSelector).setName(it.name)
+        }
     }
 
     /**

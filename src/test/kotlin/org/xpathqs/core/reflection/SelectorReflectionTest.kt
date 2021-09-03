@@ -26,12 +26,22 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
 internal class SelectorReflectionTest {
+
+    object PageWithBase : Block(
+        Selector(
+            props = SelectorProps(tag = "base")
+        )
+    ) {
+        val s1 = Selector(props = SelectorProps(tag = "s1"))
+    }
 
     @Test
     fun setName() {

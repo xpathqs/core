@@ -105,14 +105,15 @@ inline fun<reified T> BaseSelector.findAnyParentAnnotation(): T? {
 }
 
 /**
- * Return Selector with specified annotation
+ * Return Selector's parent with specified annotation
  *
  * Require #1 - When selector or any of it's parent has a provided annotation, it should be returned
- * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r1_findWithAnnotation]
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r1_findParentWithAnnotation]
  *
  * Require #2 - When selector doesn't have provided annotation object - null should be returned
+ * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r2_findParentWithAnnotation]
  */
-fun BaseSelector.findWithAnnotation(ann: KClass<*>): BaseSelector? {
+fun BaseSelector.findParentWithAnnotation(ann: KClass<*>): BaseSelector? {
     return this.parents.find {
         it.hasAnnotation(ann)
     }

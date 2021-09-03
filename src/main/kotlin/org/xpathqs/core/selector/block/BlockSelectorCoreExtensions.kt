@@ -27,9 +27,11 @@ import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setBlank
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
+import kotlin.reflect.KClass
 
 /**
  * @return clone of a [Block] Selector
@@ -140,3 +142,8 @@ val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
         }
         return res
     }
+
+fun <T: Block> T.findWithAnnotation(ann: KClass<*>): BaseSelector? {
+    val sel = allInnerSelectorBlocks + allInnerSelectors
+    return sel.find { it.hasAnnotation(ann) }
+}
