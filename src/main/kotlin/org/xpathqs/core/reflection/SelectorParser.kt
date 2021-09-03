@@ -55,10 +55,11 @@ class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
+        val rootName = rootObj.name.ifEmpty { baseName + rootObj::class.simpleName!! }
         setFields(
             to = rootObj,
             base = base,
-            name = baseName + rootObj::class.simpleName!!,
+            name = rootName,
             annotations = rootObj::class.annotations
         )
         rootObj.children = srf.innerSelectors

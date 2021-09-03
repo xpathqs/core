@@ -147,20 +147,20 @@ class BaseSelectorAnnotationsTest {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.findWithAnnotation]
+     * Check Require #1 of [BaseSelector.findParentWithAnnotation]
      */
     @Test
-    fun r1_findWithAnnotation() {
-        assertThat(Page1.s1.findWithAnnotation(TestAnnotation::class))
+    fun r1_findParentWithAnnotation() {
+        assertThat(Page1.s1.findParentWithAnnotation(TestAnnotation::class))
             .isNotNull()
     }
 
     /**
-     * Check Require #2 of [BaseSelector.findWithAnnotation]
+     * Check Require #2 of [BaseSelector.findParentWithAnnotation]
      */
     @Test
-    fun r2_findWithAnnotation() {
-        assertThat(Page1.s1.findWithAnnotation(NoScan::class))
+    fun r2_findParentWithAnnotation() {
+        assertThat(Page1.s1.findParentWithAnnotation(NoScan::class))
             .isNull()
     }
 }

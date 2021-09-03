@@ -44,9 +44,13 @@ class ObjectWithClassBlockTest {
     @Test
     fun testSelectorFromClass() {
         assertAll {
+            PageWithBlockMembers.holder1
+                .xpathShouldBe("//base//hold")
+                .nameShouldBe("PageWithBlockMembers.holder1")
+
             PageWithBlockMembers.holder1.sel1
                 .xpathShouldBe("//base//hold//div")
-                .nameShouldBe("PageWithBlockMembers.SomeHolder.sel1")
+                .nameShouldBe("PageWithBlockMembers.holder1.sel1")
         }
     }
 
