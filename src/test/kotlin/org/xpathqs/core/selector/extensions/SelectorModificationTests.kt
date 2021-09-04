@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.postfix
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.core.util.SelectorFactory.tagSelector
@@ -55,6 +56,12 @@ class SelectorModificationTests {
     fun prefixTest() {
         tagSelector("div").prefix("/")
             .xpathShouldBe("/div")
+    }
+
+    @Test
+    fun postfixTest() {
+        tagSelector("div").postfix("/..")
+            .xpathShouldBe("//div/..")
     }
 
     @Test

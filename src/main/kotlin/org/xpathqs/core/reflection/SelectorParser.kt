@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.annotations.Name
 import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
@@ -33,6 +34,7 @@ import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.selector.selector.Selector
 import java.lang.reflect.Field
+import kotlin.reflect.full.findAnnotation
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -55,7 +57,8 @@ class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
-        val rootName = rootObj.name.ifEmpty { baseName + rootObj::class.simpleName!! }
+        val ann = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
+        val rootName = rootObj.name.ifEmpty { baseName + ann}
         setFields(
             to = rootObj,
             base = base,
@@ -64,14 +67,15 @@ class SelectorParser(
         )
         rootObj.children = srf.innerSelectors
 
-        srf.innerSelectorFields.forEach {
-            it.isAccessible = true
-            val sel = it.get(rootObj) as BaseSelector
+        srf.innerSelectorFields.forEach { f ->
+            f.isAccessible = true
+            val sel = f.get(rootObj) as BaseSelector
+            val ann = (f.annotations.find {it is Name } as? Name)?.value ?: f.name
             setFields(
                 to = sel,
                 base = rootObj,
-                name = rootObj.name + "." + it.name,
-                field = it
+                name = rootObj.name + "." + ann,
+                field = f
             )
 
             if (sel is Block) {
