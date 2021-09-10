@@ -60,14 +60,11 @@ open class GroupSelector(
     /**
      * Return xpath of [base] selector + [selectorsChain] combined result
      */
-    override fun toXpath() =
-        base.toXpath() + selfXpath()
-
-    private fun selfXpath(): String {
+    override fun toXpath(): String {
         return if (selectorsChain.isEmpty()) {
-            ""
+            base.toXpath()
         } else if (selectorsChain.size == 1) {
-            selectorsChain.first().toXpath()
+            base.toXpath() + selectorsChain.first().toXpath()
         } else {
             var res = ""
             selectorsChain.forEach {
@@ -75,9 +72,9 @@ open class GroupSelector(
             }
             val props = props.toXpath()
             if (props.isNotEmpty()) {
-                "($res)$props"
+                "(${base.toXpath() + res})$props"
             } else {
-                res
+                base.toXpath() + res
             }
         }
     }
