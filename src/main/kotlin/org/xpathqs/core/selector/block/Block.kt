@@ -80,7 +80,7 @@ open class Block(
      */
     constructor(sel: Selector) : this(
         isBlank = false,
-        base = sel.clone(),
+        base = sel.base.clone(),
         props = sel.props.clone(),
         selectorsChain = arrayListOf(sel.clone())
     )
@@ -121,7 +121,7 @@ open class Block(
      */
     protected fun copyFrom(sel: XpathSelector) {
         isBlank = false
-        setBase(sel.clone())
+        setBase(sel.base.clone())
         setProps(
             SelectorProps(
                 prefix = "",
@@ -140,7 +140,7 @@ open class Block(
      */
     protected fun copyFrom(sel: Selector) {
         isBlank = false
-        setBase(sel.clone())
+        setBase(sel.base.clone())
         setProps(sel.props.clone())
         selectorsChain = arrayListOf(sel.clone())
     }
@@ -153,7 +153,7 @@ open class Block(
      */
     protected fun copyFrom(sel: GroupSelector) {
         isBlank = false
-        setBase(sel.clone())
+        setBase(sel.base.clone())
         setProps(
             SelectorProps(
                 prefix = "",

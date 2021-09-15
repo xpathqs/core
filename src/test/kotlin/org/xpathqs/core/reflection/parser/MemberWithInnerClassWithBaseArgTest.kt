@@ -22,38 +22,31 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.reflection.pages.AppTable
-import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
-import org.xpathqs.shouldBeFreeze
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.reflection.scanPackage
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.xpathShouldBe
 
-class MemberWithInnerClass {
+class ClsWithBaseArg(sel: BaseSelector): Block(sel) {
+    val ins = tagSelector("clss")
+}
 
-    @Test
-    fun parseMember() {
-        val obj = AppTable(1)
-        SelectorParser(obj).parse()
-        checkState(obj)
+object Base1: Block(tagSelector("base1")) {
+    val s = tagSelector("div")
+    val inner = ClsWithBaseArg(tagSelector("base2"))
+}
+
+class MemberWithInnerClassWithBaseArgTest {
+    init {
+        Base1.parse()
     }
 
     @Test
-    fun parseObject() {
-        SelectorParser(PageWithInnerClassMembers).parse()
-        checkState(PageWithInnerClassMembers.table1)
-        checkState(PageWithInnerClassMembers.table2)
-    }
-
-    private fun checkState(obj: AppTable) {
-        assertAll {
-            obj.shouldBeFreeze()
-            obj.rows.shouldBeFreeze()
-            obj.rows.app.shouldBeFreeze()
-            obj.rows.principal.shouldBeFreeze()
-            obj.rows.app.date.shouldBeFreeze()
-            obj.rows.app.from.shouldBeFreeze()
-            obj.rows.app.id.shouldBeFreeze()
-        }
+    fun test1() {
+        Base1.inner.ins.xpathShouldBe("//base1//base2//clss")
     }
 }

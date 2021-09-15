@@ -28,9 +28,8 @@ import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
 import java.lang.reflect.Field
-import kotlin.jvm.internal.CallableReference
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.javaField
 
 /**
  * Set of functional extensions to manipulate with <pre>selectors</pre> via Reflection
@@ -121,7 +120,7 @@ internal fun <T : BaseSelector> T.setProps(props: BaseSelectorProps): T {
  * Freeze [BaseSelector] which means that <pre>clone</pre> method
  * will return a new instance
  */
-internal fun <T : BaseSelector> T.freeze(): T {
+fun <T : BaseSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     return this
 }
@@ -130,7 +129,7 @@ internal fun <T : BaseSelector> T.freeze(): T {
  * Freeze [GroupSelector] which means that <pre>clone</pre> method
  * will return a new instance
  */
-internal fun <T : GroupSelector> T.freeze(): T {
+fun <T : GroupSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     this.selectorsChain.forEach {
         it.freeze()
@@ -142,7 +141,7 @@ internal fun <T : GroupSelector> T.freeze(): T {
  * Freeze [Block] which means that <pre>clone</pre> method
  * will return a new instance. And all inner selectors should be frozen as well
  */
-internal fun <T : Block> T.freeze(): T {
+fun <T : Block> T.freeze(): T {
     (this as GroupSelector).freeze()
 
     this.children.forEach {
@@ -170,14 +169,10 @@ internal fun Block.setBlank(value: Boolean) {
 /**
  * Converts Kotlin Reflection property to the Java Reflection field
  */
-internal fun KProperty<*>.toField(): Field {
-    val cls = (((this as CallableReference).owner) as KClass<*>).java
-    return cls.declaredFields.find {
-        it.name == this.name
-    }!!.apply {
-        isAccessible = true
-    }
+internal fun KProperty<*>.toField() = this.javaField!!.apply {
+    isAccessible = true
 }
+
 
 /**
  * Check if the provided object is a member of an inner class
