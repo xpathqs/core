@@ -27,12 +27,13 @@ import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.prefix
 import java.lang.reflect.Field
 import kotlin.reflect.full.findAnnotation
 
@@ -57,8 +58,8 @@ class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
-        val ann = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
-        val rootName = rootObj.name.ifEmpty { baseName + ann}
+        val rootAnn = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
+        val rootName = rootObj.name.ifEmpty { baseName + rootAnn}
         setFields(
             to = rootObj,
             base = base,
@@ -106,7 +107,18 @@ class SelectorParser(
         name: String,
         annotations: Collection<Annotation>
     ) {
-        to.setBase(base)
+        if(base !is NullSelector) {
+            if(to.base !is NullSelector && (to.base as BaseSelector).state != SelectorState.FREEZE) {
+                to.base.setBase(base)
+                to.setBase(to.base)
+            } else {
+                if((to.base as? BaseSelector)?.state != SelectorState.FREEZE) {
+                    to.setBase(base)
+                }
+            }
+        }
+
+        (to.base as? BaseSelector)?.freeze()
         to.setName(name)
         to.setAnnotations(annotations)
 

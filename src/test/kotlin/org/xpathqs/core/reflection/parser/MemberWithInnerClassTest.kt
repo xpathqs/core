@@ -22,53 +22,38 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeEach
+import assertk.assertAll
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.selector.selector.SelectorProps
-import org.xpathqs.xpathShouldBe
+import org.xpathqs.core.reflection.pages.AppTable
+import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
+import org.xpathqs.shouldBeFreeze
 
-object PageWithBase : Block(
-    Selector(
-        props = SelectorProps(tag = "base")
-    )
-) {
-    val s1 = Selector(props = SelectorProps(tag = "s1"))
-}
+class MemberWithInnerClassTest {
 
-internal class ObjectWithBaseTest {
-
-    init {
-        PageWithBase.parse()
+    @Test
+    fun parseMember() {
+        val obj = AppTable(1)
+        SelectorParser(obj).parse()
+        checkState(obj)
     }
 
     @Test
-    fun checkSelectorName() {
-        assertThat(PageWithBase.s1.name)
-            .isEqualTo("PageWithBase.s1")
+    fun parseObject() {
+        SelectorParser(PageWithInnerClassMembers).parse()
+        checkState(PageWithInnerClassMembers.table1)
+        checkState(PageWithInnerClassMembers.table2)
     }
 
-    @Test
-    fun checkSelectorPageName() {
-        assertThat(PageWithBase.name)
-            .isEqualTo("PageWithBase")
-    }
-
-    @Test
-    fun checkSelectorXpath() {
-        PageWithBase.s1
-            .xpathShouldBe("//base//s1")
-    }
-
-    @Test
-    fun checkPageChildren() {
-        assertThat(PageWithBase.children)
-            .hasSize(1)
+    private fun checkState(obj: AppTable) {
+        assertAll {
+            obj.shouldBeFreeze()
+            obj.rows.shouldBeFreeze()
+            obj.rows.app.shouldBeFreeze()
+            obj.rows.principal.shouldBeFreeze()
+            obj.rows.app.date.shouldBeFreeze()
+            obj.rows.app.from.shouldBeFreeze()
+            obj.rows.app.id.shouldBeFreeze()
+        }
     }
 }
