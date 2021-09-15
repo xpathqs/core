@@ -27,16 +27,25 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.xpathShouldBe
 
+object PageWithBase : Block(
+    Selector(
+        props = SelectorProps(tag = "base")
+    )
+) {
+    val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
 
 internal class ObjectWithBaseTest {
 
-    @BeforeEach
-    fun before() {
-        SelectorParser(PageWithBase).parse()
+    init {
+        PageWithBase.parse()
     }
 
     @Test
