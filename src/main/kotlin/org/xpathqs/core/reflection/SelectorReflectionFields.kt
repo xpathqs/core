@@ -125,6 +125,7 @@ class SelectorReflectionFields(
                     && it.name != "\$jacocoData" //remove jacoco data
                     && it.isScanAvailable //remove fields annotated with "@NoScan
                     && !it.name.contains("this$") //remove inner classes link
+                    && it.name != "__\$lineHits\$__"
         }
         .distinctBy { it.name }
 
