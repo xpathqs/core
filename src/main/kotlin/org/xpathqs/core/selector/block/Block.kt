@@ -32,6 +32,7 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.selector.xpath.XpathSelector
@@ -152,6 +153,25 @@ open class Block(
      * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromGroupSelector]
      */
     protected fun copyFrom(sel: GroupSelector) {
+        isBlank = false
+        setBase(sel.base.clone())
+        setProps(
+            SelectorProps(
+                prefix = "",
+                tag = sel.tag,
+                args = sel.props.args
+            )
+        )
+        selectorsChain = arrayListOf(sel.clone())
+    }
+
+    /**
+     * Will copy properties from the GroupSelector
+     *
+     * Require - GroupSelector's properties should be copied
+     * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromGroupSelector]
+     */
+    protected fun copyFrom(sel: ResultSelector) {
         isBlank = false
         setBase(sel.base.clone())
         setProps(
