@@ -58,7 +58,12 @@ abstract class BaseSelector(
      * Build selector's xpath
      */
     override fun toXpath(): String {
-        return base.toXpath() + props.toXpath()
+        val b = base.toXpath()
+        val p = props.toXpath()
+        if(b.isNotEmpty() && !p.startsWith("/")) {
+            return "$b//$p"
+        }
+        return b + p
     }
 
     /**

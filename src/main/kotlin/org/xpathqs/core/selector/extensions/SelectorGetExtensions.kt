@@ -25,6 +25,7 @@ package org.xpathqs.core.selector.extensions
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.block.Block
 
 /**
  * returns selector's name without parent name
@@ -45,12 +46,14 @@ val <T : BaseSelector> T.simpleName: String
  *
  * Require #3 - When Selector has two and more level base, the latest should be returned
  * @sample org.xpathqs.core.reflection.extensions.RootParentTest.r3_rootParent
+ *
+ * Require #4 - When Selector has a root with base selector, root, not base should be returned.
  */
 val <T : BaseSelector> T.rootParent: ISelector
     get() {
         var parent = this.base as? BaseSelector
         while (parent != null) {
-            if(parent.base !is NullSelector) {
+            if((parent as? BaseSelector)?.hasParentOf<Block>() == true) {
                 parent = parent.base as? BaseSelector
             } else {
                 break
@@ -59,6 +62,7 @@ val <T : BaseSelector> T.rootParent: ISelector
         return parent ?: NullSelector()
     }
 
+inline fun<reified T> BaseSelector.hasParentOf() = parents.filterIsInstance<T>().isNotEmpty()
 
 /**
  * @return all [BaseSelector]'s parents
