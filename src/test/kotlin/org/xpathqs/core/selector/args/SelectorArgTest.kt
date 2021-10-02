@@ -23,17 +23,67 @@
 package org.xpathqs.core.selector.args
 
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.GIVEN
 
-internal class SelectorValueArgTest {
+internal class SelectorArgTest {
 
+    /**
+     * Checks Require #1 of [SelectorArg]
+     */
     @Test
-    fun checkValue() {
+    fun r1() {
         GIVEN {
             tagSelector("div")
         }.WHEN {
-            SelectorValueArg(given)
+            SelectorArg(given)
+                .value
+        }.THEN {
+            given.toXpath()
+        }
+    }
+
+    /**
+     * Checks Require #2 of [SelectorArg]
+     */
+    @Test
+    fun r2() {
+        GIVEN {
+            tagSelector("div")
+        }.WHEN {
+            SelectorArg(given, type = InnerSelectorArg.ALL)
+                .value
+        }.THEN {
+            given.prefix(".//").toXpath()
+        }
+    }
+
+    /**
+     * Checks Require #3 of [SelectorArg]
+     */
+    @Test
+    fun r3() {
+        GIVEN {
+            tagSelector("div")
+        }.WHEN {
+            SelectorArg(given, type = InnerSelectorArg.ROOT)
+                .value
+        }.THEN {
+            given.prefix("./").toXpath()
+        }
+    }
+
+    /**
+     * Checks Require #4 of [SelectorArg]
+     */
+    @Test
+    fun r4() {
+        GIVEN {
+            xpathSelector("//div")
+        }.WHEN {
+            SelectorArg(given, type = InnerSelectorArg.ROOT)
                 .value
         }.THEN {
             given.toXpath()

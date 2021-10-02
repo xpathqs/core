@@ -63,6 +63,11 @@ operator fun <T : BaseSelector> T.get(pos: Int) = get(KVSelectorArg("position()"
 operator fun <T : BaseSelector> T.get(arg: String) = get(ValueArg(arg))
 
 /**
+ * Add selector as an argument
+ */
+operator fun <T : BaseSelector> T.get(sel: BaseSelector) = get(ValueArg(sel))
+
+/**
  * Deep clone of the [ISelector] objects
  * Implementation depends on the selector's type
  */

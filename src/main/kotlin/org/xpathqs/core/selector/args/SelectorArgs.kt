@@ -88,7 +88,7 @@ class SelectorArgs(
      * @sample [org.xpathqs.core.selector.args.SelectorArgsTests.addSelector_r1]
      */
     fun add(sel: ISelector) = add(
-        SelectorValueArg(sel)
+        SelectorArg(sel)
     )
 
     /**
