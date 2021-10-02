@@ -23,11 +23,14 @@
 package org.xpathqs.core.selector.extensions
 
 import org.xpathqs.core.reflection.setProps
+import org.xpathqs.core.selector.args.InnerSelectorArg
+import org.xpathqs.core.selector.args.SelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
@@ -45,9 +48,10 @@ import org.xpathqs.core.util.SelectorFactory.xpathSelector
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_contains
  */
 infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
-    props.args.add(
-        right.prefix("./")
-    )
+    this[SelectorArg(
+        selector = right,
+        type = InnerSelectorArg.ROOT
+    )]
 }
 
 /**
@@ -55,9 +59,10 @@ infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_containsAny
  */
 infix fun <T : BaseSelector> T.containsAny(right: Selector) = selfClone {
-    props.args.add(
-        right.prefix(".//")
-    )
+    this[SelectorArg(
+        selector = right,
+        type = InnerSelectorArg.ALL
+    )]
 }
 
 /**
