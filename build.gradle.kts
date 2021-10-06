@@ -36,6 +36,7 @@ plugins {
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
     id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
+    id("info.solidsoft.pitest").version("1.7.0")
 }
 
 java {
@@ -175,4 +176,25 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
             samples.from("src/test/kotlin/org/xpathqs/core", "src/main/kotlin/org/xpathqs/core")
         }
     }
+}
+
+pitest {
+    junit5PluginVersion.set("0.15")
+    targetClasses.set(
+        arrayListOf(
+            "org.xpathqs.core.selector.*",
+            "org.xpathqs.core.model.*",
+            "org.xpathqs.core.reflection.*",
+            "org.xpathqs.core.util.*",
+            "org.xpathqs.core.constants.*"
+
+            //exclude 'annotations' package. - due to integration problems with Kotlinn and PiTest
+        )
+    )
+    threads.set(8)
+    outputFormats.set(arrayListOf("HTML"))
+    jvmArgs.set(arrayListOf("-Xmx1024m"))
+
+    mutationThreshold.set(85)
+    coverageThreshold.set(95)
 }
