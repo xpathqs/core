@@ -195,6 +195,6 @@ pitest {
     outputFormats.set(arrayListOf("HTML"))
     jvmArgs.set(arrayListOf("-Xmx1024m"))
 
-    mutationThreshold.set(90)
+    mutationThreshold.set(85)
     coverageThreshold.set(95)
 }
