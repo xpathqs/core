@@ -197,4 +197,5 @@ pitest {
 
     mutationThreshold.set(85)
     coverageThreshold.set(95)
+    testStrengthThreshold.set(88)
 }
