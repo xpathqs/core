@@ -27,10 +27,22 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.group.tag
+import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.xpathShouldBe
+
+object PageWithBase2 : Block(
+    Selector(
+        props = SelectorProps(tag = "base")
+    )
+) {
+    val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
 
 class SelectorObjectModificationTests {
 
@@ -65,12 +77,14 @@ class SelectorObjectModificationTests {
 
     @Test
     fun positionSelTest() {
+        PageWithBase2.parse()
+
         assertAll {
-            PageWithBase.s1
+            PageWithBase2.s1
                 .xpathShouldBe("//base//s1")
-            PageWithBase[2].s1
+            PageWithBase2[2].s1
                 .xpathShouldBe("//base[position()=2]//s1")
-            PageWithBase.s1
+            PageWithBase2.s1
                 .xpathShouldBe("//base//s1")
         }
     }

@@ -122,10 +122,8 @@ class SelectorReflectionFields(
     private fun removeUnnecessary(fields: Collection<Field>) = fields
         .filter {
             it.name != "INSTANCE" //remove object-class instances
-                    && it.name != "\$jacocoData" //remove jacoco data
+                    && !it.name.contains("\$")  //remove fields which was added dynamically
                     && it.isScanAvailable //remove fields annotated with "@NoScan
-                    && !it.name.contains("this$") //remove inner classes link
-                    && it.name != "__\$lineHits\$__"
         }
         .distinctBy { it.name }
 
