@@ -46,50 +46,6 @@ internal fun Any.isObject(): Boolean {
                 it.name == "INSTANCE"
             } != null
     }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    }
-
-
     return this.javaClass.declaredFields
         .find {
             it.name == "INSTANCE"
