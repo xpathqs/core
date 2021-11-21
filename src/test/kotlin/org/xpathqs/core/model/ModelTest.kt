@@ -33,7 +33,8 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 data class TestModel(
     val name1: String = "",
-    val name2: String = ""
+    val name2: String = "",
+    val unmapped: String = ""
 )
 
 object TestModelPage: Block() {

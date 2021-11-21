@@ -46,6 +46,50 @@ internal fun Any.isObject(): Boolean {
                 it.name == "INSTANCE"
             } != null
     }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+    if (this is Class<*>) {
+        return this.declaredFields
+            .find {
+                it.name == "INSTANCE"
+            } != null
+    }
+
+
     return this.javaClass.declaredFields
         .find {
             it.name == "INSTANCE"
@@ -54,7 +98,11 @@ internal fun Any.isObject(): Boolean {
 
 /**
  * Check if object is a subtype of [Block]
- * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
+ *
+ * Requirements:
+ * #1 - true when object is a subtype of [Block] but not Block directly
+ * @sample [org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsBlockSubtypeTests.r1]
+ * #2 - false for all others cases
  */
 internal fun Any.isBlockSubtype(): Boolean {
     return this is Block && this.javaClass.superclass.simpleName != "Block"

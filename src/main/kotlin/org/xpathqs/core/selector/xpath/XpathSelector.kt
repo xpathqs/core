@@ -34,8 +34,8 @@ import org.xpathqs.core.selector.base.SelectorState
  *
  * @param selfXpath selector's xpath
  */
-class XpathSelector(
-    internal var selfXpath: String = "",
+open class XpathSelector(
+    open var selfXpath: String = "",
 
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),

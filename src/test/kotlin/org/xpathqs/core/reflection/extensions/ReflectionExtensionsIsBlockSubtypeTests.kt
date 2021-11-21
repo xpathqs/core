@@ -20,44 +20,36 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.model
+package org.xpathqs.core.reflection.extensions
 
-import org.xpathqs.core.selector.base.BaseSelector
-import java.lang.reflect.Field
+import assertk.assertThat
+import assertk.assertions.isFalse
+import assertk.assertions.isTrue
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.isBlockSubtype
+import org.xpathqs.core.selector.block.Block
 
+class ReflectionExtensionsIsBlockSubtypeTests {
 
-class AssociationFinder(
-    private val fields: Collection<Field>,
-    private val selectors: Collection<BaseSelector>,
-    private val associations: Collection<IModelAssociation>
-) {
-    val mappings: Collection<ModelAssociation>
-        get() {
-            return scanFields(associations.first())
-        }
+    open class B: Block()
+    object Obj: B()
+    object Obj2: Block()
 
-    private fun scanFields(association: IModelAssociation): ArrayList<ModelAssociation> {
-        val res = ArrayList<ModelAssociation>()
-
-        fields.forEach {
-            val sel = getAssociation(association, it)
-            if (sel != null) {
-                it.isAccessible = true
-                res.add(
-                    ModelAssociation(
-                        sel,
-                        it
-                    )
-                )
-            }
-        }
-
-        return res
+    /**
+     * Checks Require #1 of [isBlockSubtype]
+     */
+    @Test
+    fun r1() {
+        assertThat(Obj.isBlockSubtype())
+            .isTrue()
     }
 
-    private fun getAssociation(association: IModelAssociation, field: Field) =
-        selectors.find {
-            association.isSelectorMatchToField(field, it)
-        }
-
+    /**
+     * Checks Require #2 of [isBlockSubtype]
+     */
+    @Test
+    fun r2() {
+        assertThat(Obj2.isBlockSubtype())
+            .isFalse()
+    }
 }

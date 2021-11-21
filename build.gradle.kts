@@ -37,6 +37,7 @@ plugins {
     id("io.codearte.nexus-staging") version "0.30.0"
     id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
     id("info.solidsoft.pitest").version("1.7.0")
+    id("org.jetbrains.kotlinx.kover") version "0.4.1"
 }
 
 java {
