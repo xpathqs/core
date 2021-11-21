@@ -22,7 +22,9 @@
 
 package org.xpathqs.core.selector.extensions.core
 
+import org.xpathqs.core.selector.args.InnerSelectorArg
 import org.xpathqs.core.selector.args.KVSelectorArg
+import org.xpathqs.core.selector.args.SelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
@@ -65,7 +67,8 @@ operator fun <T : BaseSelector> T.get(arg: String) = get(ValueArg(arg))
 /**
  * Add selector as an argument
  */
-operator fun <T : BaseSelector> T.get(sel: BaseSelector) = get(ValueArg(sel))
+operator fun <T : BaseSelector> T.get(sel: BaseSelector)
+    = get(SelectorArg(sel, type = InnerSelectorArg.ALL))
 
 /**
  * Deep clone of the [ISelector] objects
