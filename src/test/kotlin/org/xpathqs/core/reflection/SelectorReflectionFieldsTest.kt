@@ -37,6 +37,7 @@ internal class SelectorReflectionFieldsTest {
         BaseSelector::name.name,
         BaseSelector::annotations.name,
         BaseSelector::field.name,
+        "Companion"
     )
 
     @Test
