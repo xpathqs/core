@@ -58,12 +58,9 @@ abstract class BaseSelector(
      * Build selector's xpath
      */
     override fun toXpath(): String {
-        val b = base.toXpath()
-        val p = props.toXpath()
-        if(b.isNotEmpty() && !p.startsWith("/")) {
-            return "$b//$p"
-        }
-        return b + p
+        return mergeXpath(
+            base.toXpath(), props.toXpath()
+        )
     }
 
     /**
@@ -78,6 +75,18 @@ abstract class BaseSelector(
     override fun toString(): String {
         return name.ifEmpty {
             xpath
+        }
+    }
+
+    companion object {
+        fun mergeXpath(xp1: String, xp2: String): String {
+            if(xp1.isNotEmpty()
+                && !xp2.startsWith("/")
+                && !xp2.startsWith("[")
+            ) {
+                return "$xp1//$xp2"
+            }
+            return xp1 + xp2
         }
     }
 }
