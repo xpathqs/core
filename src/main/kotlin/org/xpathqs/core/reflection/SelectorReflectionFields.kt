@@ -124,7 +124,6 @@ class SelectorReflectionFields(
             it.name != "INSTANCE" //remove object-class instances
                     && !it.name.contains("\$")  //remove fields which was added dynamically
                     && it.isScanAvailable //remove fields annotated with "@NoScan
-                    //&& it.name == "Companion" //remove static members
         }
         .distinctBy { it.name }
 
