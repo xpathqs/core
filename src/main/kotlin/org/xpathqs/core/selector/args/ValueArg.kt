@@ -23,6 +23,8 @@
 package org.xpathqs.core.selector.args
 
 import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.prefix
 
 /**
  * Representation of Selector's argument value and the way of how it is combined
@@ -39,7 +41,7 @@ open class ValueArg(
      * Wrap [selector] into [ValueArg]
      */
     constructor(selector: ISelector, joinType: JoinType = JoinType.NONE)
-        :this(selector.toXpath(), joinType)
+        :this(getSelectorArgXpath(selector), joinType)
 
     /**
      * Build an argument XPATH to inject into selector's arguments block
@@ -64,4 +66,15 @@ open class ValueArg(
      */
     val isNone: Boolean
         get() = joinType == JoinType.NONE
+
+    companion object {
+        fun getSelectorArgXpath(selector: ISelector): String {
+            if(selector is Selector) {
+                if(selector.props.axe.isNotEmpty()) {
+                    return selector.prefix("").xpath
+                }
+            }
+            return selector.toXpath()
+        }
+    }
 }

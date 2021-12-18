@@ -45,6 +45,9 @@ enum class InnerSelectorArg {
  *
  * #4 - if [selector] is not an instance of [Selector], it's prefix should not be changed
  * @sample org.xpathqs.core.selector.args.SelectorArgTest.r4
+ *
+ * #5 - if [selector] has an axe it should not be removed
+ * @sample org.xpathqs.core.selector.args.SelectorArgTest.r5
  */
 class SelectorArg(
     private val selector: ISelector,
