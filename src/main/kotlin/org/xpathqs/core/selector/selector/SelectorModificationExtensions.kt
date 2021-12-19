@@ -42,6 +42,13 @@ fun <T : Selector> T.prefix(value: String) = clone {
 }
 
 /**
+ * Modifies `axe` value of [Selector]
+ */
+fun <T : Selector> T.axe(value: String) = clone {
+    setProps(props.clone(axe = value))
+}
+
+/**
  * Modifies `postfix` value of [Selector]
  */
 fun <T : Selector> T.postfix(value: String) = clone {

@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.extensions
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.selector.preceding
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
@@ -117,5 +118,23 @@ class SelectorArgTests {
     fun r1_childCount() {
         tagSelector("div").childCount(0)
             .xpathShouldBe("//div[count(*)=0]")
+    }
+
+    @Test
+    fun testWithSelector() {
+        tagSelector("div")[tagSelector("div").preceding()]
+            .xpathShouldBe("//div[.//preceding::div]")
+    }
+
+    @Test
+    fun testWithSelectorContains() {
+        (tagSelector("div") contains tagSelector("t").preceding())
+            .xpathShouldBe("//div[./preceding::t]")
+    }
+
+    @Test
+    fun testWithSelectorContainsAny() {
+        (tagSelector("div") containsAny tagSelector("t").preceding())
+            .xpathShouldBe("//div[.//preceding::t]")
     }
 }

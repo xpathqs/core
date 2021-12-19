@@ -23,6 +23,8 @@
 package org.xpathqs.core.selector.args
 
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.reflection.freeze
+import org.xpathqs.core.selector.selector.preceding
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
@@ -87,6 +89,21 @@ internal class SelectorArgTest {
                 .value
         }.THEN {
             given.toXpath()
+        }
+    }
+
+    /**
+     * Checks Require #4 of [SelectorArg]
+     */
+    @Test
+    fun r5() {
+        GIVEN {
+            tagSelector("div").preceding()
+        }.WHEN {
+            SelectorArg(given, type = InnerSelectorArg.ROOT)
+                .value
+        }.THEN {
+            "./preceding::div"
         }
     }
 }

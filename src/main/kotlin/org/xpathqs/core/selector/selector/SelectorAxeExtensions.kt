@@ -25,60 +25,60 @@ package org.xpathqs.core.selector.selector
 /**
  * Selects all ancestors (parent, grandparent, etc.) of the current node
  */
-fun <T : Selector> T.ancestor() = prefix("ancestor::")
+fun <T : Selector> T.ancestor() = axe("ancestor::")
 
 /**
  * Selects all ancestors (parent, grandparent, etc.) of the current node and the current node itself
  */
-fun <T : Selector> T.ancestorOrSelf() = prefix("ancestor-or-self::")
+fun <T : Selector> T.ancestorOrSelf() = axe("ancestor-or-self::")
 
 /**
  * Selects all children of the current node
  */
-fun <T : Selector> T.child() = prefix("child::")
+fun <T : Selector> T.child() = axe("child::")
 
 /**
  * Selects all descendants (children, grandchildren, etc.) of the current node
  */
-fun <T : Selector> T.descendant() = prefix("descendant::")
+fun <T : Selector> T.descendant() = axe("descendant::")
 
 /**
  * Selects all descendants (children, grandchildren, etc.) of the current node and the current node itself
  */
-fun <T : Selector> T.descendantOrSelf() = prefix("descendant-or-self::")
+fun <T : Selector> T.descendantOrSelf() = axe("descendant-or-self::")
 
 /**
  * Selects everything in the document after the closing tag of the current node
  */
-fun <T : Selector> T.following() = prefix("following::")
+fun <T : Selector> T.following() = axe("following::")
 
 /**
  * Selects all siblings after the current node
  */
-fun <T : Selector> T.followingSibling() = prefix("following-sibling::")
+fun <T : Selector> T.followingSibling() = axe("following-sibling::")
 
 /**
  * 	Selects all namespace nodes of the current node
  */
-fun <T : Selector> T.namespace() = prefix("namespace::")
+fun <T : Selector> T.namespace() = axe("namespace::")
 
 /**
  * Selects the parent of the current node
  */
-fun <T : Selector> T.parent() = prefix("parent::")
+fun <T : Selector> T.parent() = axe("parent::")
 
 /**
  * Selects all nodes that appear before the current node in the document,
  * except ancestors, attribute nodes and namespace nodes
  */
-fun <T : Selector> T.preceding() = prefix("preceding::")
+fun <T : Selector> T.preceding() = axe("preceding::")
 
 /**
  * Selects all siblings before the current node
  */
-fun <T : Selector> T.precedingSibling() = prefix("preceding-sibling::")
+fun <T : Selector> T.precedingSibling() = axe("preceding-sibling::")
 
 /**
  * 	Selects the current node
  */
-fun <T : Selector> T.self() = prefix("self::")
+fun <T : Selector> T.self() = axe("self::")
