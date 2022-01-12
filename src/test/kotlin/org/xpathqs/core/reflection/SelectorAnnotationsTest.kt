@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,10 @@ annotation class TestAnnotation1
 @Retention(AnnotationRetention.RUNTIME)
 annotation class TestAnnotation2
 
+class Container: Block() {
+    val s1 = tagSelector("div")
+}
+
 @TestAnnotation1
 object PageWithAnnotations : Block() {
     @TestAnnotation2
@@ -56,6 +60,11 @@ object PageWithAnnotations : Block() {
     @TestAnnotation2
     @TestAnnotation1
     val s3 = tagSelector()
+}
+
+object WithContainer: Block() {
+    @TestAnnotation2
+    val s4 = Container()
 }
 
 class SelectorAnnotationsTest {
@@ -103,6 +112,13 @@ class SelectorAnnotationsTest {
 
         assertThat(PageWithAnnotations.s1.field?.name)
             .isEqualTo("s1")
+    }
+
+    @Test
+    fun parseAnnotationsForBlockMember() {
+        SelectorParser(WithContainer).parse()
+        assertThat(WithContainer.s4.annotations)
+            .hasSize(1)
     }
 
     companion object {

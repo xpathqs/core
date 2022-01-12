@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -120,7 +120,7 @@ class SelectorParser(
 
         (to.base as? BaseSelector)?.freeze()
         to.setName(name)
-        to.setAnnotations(annotations)
+        to.setAnnotations(to.annotations + annotations)
 
         val forBase = (base as? BaseSelector)?.hasAnnotation(SingleBase::class) == true
         val forSelf = to.hasAnnotation(SingleBase::class) && to !is Block
