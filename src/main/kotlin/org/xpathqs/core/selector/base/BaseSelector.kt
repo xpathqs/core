@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,8 @@ abstract class BaseSelector(
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
     val annotations: Collection<Annotation> = emptyList(),
 
-    internal val field: Field? = null
+    val field: Field? = null,
+    val noBase: Boolean = false,
 ) : ISelector {
 
     /**
@@ -59,7 +60,8 @@ abstract class BaseSelector(
      */
     override fun toXpath(): String {
         return mergeXpath(
-            base.toXpath(), props.toXpath()
+            if(noBase) "" else base.toXpath(),
+            props.toXpath()
         )
     }
 

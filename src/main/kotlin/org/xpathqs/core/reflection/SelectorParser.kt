@@ -23,6 +23,7 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.Name
+import org.xpathqs.core.annotations.NoBase
 import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
@@ -36,6 +37,7 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import java.lang.reflect.Field
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.jvm.kotlinProperty
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -50,7 +52,7 @@ class SelectorParser(
 ) {
 
     /**
-     * Parse [Block] object with all of inner class-object and class fields
+     * Parse [Block] object with all inner class-object and class fields
      * inherited from the [Block] class
      *
      * Require #1 - after properties was initialized [Block.afterReflectionParse] callback should be invoked
@@ -78,6 +80,8 @@ class SelectorParser(
                 name = rootObj.name + "." + ann,
                 field = f
             )
+
+            //f.kotlinProperty.parameters.first().kind
 
             if (sel is Block) {
                 SelectorParser(sel, rootObj).parse()
@@ -108,12 +112,18 @@ class SelectorParser(
         annotations: Collection<Annotation>
     ) {
         if(base !is NullSelector) {
-            if(to.base !is NullSelector && (to.base as BaseSelector).state != SelectorState.FREEZE) {
-                to.base.setBase(base)
-                to.setBase(to.base)
-            } else {
-                if((to.base as? BaseSelector)?.state != SelectorState.FREEZE) {
-                    to.setBase(base)
+            val isNoBase = annotations.firstOrNull {
+                it.annotationClass.java == NoBase::class.java
+            } != null
+
+            if(!isNoBase) {
+                if(to.base !is NullSelector && (to.base as BaseSelector).state != SelectorState.FREEZE) {
+                    to.base.setBase(base)
+                    to.setBase(to.base)
+                } else {
+                    if((to.base as? BaseSelector)?.state != SelectorState.FREEZE) {
+                        to.setBase(base)
+                    }
                 }
             }
         }

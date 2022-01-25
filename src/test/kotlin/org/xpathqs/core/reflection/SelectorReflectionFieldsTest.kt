@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ internal class SelectorReflectionFieldsTest {
         BaseSelector::name.name,
         BaseSelector::annotations.name,
         BaseSelector::field.name,
+        BaseSelector::noBase.name,
         "Companion"
     )
 

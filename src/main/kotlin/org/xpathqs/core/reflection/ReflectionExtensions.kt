@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -108,6 +108,15 @@ internal fun <T : BaseSelector> T.setName(name: String): T {
 internal fun <T : BaseSelector> T.setBase(base: ISelector): T {
     SelectorReflection(this)
         .setBase(base)
+    return this
+}
+
+/**
+ * Sets the <pre>setNoBase</pre> to the [BaseSelector] via reflection
+ */
+internal fun <T : BaseSelector> T.setNoBase(value: Boolean): T {
+    SelectorReflection(this)
+        .setProp(this::noBase.name, value)
     return this
 }
 

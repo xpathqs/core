@@ -20,53 +20,15 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.selector
-
-import org.xpathqs.core.reflection.setNoBase
-import org.xpathqs.core.reflection.setProps
-import org.xpathqs.core.selector.extensions.core.clone
+package org.xpathqs.core.annotations
 
 /**
- * Modifies `tag` value of [Selector]
+ * Annotation to tell [org.xpathqs.core.reflection.PackageScanner] to
+ *
  */
-fun <T : Selector> T.tag(value: String): T {
-    val res = this.clone()
-    res.setProps(props.clone(tag = value))
-    return res
-}
-
-/**
- * Removes `base` from the [Selector]
- */
-fun <T : Selector> T.noBase(): T {
-    val res = this.clone()
-    res.setNoBase(true)
-    return res
-}
-
-/**
- * Modifies `prefix` value of [Selector]
- */
-fun <T : Selector> T.prefix(value: String) = clone {
-    setProps(props.clone(prefix = value))
-}
-
-/**
- * Modifies `axe` value of [Selector]
- */
-fun <T : Selector> T.axe(value: String) = clone {
-    setProps(props.clone(axe = value))
-}
-
-/**
- * Modifies `postfix` value of [Selector]
- */
-fun <T : Selector> T.postfix(value: String) = clone {
-    setProps(props.clone(postfix = value))
-}
-
-private fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
-    val res = this.clone()
-    res.f()
-    return res
-}
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+annotation class NoBase
