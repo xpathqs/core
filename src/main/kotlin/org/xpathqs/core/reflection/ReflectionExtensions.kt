@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
@@ -79,18 +80,20 @@ internal fun Class<*>.getObject(): Block {
 }
 
 /**
- * Check class for having [BaseSelector] as an inherited parent
+ * Check class for having [ISelector] as an inherited parent
  */
 @Suppress("ReturnCount")
 internal fun Class<*>.isSelectorSubtype(): Boolean {
+    if (this == BaseSelector::class.java
+        || this == NullSelector::class.java
+        || this == ISelector::class.java) {
+        return true
+    }
     if (this.superclass == null) {
         return false
     }
-    if (this == BaseSelector::class.java) {
-        return true
-    }
-    return BaseSelector::class.java.isAssignableFrom(this.superclass)
-            || this.isAssignableFrom(BaseSelector::class.java)
+    return ISelector::class.java.isAssignableFrom(this.superclass)
+            || this.isAssignableFrom(ISelector::class.java)
 }
 
 /**

@@ -70,7 +70,9 @@ class SelectorParser(
         )
         rootObj.children = srf.innerSelectors
 
-        srf.innerSelectorFields.forEach { f ->
+        srf.innerSelectorFields.filter {
+            it.get(rootObj) !is NullSelector
+        }.forEach { f ->
             f.isAccessible = true
             val sel = f.get(rootObj) as BaseSelector
             val ann = (f.annotations.find {it is Name } as? Name)?.value ?: f.name
@@ -81,9 +83,12 @@ class SelectorParser(
                 field = f
             )
 
-            //f.kotlinProperty.parameters.first().kind
+            if(sel.base === sel) {
+                println("sel.base === rootObj")
+            }
 
             if (sel is Block) {
+                //println("SelectorParser(sel, rootObj).parse() : ${"$rootName.$baseName"}")
                 SelectorParser(sel, rootObj).parse()
             }
         }
@@ -117,13 +122,12 @@ class SelectorParser(
             } != null
 
             if(!isNoBase) {
-                if(to.base !is NullSelector && (to.base as BaseSelector).state != SelectorState.FREEZE) {
-                    to.base.setBase(base)
+                val notFreeze = (to.base as? BaseSelector)?.state != SelectorState.FREEZE
+                if(to.base !is NullSelector && notFreeze) {
+                    (to.base as BaseSelector).setBase(base)
                     to.setBase(to.base)
-                } else {
-                    if((to.base as? BaseSelector)?.state != SelectorState.FREEZE) {
-                        to.setBase(base)
-                    }
+                } else if(notFreeze) {
+                    to.setBase(base)
                 }
             }
         }

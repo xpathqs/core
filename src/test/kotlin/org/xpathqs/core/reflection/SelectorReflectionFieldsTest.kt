@@ -80,7 +80,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1"
+                "s1", "originBlock"
             )
     }
 
@@ -91,7 +91,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_base"
+                "s1_base", "originBlock"
             )
     }
 
@@ -106,7 +106,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_base"
+                "s1_base", "originBlock"
             )
     }
 
@@ -129,7 +129,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_inner"
+                "s1_inner", "originBlock"
             )
     }
 

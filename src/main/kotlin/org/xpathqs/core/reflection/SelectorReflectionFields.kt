@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,11 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.NoScan
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import java.lang.Exception
 import java.lang.reflect.Field
 
 /**
@@ -39,7 +42,9 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.map {
+        innerSelectorFields.filter {
+            it.get(rootObj) !is NullSelector
+        }.map {
             (it.get(rootObj) as BaseSelector).setName(it.name)
         }
     }
@@ -82,18 +87,18 @@ class SelectorReflectionFields(
      * Filter [declaredFields] result by [BaseSelector] fields only
      */
     val innerSelectorFields: Collection<Field>
-            by lazy {
-                val res = ArrayList<Field>()
+        by lazy {
+            val res = ArrayList<Field>()
 
-                declaredFields.forEach {
-                    if (it.type.isSelectorSubtype()) {
-                        it.isAccessible = true
-                        res.add(it)
-                    }
+            declaredFields.filter { it.name != "base"}.forEach {
+                if (it.type.isSelectorSubtype()) {
+                    it.isAccessible = true
+                    res.add(it)
                 }
-
-                removeUnnecessary(res)
             }
+
+            removeUnnecessary(res)
+        }
 
     /**
      * Returns a collection of `Class` elements which are inherited from the [BaseSelector]
