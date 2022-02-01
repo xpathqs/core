@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
@@ -79,18 +80,20 @@ internal fun Class<*>.getObject(): Block {
 }
 
 /**
- * Check class for having [BaseSelector] as an inherited parent
+ * Check class for having [ISelector] as an inherited parent
  */
 @Suppress("ReturnCount")
 internal fun Class<*>.isSelectorSubtype(): Boolean {
+    if (this == BaseSelector::class.java
+        || this == NullSelector::class.java
+        || this == ISelector::class.java) {
+        return true
+    }
     if (this.superclass == null) {
         return false
     }
-    if (this == BaseSelector::class.java) {
-        return true
-    }
-    return BaseSelector::class.java.isAssignableFrom(this.superclass)
-            || this.isAssignableFrom(BaseSelector::class.java)
+    return ISelector::class.java.isAssignableFrom(this.superclass)
+            || this.isAssignableFrom(ISelector::class.java)
 }
 
 /**
@@ -108,6 +111,15 @@ internal fun <T : BaseSelector> T.setName(name: String): T {
 internal fun <T : BaseSelector> T.setBase(base: ISelector): T {
     SelectorReflection(this)
         .setBase(base)
+    return this
+}
+
+/**
+ * Sets the <pre>setNoBase</pre> to the [BaseSelector] via reflection
+ */
+internal fun <T : BaseSelector> T.setNoBase(value: Boolean): T {
+    SelectorReflection(this)
+        .setProp(this::noBase.name, value)
     return this
 }
 

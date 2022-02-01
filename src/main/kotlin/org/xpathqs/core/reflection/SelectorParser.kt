@@ -23,6 +23,7 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.Name
+import org.xpathqs.core.annotations.NoBase
 import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
@@ -36,6 +37,7 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import java.lang.reflect.Field
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.jvm.kotlinProperty
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -50,7 +52,7 @@ class SelectorParser(
 ) {
 
     /**
-     * Parse [Block] object with all of inner class-object and class fields
+     * Parse [Block] object with all inner class-object and class fields
      * inherited from the [Block] class
      *
      * Require #1 - after properties was initialized [Block.afterReflectionParse] callback should be invoked
@@ -68,7 +70,9 @@ class SelectorParser(
         )
         rootObj.children = srf.innerSelectors
 
-        srf.innerSelectorFields.forEach { f ->
+        srf.innerSelectorFields.filter {
+            it.get(rootObj) !is NullSelector
+        }.forEach { f ->
             f.isAccessible = true
             val sel = f.get(rootObj) as BaseSelector
             val ann = (f.annotations.find {it is Name } as? Name)?.value ?: f.name
@@ -79,7 +83,12 @@ class SelectorParser(
                 field = f
             )
 
+            if(sel.base === sel) {
+                println("sel.base === rootObj")
+            }
+
             if (sel is Block) {
+                //println("SelectorParser(sel, rootObj).parse() : ${"$rootName.$baseName"}")
                 SelectorParser(sel, rootObj).parse()
             }
         }
@@ -108,11 +117,16 @@ class SelectorParser(
         annotations: Collection<Annotation>
     ) {
         if(base !is NullSelector) {
-            if(to.base !is NullSelector && (to.base as BaseSelector).state != SelectorState.FREEZE) {
-                to.base.setBase(base)
-                to.setBase(to.base)
-            } else {
-                if((to.base as? BaseSelector)?.state != SelectorState.FREEZE) {
+            val isNoBase = annotations.firstOrNull {
+                it.annotationClass.java == NoBase::class.java
+            } != null
+
+            if(!isNoBase) {
+                val notFreeze = (to.base as? BaseSelector)?.state != SelectorState.FREEZE
+                if(to.base !is NullSelector && notFreeze) {
+                    (to.base as BaseSelector).setBase(base)
+                    to.setBase(to.base)
+                } else if(notFreeze) {
                     to.setBase(base)
                 }
             }
