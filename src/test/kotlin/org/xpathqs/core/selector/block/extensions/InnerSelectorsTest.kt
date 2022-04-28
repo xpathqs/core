@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,6 +56,21 @@ class InnerSelectorsTest {
             object Inner2: Block() {
                 val s1 = tagSelector("div")
                 val s2 = tagSelector("div")
+
+                object Inner3: Block() {
+                    val s1 = tagSelector("div")
+                    val s2 = tagSelector("div")
+
+                    object Inner4: Block() {
+                        val s1 = tagSelector("div")
+                        val s2 = tagSelector("div")
+
+                        object Inner5: Block() {
+                            val s1 = tagSelector("div")
+                            val s2 = tagSelector("div")
+                        }
+                    }
+                }
             }
         }
     }
@@ -208,6 +223,9 @@ class InnerSelectorsTest {
             arrayListOf(
                 PageWithInner2.Inner,
                 PageWithInner2.Inner.Inner2,
+                PageWithInner2.Inner.Inner2.Inner3,
+                PageWithInner2.Inner.Inner2.Inner3.Inner4,
+                PageWithInner2.Inner.Inner2.Inner3.Inner4.Inner5,
             )
         }
     }
