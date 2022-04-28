@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,6 +61,7 @@ fun <T : BaseSelector> T.deepClone(): T {
 
     newObj.setName(this.name)
     newObj.setBase(this.base)
+    newObj.setNoBase(this.noBase)
     newObj.setAnnotations(this.annotations)
     newObj.setField(this.field)
     newObj.setProps(this.props.clone())

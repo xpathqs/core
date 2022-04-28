@@ -192,6 +192,11 @@ pitest {
             //exclude 'annotations' package. - due to integration problems with Kotlinn and PiTest
         )
     )
+    excludedTestClasses.set(
+        arrayListOf(
+            "org.xpathqs.core.reflection.SelectorAnnotationsTest"
+        )
+    )
     threads.set(8)
     outputFormats.set(arrayListOf("HTML"))
     jvmArgs.set(arrayListOf("-Xmx1024m"))

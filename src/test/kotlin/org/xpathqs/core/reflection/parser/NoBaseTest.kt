@@ -20,53 +20,30 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.selector
+package org.xpathqs.core.reflection.parser
 
-import org.xpathqs.core.reflection.setNoBase
-import org.xpathqs.core.reflection.setProps
-import org.xpathqs.core.selector.extensions.core.clone
+import org.junit.jupiter.api.Test
+import org.xpathqs.core.annotations.NoBase
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.WHEN
+import org.xpathqs.xpathShouldBe
 
-/**
- * Modifies `tag` value of [Selector]
- */
-fun <T : Selector> T.tag(value: String): T {
-    val res = this.clone()
-    res.setProps(props.clone(tag = value))
-    return res
-}
+class NoBaseTest {
+    class TestCls : Block(tagSelector("base")) {
+        val s1 = tagSelector("div1")
+        @NoBase
+        val s2 = tagSelector("div2")
+    }
 
-/**
- * Removes `base` from the [Selector]
- */
-fun <T : Selector> T.noBase(): T {
-    val res = this.clone()
-    res.setNoBase(true)
-    return res
-}
-
-/**
- * Modifies `prefix` value of [Selector]
- */
-fun <T : Selector> T.prefix(value: String) = clone {
-    setProps(props.clone(prefix = value))
-}
-
-/**
- * Modifies `axe` value of [Selector]
- */
-fun <T : Selector> T.axe(value: String) = clone {
-    setProps(props.clone(axe = value))
-}
-
-/**
- * Modifies `postfix` value of [Selector]
- */
-fun <T : Selector> T.postfix(value: String) = clone {
-    setProps(props.clone(postfix = value))
-}
-
-private fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
-    val res = this.clone()
-    res.f()
-    return res
+    @Test
+    fun noBaseCheck() {
+        WHEN {
+            TestCls().parse()
+        }.ASSERT {
+            actual.s1.xpathShouldBe("//base//div1")
+            actual.s2.xpathShouldBe("//div2")
+        }
+    }
 }
