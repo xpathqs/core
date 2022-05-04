@@ -24,6 +24,7 @@ package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.Name
 import org.xpathqs.core.annotations.NoBase
+import org.xpathqs.core.annotations.NoXpathBase
 import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
@@ -145,6 +146,14 @@ class SelectorParser(
             } else if (to is GroupSelector) {
                 to.prefix("/")
             }
+        }
+
+        val noXpBase = annotations.firstOrNull {
+            it.annotationClass.java == NoXpathBase::class.java
+        } != null
+
+        if(noXpBase) {
+            to.setNoBase(true)
         }
 
         if (to is GroupSelector) {
