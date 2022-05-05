@@ -68,7 +68,7 @@ open class GroupSelector(
             }
             val props = props.toXpath()
             if (props.isNotEmpty()) {
-                mergeXpath("($res})", props)
+                mergeXpath("($res)", props)
             } else {
                 res
             }

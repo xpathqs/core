@@ -29,6 +29,7 @@ import org.xpathqs.core.annotations.NoXpathBase
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.xpathShouldBe
