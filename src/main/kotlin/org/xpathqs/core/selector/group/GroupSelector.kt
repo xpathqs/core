@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,20 +61,33 @@ open class GroupSelector(
      * Return xpath of [base] selector + [selectorsChain] combined result
      */
     override fun toXpath(): String {
-        return if (selectorsChain.isEmpty()) {
-            base.toXpath()
-        } else if (selectorsChain.size == 1) {
-            base.toXpath() + selectorsChain.first().toXpath()
-        } else {
+        return if(noBase) {
             var res = ""
             selectorsChain.forEach {
                 res += it.toXpath()
             }
             val props = props.toXpath()
             if (props.isNotEmpty()) {
-                mergeXpath("(${base.toXpath() + res})", props)
+                mergeXpath("($res})", props)
             } else {
-                mergeXpath(base.toXpath(), res)
+                res
+            }
+        } else {
+            if (selectorsChain.isEmpty()) {
+                base.toXpath()
+            } else if (selectorsChain.size == 1) {
+                base.toXpath() + selectorsChain.first().toXpath()
+            } else {
+                var res = ""
+                selectorsChain.forEach {
+                    res += it.toXpath()
+                }
+                val props = props.toXpath()
+                if (props.isNotEmpty()) {
+                    mergeXpath("(${base.toXpath() + res})", props)
+                } else {
+                    mergeXpath(base.toXpath(), res)
+                }
             }
         }
     }
