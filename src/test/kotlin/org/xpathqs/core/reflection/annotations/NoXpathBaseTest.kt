@@ -28,7 +28,10 @@ import org.junit.jupiter.api.Test
 import org.xpathqs.core.annotations.NoXpathBase
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.xpathShouldBe
 
 class NoXpathBaseTest {
@@ -36,6 +39,12 @@ class NoXpathBaseTest {
     object NoXpathBaseOjb : Block(tagSelector("baseSel")) {
         @NoXpathBase
         val sel = tagSelector("tag")
+
+        @NoXpathBase
+        val sel2 = tagSelector("tag") + tagSelector("tag2")
+
+        @NoXpathBase
+        val sel3 = xpathSelector("//tag")
 
         //tag
     }
@@ -51,6 +60,26 @@ class NoXpathBaseTest {
     fun r1() {
         NoXpathBaseOjb.sel.xpathShouldBe("//tag")
         assertThat(NoXpathBaseOjb.sel.base)
+            .isSameAs(NoXpathBaseOjb)
+    }
+
+    /**
+     * Checks Require #2 of [NoXpathBase]
+     */
+    @Test
+    fun r2() {
+        NoXpathBaseOjb.sel2.xpathShouldBe("//tag//tag2")
+        assertThat(NoXpathBaseOjb.sel2.base)
+            .isSameAs(NoXpathBaseOjb)
+    }
+
+    /**
+     * Checks Require #3 of [NoXpathBase]
+     */
+    @Test
+    fun r3() {
+        NoXpathBaseOjb.sel.xpathShouldBe("//tag")
+        assertThat(NoXpathBaseOjb.sel3.base)
             .isSameAs(NoXpathBaseOjb)
     }
 }
