@@ -67,6 +67,12 @@ object WithContainer: Block() {
     val s4 = Container()
 }
 
+@TestAnnotation1
+open class Base: Block()
+
+@TestAnnotation2
+object Inherited: Base()
+
 class SelectorAnnotationsTest {
 
     @Test
@@ -121,11 +127,18 @@ class SelectorAnnotationsTest {
             .hasSize(1)
     }
 
+    @Test
+    fun checkInheritedBlock() {
+        assertThat(Inherited.annotations)
+            .hasSize(2)
+    }
+
     companion object {
         @JvmStatic
         @BeforeAll
         fun init() {
             SelectorParser(PageWithAnnotations).parse()
+            Inherited.parse()
         }
     }
 }

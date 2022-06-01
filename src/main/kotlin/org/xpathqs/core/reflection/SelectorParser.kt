@@ -38,7 +38,7 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import java.lang.reflect.Field
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.jvm.kotlinProperty
+import kotlin.reflect.full.superclasses
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -58,16 +58,28 @@ class SelectorParser(
      *
      * Require #1 - after properties was initialized [Block.afterReflectionParse] callback should be invoked
      * @sample org.xpathqs.core.reflection.parser.CallbackTest.afterReflectionParse
+     *
+     * Require #2 - class annotations should be added to the base annotations
+     * @sample org.xpathqs.core.reflection.SelectorAnnotationsTest.checkBlock
+     *
+     * Require #3 - base class annotations should be added to the base annotations
+     * @sample org.xpathqs.core.reflection.SelectorAnnotationsTest.checkInheritedBlock
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
         val rootAnn = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
         val rootName = rootObj.name.ifEmpty { baseName + rootAnn}
+
+        val annotations = ArrayList<Annotation>()
+        rootObj::class.superclasses.forEach {
+            annotations.addAll(it.annotations)
+        }
+
         setFields(
             to = rootObj,
             base = base,
             name = rootName,
-            annotations = rootObj::class.annotations
+            annotations = annotations + rootObj::class.annotations
         )
         rootObj.children = srf.innerSelectors
 
