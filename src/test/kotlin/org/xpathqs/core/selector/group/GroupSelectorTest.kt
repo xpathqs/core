@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.group
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.extensions.times
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
@@ -46,5 +47,12 @@ internal class GroupSelectorTest {
     fun chainOfMoreThanTwoElementsWithGroup() {
         ((tagSelector("div") + tagSelector("div")) + tagSelector("div") + "//p")
             .xpathShouldBe("//div//div//div//p")
+    }
+
+    @Test
+    fun tagShouldNotBeUpdatedForMultiple() {
+        val s = (tagSelector("div") * tagSelector("p"))
+            .tag("a")
+        s.xpathShouldBe("//div/p")
     }
 }
