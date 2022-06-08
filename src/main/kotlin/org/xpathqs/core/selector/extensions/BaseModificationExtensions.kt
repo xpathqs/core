@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,6 @@ import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.selector.selector.postfix
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
@@ -142,6 +141,13 @@ fun <T : BaseSelector> T.addArg(arg: ValueArg) = selfClone {
  */
 operator fun <T : BaseSelector> T.plus(sel: BaseSelector): GroupSelector {
     return GroupSelector(selectorsChain = arrayListOf(this.clone(), sel.clone()))
+}
+
+/**
+ * Returns [GroupSelector] with based on `left` and `right` arguments with single prefix for the `right` selector
+ */
+operator fun <T : BaseSelector> T.times(sel: Selector): GroupSelector {
+    return GroupSelector(selectorsChain = arrayListOf(this.clone(), sel.clone().prefix("/")))
 }
 
 /**
