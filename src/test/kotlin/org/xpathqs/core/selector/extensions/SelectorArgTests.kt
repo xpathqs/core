@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -92,22 +92,32 @@ class SelectorArgTests {
 
     /**
      * Checks require #1
-     * @see org.xpathqs.core.selector.extensions.withAttributeValue
-     */
-    @Test
-    fun r1_withAttributeValue() {
-        tagSelector("div").withAttributeValue("v")
-            .xpathShouldBe("//div[@*='v']")
-    }
-
-    /**
-     * Checks require #1
      * @see org.xpathqs.core.selector.extensions.withAttribute
      */
     @Test
     fun r1_withAttribute() {
         tagSelector("div").withAttribute("a")
             .xpathShouldBe("//div[@a]")
+    }
+
+    /**
+     * Checks require #2
+     * @see org.xpathqs.core.selector.extensions.withAttribute
+     */
+    @Test
+    fun r2_withAttribute() {
+        tagSelector("div").withAttribute(value = "a")
+            .xpathShouldBe("//div[@*='a']")
+    }
+
+    /**
+     * Checks require #3
+     * @see org.xpathqs.core.selector.extensions.withAttribute
+     */
+    @Test
+    fun r3_withAttribute() {
+        tagSelector("div").withAttribute(name = "n", value = "a")
+            .xpathShouldBe("//div[@n='a']")
     }
 
     /**
