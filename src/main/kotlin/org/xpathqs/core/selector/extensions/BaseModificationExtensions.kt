@@ -46,7 +46,7 @@ import org.xpathqs.core.util.SelectorFactory.xpathSelector
  * Require #1 - [right] selector's xpath should be added to the target selector as an parameter
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_contains
  */
-infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
+infix fun <T : BaseSelector> T.contains(right: BaseSelector) = selfClone {
     this[SelectorArg(
         selector = right,
         type = InnerSelectorArg.ROOT
@@ -57,7 +57,7 @@ infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
  * @see [contains] but for the double quote
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_containsAny
  */
-infix fun <T : BaseSelector> T.containsAny(right: Selector) = selfClone {
+infix fun <T : BaseSelector> T.containsAny(right: BaseSelector) = selfClone {
     this[SelectorArg(
         selector = right,
         type = InnerSelectorArg.ALL
