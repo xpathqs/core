@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,11 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.annotations.NoScan
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import java.lang.Exception
 import java.lang.reflect.Field
 
 /**
@@ -32,14 +35,18 @@ import java.lang.reflect.Field
  * @param rootObj object for interaction
  * @sample org.xpathqs.core.reflection.SelectorReflectionFieldsTest
  */
-internal class SelectorReflectionFields(
+class SelectorReflectionFields(
     private val rootObj: BaseSelector
 ) {
     /**
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.map { it.get(rootObj) as BaseSelector }
+        innerSelectorFields.filter {
+            it.get(rootObj) !is NullSelector
+        }.map {
+            (it.get(rootObj) as BaseSelector).setName(it.name)
+        }
     }
 
     /**
@@ -80,18 +87,18 @@ internal class SelectorReflectionFields(
      * Filter [declaredFields] result by [BaseSelector] fields only
      */
     val innerSelectorFields: Collection<Field>
-            by lazy {
-                val res = ArrayList<Field>()
+        by lazy {
+            val res = ArrayList<Field>()
 
-                declaredFields.forEach {
-                    if (it.type.isSelectorSubtype()) {
-                        it.isAccessible = true
-                        res.add(it)
-                    }
+            declaredFields.filter { it.name != "base"}.forEach {
+                if (it.type.isSelectorSubtype()) {
+                    it.isAccessible = true
+                    res.add(it)
                 }
-
-                removeUnnecessary(res)
             }
+
+            removeUnnecessary(res)
+        }
 
     /**
      * Returns a collection of `Class` elements which are inherited from the [BaseSelector]
@@ -120,9 +127,8 @@ internal class SelectorReflectionFields(
     private fun removeUnnecessary(fields: Collection<Field>) = fields
         .filter {
             it.name != "INSTANCE" //remove object-class instances
-                    && it.name != "\$jacocoData" //remove jacoco data
+                    && !it.name.contains("\$")  //remove fields which was added dynamically
                     && it.isScanAvailable //remove fields annotated with "@NoScan
-                    && !it.name.contains("this$") //remove inner classes link
         }
         .distinctBy { it.name }
 

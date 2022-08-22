@@ -22,15 +22,49 @@
 
 package org.xpathqs.core.selector.args.decorators
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.args.KVSelectorArg
+import org.xpathqs.gwt.WHEN
 
 internal class KVNormalizeSpaceDecoratorTest {
+    val arg = KVSelectorArg("text()", "text")
+
+    /**
+     * Checks Require #1 of [KVNormalizeSpaceDecorator]
+     */
     @Test
-    fun toXpath() {
-        assertThat(KVNormalizeSpaceDecorator(KVSelectorArg("text()", "text")).toXpath())
-            .isEqualTo("text()=normalize-space(text)")
+    fun r1() {
+        WHEN {
+            KVNormalizeSpaceDecorator(arg)
+                .toXpath()
+        }.THEN {
+            "normalize-space(text())=text"
+        }
+    }
+
+    /**
+     * Checks Require #2 of [KVNormalizeSpaceDecorator]
+     */
+    @Test
+    fun r2() {
+        WHEN {
+            KVNormalizeSpaceDecorator(arg, normalizeK = true, normalizeV = true)
+                .toXpath()
+        }.THEN {
+            "normalize-space(text())=normalize-space(text)"
+        }
+    }
+
+    /**
+     * Checks Require #3 of [KVNormalizeSpaceDecorator]
+     */
+    @Test
+    fun r3() {
+        WHEN {
+            KVNormalizeSpaceDecorator(arg, normalizeK = false, normalizeV = false)
+                .toXpath()
+        }.THEN {
+            "text()=text"
+        }
     }
 }

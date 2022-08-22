@@ -25,11 +25,15 @@ package org.xpathqs.core.util
 import org.xpathqs.core.constants.Global
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.SelectorArgs
+import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
+import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
+import org.xpathqs.core.selector.extensions.addArg
+import org.xpathqs.core.selector.extensions.addStringToArgs
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.selector.xpath.XpathSelector
@@ -51,14 +55,18 @@ object SelectorFactory {
     /**
      * Returns new [Selector] with specified `text`
      */
-    fun textSelector(text: String) = Selector(
+    fun textSelector(text: String, normalize: Boolean = Global.NORMALIZE_TEXT_VALUE) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
-                CommaDecorator(
-                    KVSelectorArg(
-                        k = Global.TEXT_ARG,
-                        v = text
-                    )
+                KVNormalizeSpaceDecorator(
+                    CommaDecorator(
+                        KVSelectorArg(
+                            k = Global.TEXT_ARG,
+                            v = text
+                        )
+                    ),
+                    normalizeK = normalize,
+                    normalizeV = Global.NORMALIZE_TEXT_ARG,
                 )
             )
         )
@@ -67,15 +75,19 @@ object SelectorFactory {
     /**
      * Returns new [Selector] with containing specified `text`
      */
-    fun textContainsSelector(text: String) = Selector(
+    fun textContainsSelector(text: String, normalize: Boolean = Global.NORMALIZE_TEXT_VALUE) = Selector(
         props = SelectorProps(
             args = SelectorArgs(
                 ContainsDecorator(
-                    CommaDecorator(
-                        KVSelectorArg(
-                            k = Global.TEXT_ARG,
-                            v = text
-                        )
+                    KVNormalizeSpaceDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = Global.TEXT_ARG,
+                                v = text
+                            )
+                        ),
+                        normalizeK = normalize,
+                        normalizeV = Global.NORMALIZE_TEXT_ARG,
                     )
                 )
             )
@@ -117,6 +129,68 @@ object SelectorFactory {
     )
 
     /**
+     * Returns [Selector] based on attribute name and value
+     *
+     * Require #1 - default values should return [Selector] without limitation
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withoutArgs]
+     *
+     * Require #2 - [name] argument should return [Selector] with attribute name
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withName]
+     *
+     * Require #3 - [value] argument should return [Selector] with attribute value
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withValue]
+     *
+     * Require #4 - [name] and [value] argument should return [Selector] with attributes name and value
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withNameAndValue]
+     *
+     * Require #5 - [name] and [valueContains] argument should return [Selector] with attributes name
+     *      and value wrapped into contains function
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withNameAndValueContains]
+     *
+     * Require #6 - [valueContains] argument should return [Selector] with attribute value
+     *    wrapped into contains function
+     * @sample [org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.withValueContains]
+     */
+    fun attrSelector(
+        name: String = "*",
+        value: String = "",
+        valueContains: String = ""
+    ): Selector {
+        val checkedName = if(name.first() != '@') "@$name" else name
+        val arg = if(value.isEmpty() && valueContains.isEmpty()) {
+            KVSelectorArg(k = checkedName)
+        } else {
+            if(value.isNotEmpty()) {
+                 CommaDecorator(
+                    KVSelectorArg(
+                        k = checkedName,
+                        v = value
+                    )
+                )
+            } else if(valueContains.isNotEmpty()) {
+                 ContainsDecorator(
+                    CommaDecorator(
+                        KVSelectorArg(
+                            k = checkedName,
+                            v = valueContains
+                        )
+                    )
+                )
+            } else {
+                ValueArg()
+            }
+        }
+
+        return Selector(
+            props = SelectorProps(
+                args = SelectorArgs(
+                    arg
+                )
+            )
+        )
+    }
+
+    /**
      * Returns [ComposeSelector] based on provided [selectors]
      * @sample  org.xpathqs.core.util.PropertyFacadeTest
      */
@@ -128,4 +202,53 @@ object SelectorFactory {
                 }
             )
         )
+
+    /**
+     * Returns text selector were all [text] elements wrapped as a contains arg
+     *
+     * Require #1
+     * when [text] has more than one arguments they all should be wrapped into contains function
+     * @sample org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.r1_textWithInnerTagsSelector
+     *
+     * Require #2
+     * when [text] contains only one arg - result should same as a normal [textContainsSelector] call
+     * @sample org.xpathqs.core.util.SelectorFactoryAttrSelectorTest.r2_textWithInnerTagsSelector
+     */
+    fun textWithInnerTagsSelector(vararg text: String): Selector {
+        return if(text.size > 1) {
+            val args = SelectorArgs(
+                ContainsDecorator(
+                    KVNormalizeSpaceDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = Global.TEXT_ARG,
+                                v = text.first()
+                            )
+                        ),
+                        normalizeK = Global.NORMALIZE_TEXT_VALUE,
+                        normalizeV = Global.NORMALIZE_TEXT_ARG,
+                    )
+                )
+            )
+            text.drop(1).forEach {
+                args.add(
+                    ContainsDecorator(
+                        CommaDecorator(
+                            KVSelectorArg(
+                                k = ".",
+                                v = it
+                            )
+                        )
+                    )
+                )
+            }
+            Selector(
+                props = SelectorProps(
+                    args = args
+                )
+            )
+        } else {
+            textContainsSelector(text.first())
+        }
+    }
 }

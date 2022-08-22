@@ -30,13 +30,14 @@ import org.xpathqs.core.selector.args.SelectorArgs
  */
 open class BaseSelectorProps(
     internal val args: SelectorArgs = SelectorArgs(),
+    internal var postfix: String = ""
 ) : Cloneable {
 
     /**
      * returns xpath query build based on provided argumets
      */
     open fun toXpath(): String {
-        return args.toXpath()
+        return args.toXpath() + postfix
     }
 
     /**

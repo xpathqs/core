@@ -40,23 +40,11 @@ internal class PackageScannerTest {
         assertThat(
             PackageScanner(packageName)
                 .packageObjects
-        )
-            .containsExactlyInAnyOrder(Page1, Page2, Page3)
+        ).containsExactlyInAnyOrder(Page1, Page2, Page3)
     }
 
     @Test
     fun scan() {
-        assertAll {
-            assertThat(Page1.name)
-                .isEmpty()
-
-            assertThat(Page2.name)
-                .isEmpty()
-
-            assertThat(Page3.name)
-                .isEmpty()
-        }
-
         PackageScanner(packageName).scan()
 
         assertAll {

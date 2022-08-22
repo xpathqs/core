@@ -20,23 +20,46 @@
  * SOFTWARE.
  */
 
-package org.xpathqs
+package org.xpathqs.core.selector.result
 
-import org.junit.jupiter.api.AfterAll
-import org.xpathqs.core.reflection.PackageScanner
+import org.junit.jupiter.api.Test
 
-internal class BaseObjectTest {
+import org.junit.jupiter.api.Assertions.*
+import org.xpathqs.core.selector.NullSelector
+import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.extensions.result
+import org.xpathqs.core.selector.extensions.textNotEmpty
+import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.xpathShouldBe
 
-    @AfterAll
-    fun clearObjects() {
-        PackageScanner("").packageObjects.forEach {
-            println("Clear ${it.name}")
-            it.toXpath()
+internal class ResultSelectorTest {
 
-            it.children.forEach {
-                println("Clear sel: ${it.name}")
-                it.toXpath()
-            }
-        }
+    @Test
+    fun toXpath() {
+        ResultSelector(tagSelector()).xpathShouldBe("(//*)")
+    }
+
+    @Test
+    fun toXpathWithBaseAndPos() {
+        ResultSelector(
+            wrapper = tagSelector("div")
+        )[2].xpathShouldBe("(//div)[position()=2]")
+    }
+
+    @Test
+    fun getTag() {
+        assertEquals("", ResultSelector(tagSelector()).tag)
+    }
+
+    @Test
+    fun resultTest() {
+        tagSelector("div").result[2]
+            .xpathShouldBe("(//div)[position()=2]")
+    }
+
+    @Test
+    fun resultTest2() {
+        tagSelector("div").textNotEmpty().result[2]
+            .xpathShouldBe("(//div[string-length(text()) > 0])[position()=2]")
     }
 }

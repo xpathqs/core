@@ -49,7 +49,7 @@ class BlockSelectorCloneTest {
     }
 
     @Test
-    fun testtt() {
+    fun test2() {
         val s1 = SomeTest().parse()
         val s2 = s1.deepClone()
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,8 @@ internal class SelectorReflectionFieldsTest {
         BaseSelector::name.name,
         BaseSelector::annotations.name,
         BaseSelector::field.name,
+        BaseSelector::noBase.name,
+        "Companion"
     )
 
     @Test
@@ -78,7 +80,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1"
+                "s1", "originBlock"
             )
     }
 
@@ -89,7 +91,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_base"
+                "s1_base", "originBlock"
             )
     }
 
@@ -104,7 +106,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_base"
+                "s1_base", "originBlock"
             )
     }
 
@@ -127,7 +129,7 @@ internal class SelectorReflectionFieldsTest {
 
         assertThat(names)
             .containsExactlyInAnyOrder(
-                "s1_inner"
+                "s1_inner", "originBlock"
             )
     }
 

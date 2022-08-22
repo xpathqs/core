@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,13 +39,14 @@ import kotlin.reflect.KClass
 abstract class BaseSelector(
     internal val state: SelectorState = SelectorState.INIT,
 
-    internal val base: ISelector = NullSelector(),
+    val base: ISelector = NullSelector(),
     override val name: String = "",
 
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
     val annotations: Collection<Annotation> = emptyList(),
 
-    internal val field: Field? = null
+    val field: Field? = null,
+    val noBase: Boolean = false,
 ) : ISelector {
 
     /**
@@ -58,17 +59,11 @@ abstract class BaseSelector(
      * Build selector's xpath
      */
     override fun toXpath(): String {
-        return base.toXpath() + props.toXpath()
+        return mergeXpath(
+            if(noBase) "" else base.toXpath(),
+            props.toXpath()
+        )
     }
-
-    /**
-     * returns true if provided annotation is present
-     * in the selector's annotation list
-     */
-    fun hasAnnotation(annotation: KClass<*>)
-        = annotations.find {
-            it.annotationClass == annotation
-        } != null
 
     /**
      * @return selector's string representation
@@ -82,6 +77,18 @@ abstract class BaseSelector(
     override fun toString(): String {
         return name.ifEmpty {
             xpath
+        }
+    }
+
+    companion object {
+        fun mergeXpath(xp1: String, xp2: String): String {
+            if(xp1.isNotEmpty()
+                && !xp2.startsWith("/")
+                && !xp2.startsWith("[")
+            ) {
+                return "$xp1//$xp2"
+            }
+            return xp1 + xp2
         }
     }
 }

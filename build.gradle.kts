@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.1.1"
+version = "0.1.3"
 group = "org.xpathqs"
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.7.0"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
@@ -35,6 +35,9 @@ plugins {
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
+    id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
+    id("info.solidsoft.pitest").version("1.7.0")
+    id("org.jetbrains.kotlinx.kover") version "0.4.1"
 }
 
 java {
@@ -53,9 +56,19 @@ repositories {
     mavenLocal()
 }
 
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = true // activate all available (even unstable) rules.
+    config = files("$projectDir/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+    }
+}
+
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.0")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
@@ -164,4 +177,31 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
             samples.from("src/test/kotlin/org/xpathqs/core", "src/main/kotlin/org/xpathqs/core")
         }
     }
+}
+
+pitest {
+    junit5PluginVersion.set("0.15")
+    targetClasses.set(
+        arrayListOf(
+            "org.xpathqs.core.selector.*",
+            "org.xpathqs.core.model.*",
+            "org.xpathqs.core.reflection.*",
+            "org.xpathqs.core.util.*",
+            "org.xpathqs.core.constants.*"
+
+            //exclude 'annotations' package. - due to integration problems with Kotlinn and PiTest
+        )
+    )
+    excludedTestClasses.set(
+        arrayListOf(
+            "org.xpathqs.core.reflection.SelectorAnnotationsTest"
+        )
+    )
+    threads.set(8)
+    outputFormats.set(arrayListOf("HTML"))
+    jvmArgs.set(arrayListOf("-Xmx1024m"))
+
+    mutationThreshold.set(80)
+    testStrengthThreshold.set(85)
+    coverageThreshold.set(95)
 }

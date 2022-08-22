@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,16 @@
 
 package org.xpathqs.core.selector.block
 
+import org.xpathqs.core.reflection.SelectorReflectionFields
 import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setBlank
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
+import kotlin.reflect.KClass
 
 /**
  * @return clone of a [Block] Selector
@@ -59,4 +62,88 @@ internal fun <T : Block> T.deepClone(): T {
         cloned.children = this.children
     }
     return cloned
+}
+
+/**
+ * @return Block's selectors without inner blocks
+ *
+ * Require #1 - all inner [BaseSelector]s of the [Block] should be returned
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r1_selectors]
+ *
+ * Require #2 - all inner [BaseSelector]s of the inner [Block]s should be ignored
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r2_selectors]
+ */
+val <T : Block> T.selectors: Collection<BaseSelector>
+    get() {
+        return this.children.filter {
+            it !is Block
+        }
+    }
+
+/**
+ * @return Block's selectors inner blocks
+ *
+ * Require #1 - when there is no inner [Block]s selectors then emptyList should be returned
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r1_selectorBlocks]
+ *
+ * Require #2 - inner [Block]s list should be returned
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r2_selectorBlocks]
+ *
+ * Require #3 - all other selectors except [Block]s should be ignored
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r3_selectorBlocks]
+ */
+val <T : Block> T.selectorBlocks: Collection<Block>
+    get() {
+        val res = ArrayList<Block>()
+        res.addAll(SelectorReflectionFields(this).innerBlocks)
+        res.addAll(this.children.filterIsInstance<Block>())
+        return res
+    }
+
+/**
+ * @return all inner Selector's block
+ *
+ * Require #1 - All inner [Block]s should be included
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r1_allInnerSelectorBlocks]
+ *
+ * Require #2 - Empty result when there is no inners [Block]s
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r2_allInnerSelectorBlocks]
+ */
+val <T : Block> T.allInnerSelectorBlocks: Collection<Block>
+    get() {
+        val res = ArrayList<Block>()
+        selectorBlocks.forEach {
+            res.add(it)
+            res.addAll(it.allInnerSelectorBlocks)
+        }
+        return res
+    }
+
+/**
+ * @return Block's selectors and inner selectors recursively for all inner blocks
+ *
+ * Require #1 - when there is no inner [Block]s selectors then [Block]s selectors should be returned
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r1_allInnerSelectors]
+ *
+ * Require #2 - [Block]s selectors and inner [Block]s selectors should be returned
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r2_allInnerSelectors]
+ *
+ * Require #3 - [Block]s selectors and inner [Block]s selectors should be returned for the block members
+ * @sample [org.xpathqs.core.selector.block.extensions.InnerSelectorsTest.r3_allInnerSelectors]
+ */
+val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
+    get() {
+        val res = ArrayList<BaseSelector>()
+        res.addAll(children)
+        selectorBlocks.forEach {
+            (it as? Block)?.allInnerSelectors?.let {
+                res.addAll(it)
+            }
+        }
+        return res
+    }
+
+fun <T: Block> T.findWithAnnotation(ann: KClass<*>): BaseSelector? {
+    val sel = allInnerSelectorBlocks + allInnerSelectors
+    return sel.find { it.hasAnnotation(ann) }
 }

@@ -25,13 +25,18 @@ package org.xpathqs.core.selector.selector
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
+import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.stateShouldBe
 import org.xpathqs.xpathShouldBe
 
 internal class SelectorTest {
 
     @Test
     fun toXpath() = Selector().xpathShouldBe("//*")
+
+    @Test
+    fun defaultState() = Selector().stateShouldBe(SelectorState.INIT)
 
     @Test
     fun toXpathWithCustomProps() = Selector(

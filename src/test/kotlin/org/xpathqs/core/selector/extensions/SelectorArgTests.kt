@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.extensions
 
 import org.junit.jupiter.api.Test
 import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.selector.preceding
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
@@ -72,25 +73,21 @@ class SelectorArgTests {
     }
 
     @Test
+    fun normalizedTextNotEmpty() {
+        tagSelector("div").normalizedTextNotEmpty()
+            .xpathShouldBe("//div[string-length(normalize-space(text())) > 0]")
+    }
+
+    @Test
     fun textWithContainsAndNormalize() {
         tagSelector("div").text("text", contains = true, normalize = true)
-            .xpathShouldBe("//div[contains(text(), normalize-space('text'))]")
+            .xpathShouldBe("//div[contains(normalize-space(text()), 'text')]")
     }
 
     @Test
     fun textWithNormalize() {
         tagSelector("div").text("text", normalize = true)
-            .xpathShouldBe("//div[text()=normalize-space('text')]")
-    }
-
-    /**
-     * Checks require #1
-     * @see org.xpathqs.core.selector.extensions.withAttributeValue
-     */
-    @Test
-    fun r1_withAttributeValue() {
-        tagSelector("div").withAttributeValue("v")
-            .xpathShouldBe("//div[@*='v']")
+            .xpathShouldBe("//div[normalize-space(text())='text']")
     }
 
     /**
@@ -101,5 +98,53 @@ class SelectorArgTests {
     fun r1_withAttribute() {
         tagSelector("div").withAttribute("a")
             .xpathShouldBe("//div[@a]")
+    }
+
+    /**
+     * Checks require #2
+     * @see org.xpathqs.core.selector.extensions.withAttribute
+     */
+    @Test
+    fun r2_withAttribute() {
+        tagSelector("div").withAttribute(value = "a")
+            .xpathShouldBe("//div[@*='a']")
+    }
+
+    /**
+     * Checks require #3
+     * @see org.xpathqs.core.selector.extensions.withAttribute
+     */
+    @Test
+    fun r3_withAttribute() {
+        tagSelector("div").withAttribute(name = "n", value = "a")
+            .xpathShouldBe("//div[@n='a']")
+    }
+
+    /**
+     * Checks require #1
+     * @see org.xpathqs.core.selector.extensions.childCount
+     */
+    @Test
+    fun r1_childCount() {
+        tagSelector("div").childCount(0)
+            .xpathShouldBe("//div[count(*)=0]")
+    }
+
+    @Test
+    fun testWithSelector() {
+        tagSelector("div")[tagSelector("div").preceding()]
+            .xpathShouldBe("//div[.//preceding::div]")
+    }
+
+    @Test
+    fun testWithSelectorContains() {
+        (tagSelector("div") contains tagSelector("t").preceding())
+            .xpathShouldBe("//div[./preceding::t]")
+    }
+
+    @Test
+    fun testWithSelectorContainsAny() {
+        (tagSelector("div") containsAny tagSelector("t").preceding())
+            .xpathShouldBe("//div[.//preceding::t]")
     }
 }

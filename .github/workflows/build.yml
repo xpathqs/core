@@ -48,6 +48,17 @@ jobs:
           path: build/reports/tests/test/
           if-no-files-found: warn
 
+      - name: Run Mutation tests
+        run: ./gradlew pitest
+
+      - name: Upload Mutation report directory
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: testDebugStuff
+          path: build/reports/pitest
+          if-no-files-found: warn
+
       - name: Run Test Coverage
         run: ./gradlew jacocoTestReport
 
@@ -55,7 +66,6 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2.1.0
         with:
-          generate-branches-badge: true
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
 
       - name: Log coverage percentage

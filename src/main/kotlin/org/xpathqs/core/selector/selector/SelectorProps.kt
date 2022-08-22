@@ -29,20 +29,24 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 /**
  * [Selector] properties class
  * @param prefix - string before [tag]
+ * @param axe - xpath axe
  * @param tag - string after [prefix] and before [args]
+ * @param postfix - string after all
  */
 open class SelectorProps(
     val prefix: String = "//",
+    val axe: String = "",
     val tag: String = "*",
-    args: SelectorArgs = SelectorArgs()
-) : BaseSelectorProps(args) {
+    args: SelectorArgs = SelectorArgs(),
+    postfix: String = ""
+) : BaseSelectorProps(args, postfix) {
 
     /**
-     * Get Xpath string based on [prefix] + [tag] + [args]
+     * Get Xpath string based on [prefix] + [axe] + [tag] + [args] + [postfix]
      */
     override fun toXpath(): String {
         val tag = if (Global.UPPER_CASE_FOR_TAG) this.tag.uppercase() else this.tag
-        return "$prefix$tag${args.toXpath()}"
+        return "$prefix$axe$tag${args.toXpath()}$postfix"
     }
 
     /**
@@ -50,16 +54,18 @@ open class SelectorProps(
      */
     fun clone(
         prefix: String = this.prefix,
+        axe: String = this.axe,
         tag: String = this.tag,
-        props: SelectorArgs = this.args
+        props: SelectorArgs = this.args,
+        postfix: String = this.postfix
     ): SelectorProps {
-        return SelectorProps(prefix, tag, props.clone())
+        return SelectorProps(prefix, axe, tag, props.clone(), postfix)
     }
 
     /**
      * Clone current object
      */
     override fun clone(): SelectorProps {
-        return SelectorProps(prefix, tag, args.clone())
+        return SelectorProps(prefix, axe, tag, args.clone(), postfix)
     }
 }

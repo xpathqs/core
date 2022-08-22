@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,6 +48,11 @@ fun <T : BaseSelector> T.text(
 fun <T : BaseSelector> T.textNotEmpty()
         = addStringToArgs("string-length(${Global.TEXT_ARG}) > 0")
 
+/**
+ * Add `string-length(normalize-space([Global.TEXT_ARG])) > 0` argument
+ */
+fun <T : BaseSelector> T.normalizedTextNotEmpty()
+        = addStringToArgs("string-length(normalize-space(${Global.TEXT_ARG})) > 0")
 /**
  * Add `id` argument query
  */
@@ -105,23 +110,36 @@ fun <T : BaseSelector> T.removeParams(): T {
 }
 
 /**
- * Add provided attribute value
- *
- * Require #1 - [value] argument should be added as an argument value
- *      for all(*) properties
- * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_withAttributeValue
- */
-fun <T : BaseSelector> T.withAttributeValue(value: String)
-    = arg("@*", value)
-
-/**
  * Add provided attribute
  *
- * Require #1 - [attribute] name should be added as a parameter without value
+ * Require #1 - [name] should be added as a parameter without value
  * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_withAttribute
+ *
+ * Require #2 - [value] should be added as a parameter without name
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r2_withAttribute
+ *
+ * * Require #3 - name and value should be added as a parameter
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r3_withAttribute
  */
-fun <T : BaseSelector> T.withAttribute(attribute: String) = selfClone {
-    props.args.add(
-        "@$attribute"
-    )
+fun <T : BaseSelector> T.withAttribute(name: String = "*", value: String = "") = selfClone {
+    if(value.isEmpty()) {
+        props.args.add(
+            "@$name"
+        )
+    } else {
+        arg("@$name", value)
+    }
 }
+
+/**
+ * Add count of any children to the xpath
+ *
+ * Require #1 - [count] elements of [tag] should be added into xpath
+ * @sample org.xpathqs.core.selector.extensions.SelectorArgTests.r1_childCount
+ */
+fun <T : BaseSelector> T.childCount(count: Int, tag: String = "*")
+    = selfClone {
+        props.args.add(
+            KVSelectorArg("count($tag)", count.toString())
+        )
+    }

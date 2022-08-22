@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,15 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
 import java.lang.reflect.Field
-import kotlin.jvm.internal.CallableReference
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.javaField
 
 /**
  * Set of functional extensions to manipulate with <pre>selectors</pre> via Reflection
@@ -55,7 +55,11 @@ internal fun Any.isObject(): Boolean {
 
 /**
  * Check if object is a subtype of [Block]
- * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
+ *
+ * Requirements:
+ * #1 - true when object is a subtype of [Block] but not Block directly
+ * @sample [org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsBlockSubtypeTests.r1]
+ * #2 - false for all others cases
  */
 internal fun Any.isBlockSubtype(): Boolean {
     return this is Block && this.javaClass.superclass.simpleName != "Block"
@@ -76,17 +80,20 @@ internal fun Class<*>.getObject(): Block {
 }
 
 /**
- * Check class for having [BaseSelector] as an inherited parent
+ * Check class for having [ISelector] as an inherited parent
  */
+@Suppress("ReturnCount")
 internal fun Class<*>.isSelectorSubtype(): Boolean {
+    if (this == BaseSelector::class.java
+        || this == NullSelector::class.java
+        || this == ISelector::class.java) {
+        return true
+    }
     if (this.superclass == null) {
         return false
     }
-    if (this == BaseSelector::class.java) {
-        return true
-    }
-    return BaseSelector::class.java.isAssignableFrom(this.superclass)
-            || this.isAssignableFrom(BaseSelector::class.java)
+    return ISelector::class.java.isAssignableFrom(this.superclass)
+            || this.isAssignableFrom(ISelector::class.java)
 }
 
 /**
@@ -108,6 +115,15 @@ internal fun <T : BaseSelector> T.setBase(base: ISelector): T {
 }
 
 /**
+ * Sets the <pre>setNoBase</pre> to the [BaseSelector] via reflection
+ */
+internal fun <T : BaseSelector> T.setNoBase(value: Boolean): T {
+    SelectorReflection(this)
+        .setProp(this::noBase.name, value)
+    return this
+}
+
+/**
  * Sets the <pre>props</pre> to the [BaseSelector] via reflection
  */
 internal fun <T : BaseSelector> T.setProps(props: BaseSelectorProps): T {
@@ -120,7 +136,7 @@ internal fun <T : BaseSelector> T.setProps(props: BaseSelectorProps): T {
  * Freeze [BaseSelector] which means that <pre>clone</pre> method
  * will return a new instance
  */
-internal fun <T : BaseSelector> T.freeze(): T {
+fun <T : BaseSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     return this
 }
@@ -129,7 +145,7 @@ internal fun <T : BaseSelector> T.freeze(): T {
  * Freeze [GroupSelector] which means that <pre>clone</pre> method
  * will return a new instance
  */
-internal fun <T : GroupSelector> T.freeze(): T {
+fun <T : GroupSelector> T.freeze(): T {
     SelectorReflection(this).freeze()
     this.selectorsChain.forEach {
         it.freeze()
@@ -141,7 +157,7 @@ internal fun <T : GroupSelector> T.freeze(): T {
  * Freeze [Block] which means that <pre>clone</pre> method
  * will return a new instance. And all inner selectors should be frozen as well
  */
-internal fun <T : Block> T.freeze(): T {
+fun <T : Block> T.freeze(): T {
     (this as GroupSelector).freeze()
 
     this.children.forEach {
@@ -169,14 +185,10 @@ internal fun Block.setBlank(value: Boolean) {
 /**
  * Converts Kotlin Reflection property to the Java Reflection field
  */
-internal fun KProperty<*>.toField(): Field {
-    val cls = (((this as CallableReference).owner) as KClass<*>).java
-    return cls.declaredFields.find {
-        it.name == this.name
-    }!!.apply {
-        isAccessible = true
-    }
+internal fun KProperty<*>.toField() = this.javaField!!.apply {
+    isAccessible = true
 }
+
 
 /**
  * Check if the provided object is a member of an inner class

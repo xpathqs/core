@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.postfix
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.core.util.SelectorFactory.tagSelector
@@ -58,8 +59,38 @@ class SelectorModificationTests {
     }
 
     @Test
+    fun postfixTest() {
+        tagSelector("div").postfix("/..")
+            .xpathShouldBe("//div/..")
+    }
+
+    @Test
+    fun noBaseTest() {
+        tagSelector("div").postfix("/..")
+            .xpathShouldBe("//div/..")
+    }
+
+    @Test
     fun repeatTest() {
         tagSelector("div").repeat(3)
             .xpathShouldBe("//div//div//div")
+    }
+
+    /**
+     * Checks Require #1 of [parentCount]
+     */
+    @Test
+    fun parentCount_r1() {
+        tagSelector("div").parentCount(2)
+            .xpathShouldBe("//div/../..")
+    }
+
+    /**
+     * Checks Require #2 of [parentCount]
+     */
+    @Test
+    fun parentCount_r2() {
+        tagSelector("div").parentCount(0)
+            .xpathShouldBe("//div")
     }
 }

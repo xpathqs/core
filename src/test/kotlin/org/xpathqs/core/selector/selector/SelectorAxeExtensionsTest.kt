@@ -33,72 +33,72 @@ internal class SelectorAxeExtensionsTest {
     @Test
     fun ancestor() {
         tagSelector("div").ancestor()
-            .xpathShouldBe("ancestor::div")
+            .xpathShouldBe("//ancestor::div")
     }
 
     @Test
     fun ancestorOrSelf() {
         tagSelector("div").ancestorOrSelf()
-            .xpathShouldBe("ancestor-or-self::div")
+            .xpathShouldBe("//ancestor-or-self::div")
     }
 
     @Test
     fun child() {
         tagSelector("div").child()
-            .xpathShouldBe("child::div")
+            .xpathShouldBe("//child::div")
     }
 
     @Test
     fun descendant() {
         tagSelector("div").descendant()
-            .xpathShouldBe("descendant::div")
+            .xpathShouldBe("//descendant::div")
     }
 
     @Test
     fun descendantOrSelf() {
         tagSelector("div").descendantOrSelf()
-            .xpathShouldBe("descendant-or-self::div")
+            .xpathShouldBe("//descendant-or-self::div")
     }
 
     @Test
     fun following() {
         tagSelector("div").following()
-            .xpathShouldBe("following::div")
+            .xpathShouldBe("//following::div")
     }
 
     @Test
     fun followingSibling() {
         tagSelector("div").followingSibling()
-            .xpathShouldBe("following-sibling::div")
+            .xpathShouldBe("//following-sibling::div")
     }
 
     @Test
     fun namespace() {
         tagSelector("div").namespace()
-            .xpathShouldBe("namespace::div")
+            .xpathShouldBe("//namespace::div")
     }
 
     @Test
     fun parent() {
         tagSelector("div").parent()
-            .xpathShouldBe("parent::div")
+            .xpathShouldBe("//parent::div")
     }
 
     @Test
     fun preceding() {
         tagSelector("div").preceding()
-            .xpathShouldBe("preceding::div")
+            .xpathShouldBe("//preceding::div")
     }
 
     @Test
     fun precedingSibling() {
         tagSelector("div").precedingSibling()
-            .xpathShouldBe("preceding-sibling::div")
+            .xpathShouldBe("//preceding-sibling::div")
     }
 
     @Test
     fun self() {
         tagSelector("div").self()
-            .xpathShouldBe("self::div")
+            .xpathShouldBe("//self::div")
     }
 }

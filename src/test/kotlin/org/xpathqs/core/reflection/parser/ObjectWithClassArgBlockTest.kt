@@ -53,7 +53,7 @@ class ObjectWithClassArgBlockTest {
         assertAll {
             PageWithBlockArgMembers.holder1.sel1
                 .xpathShouldBe("//base//s1")
-                .nameShouldBe("PageWithBlockArgMembers.HolderWithArgs.sel1")
+                .nameShouldBe("PageWithBlockArgMembers.holder1.sel1")
         }
     }
 

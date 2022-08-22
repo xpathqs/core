@@ -27,16 +27,12 @@ import java.lang.reflect.Field
 
 
 class AssociationFinder(
-    protected val fields: Collection<Field>,
-    protected val selectors: Collection<BaseSelector>,
-    protected val associations: Collection<IModelAssociation>
+    private val fields: Collection<Field>,
+    private val selectors: Collection<BaseSelector>,
+    private val associations: Collection<IModelAssociation>
 ) {
-    protected lateinit var unusedFields: HashSet<Field>
-
     val mappings: Collection<ModelAssociation>
         get() {
-            unusedFields = HashSet()
-
             return scanFields(associations.first())
         }
 
@@ -47,15 +43,12 @@ class AssociationFinder(
             val sel = getAssociation(association, it)
             if (sel != null) {
                 it.isAccessible = true
-                unusedFields.remove(it)
                 res.add(
                     ModelAssociation(
                         sel,
                         it
                     )
                 )
-            } else {
-                unusedFields.add(it)
             }
         }
 

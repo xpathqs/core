@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@ import org.xpathqs.core.selector.base.SelectorState
  *
  * @param selfXpath selector's xpath
  */
-class XpathSelector(
-    internal var selfXpath: String = "",
+open class XpathSelector(
+    open var selfXpath: String = "",
 
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
@@ -45,7 +45,8 @@ class XpathSelector(
 ) : BaseSelector(state, base, name, props) {
 
     override fun toXpath(): String {
-        return base.toXpath() + selfXpath + props.toXpath()
+        val baseXpath = if(noBase) "" else base.toXpath()
+        return baseXpath + selfXpath + props.toXpath()
     }
 
     override val tag: String

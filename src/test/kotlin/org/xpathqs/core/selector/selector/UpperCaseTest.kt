@@ -20,47 +20,41 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector
+package org.xpathqs.core.selector.selector
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import org.xpathqs.core.util.SelectorFactory.idContainsSelector
-import org.xpathqs.core.util.SelectorFactory.idSelector
+import org.xpathqs.core.constants.CoreGlobalProps
+import org.xpathqs.core.constants.Global
+import org.xpathqs.core.reflection.scanPackage
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.contains
+import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.core.util.SelectorFactory.textContainsSelector
-import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
-internal class SelectorFactoryTest {
+object Page: Block() {
+    object SignUp: Block(tagSelector("div") contains tagSelector("h1").text("Where the world builds software", contains = true)) {
+        val title = tagSelector("h1")
+    }
+}
 
-    @Test
-    fun tagSelector() {
-        assertThat(tagSelector("div").toXpath())
-            .isEqualTo("//div")
+class UpperCaseTest {
+
+    @AfterEach
+    fun restoreDefaults() {
+        Global.update(
+            CoreGlobalProps("config/configDefault.yml")
+        )
     }
 
     @Test
-    fun textSelector() {
-        assertThat(textSelector("div").toXpath())
-            .isEqualTo("//*[text()='div']")
-    }
-
-    @Test
-    fun textContainsSelector() {
-        assertThat(textContainsSelector("some text").toXpath())
-            .isEqualTo("//*[contains(text(), 'some text')]")
-    }
-
-    @Test
-    fun idSelector() {
-        idSelector("id")
-            .xpathShouldBe("//*[@id='id']")
-    }
-
-    @Test
-    fun idContainsSelector() {
-        idContainsSelector("id")
-            .xpathShouldBe("//*[contains(@id, 'id')]")
+    fun normalCase() {
+        Global.update(
+            CoreGlobalProps("config/config.yml")
+        )
+        scanPackage(this)
+        Page.SignUp.title
+            .xpathShouldBe("//DIV[./H1[contains(@text_test, 'Where the world builds software')]]//H1")
     }
 }

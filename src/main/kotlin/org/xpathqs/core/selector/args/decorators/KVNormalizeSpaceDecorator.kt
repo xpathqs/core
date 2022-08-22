@@ -27,9 +27,28 @@ import org.xpathqs.core.selector.args.KVSelectorArg
 /**
  * Decorator for normalizing [wrapper] value
  * @param wrapper object to applying normalization
- * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest
+ * @param normalizeK runs normalization of [k]
+ * @param normalizeV runs normalization of [v]
+ *
+ * Require #1 - Only [k] should be normalized by default
+ * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest.r1
+ *
+ * Require #2 - When [normalizeK] and [normalizeV] set to true, [k] and [v] should be normalized
+ * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest.r2
+ *
+ * Require #3 - When [normalizeK] and [normalizeV] set to false - normalization should be ignored
+ * @sample org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecoratorTest.r3
  */
-class KVNormalizeSpaceDecorator(private val wrapper: KVSelectorArg) : KVSelectorArg(wrapper.k, wrapper.v) {
+class KVNormalizeSpaceDecorator(
+    private val wrapper: KVSelectorArg,
+    private val normalizeK: Boolean = true,
+    private val normalizeV: Boolean = false
+) : KVSelectorArg(wrapper.k, wrapper.v) {
+    private val pattern = "normalize-space(%s)"
+
+    override val k: String
+        get() = if(normalizeK) pattern.format(super.k) else super.k
+
     override val v: String
-        get() = "normalize-space(${wrapper.v})"
+        get() = if(normalizeV) pattern.format(super.v) else super.v
 }

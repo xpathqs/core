@@ -1,0 +1,9 @@
+constants:
+  text_arg: "text()"
+  upperCase: "false"
+  id_arg: "@id"
+  normalizeTextVal: "true"
+  normalizeTextArg: "true"
+
+timeouts:
+  default: 100

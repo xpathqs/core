@@ -32,4 +32,12 @@ class NullSelector : ISelector {
     public override fun clone(): NullSelector {
         return this
     }
+
+    override fun equals(other: Any?): Boolean {
+        return other is NullSelector
+    }
+
+    override fun hashCode(): Int {
+        return 0
+    }
 }

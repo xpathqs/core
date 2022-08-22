@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,17 @@
 
 package org.xpathqs.core.selector.extensions
 
+import org.xpathqs.core.reflection.setProps
+import org.xpathqs.core.selector.args.InnerSelectorArg
+import org.xpathqs.core.selector.args.SelectorArg
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.xpath.XpathSelector
@@ -41,20 +46,22 @@ import org.xpathqs.core.util.SelectorFactory.xpathSelector
  * Require #1 - [right] selector's xpath should be added to the target selector as an parameter
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_contains
  */
-infix fun <T : BaseSelector> T.contains(right: Selector) = selfClone {
-    props.args.add(
-        right.prefix("./").toXpath()
-    )
+infix fun <T : BaseSelector> T.contains(right: BaseSelector) = selfClone {
+    this[SelectorArg(
+        selector = right,
+        type = InnerSelectorArg.ROOT
+    )]
 }
 
 /**
  * @see [contains] but for the double quote
  * @sample org.xpathqs.core.selector.base.extension.SelectorParametersTest.r1_containsAny
  */
-infix fun <T : BaseSelector> T.containsAny(right: Selector) = selfClone {
-    props.args.add(
-        right.prefix(".//").toXpath()
-    )
+infix fun <T : BaseSelector> T.containsAny(right: BaseSelector) = selfClone {
+    this[SelectorArg(
+        selector = right,
+        type = InnerSelectorArg.ALL
+    )]
 }
 
 /**
@@ -97,9 +104,7 @@ infix fun <T : BaseSelector> T.containsAny(right: XpathSelector) = selfClone {
  */
 infix fun <T : BaseSelector> T.containsParent(right: Selector) = selfClone {
     props.args.add(
-        ValueArg(
-            right.prefix("../").toXpath()
-        )
+        right.prefix("../")
     )
 }
 
@@ -139,10 +144,16 @@ operator fun <T : BaseSelector> T.plus(sel: BaseSelector): GroupSelector {
 }
 
 /**
+ * Returns [GroupSelector] with based on `left` and `right` arguments with single prefix for the `right` selector
+ */
+operator fun <T : BaseSelector> T.times(sel: Selector): GroupSelector {
+    return GroupSelector(selectorsChain = arrayListOf(this.clone(), sel.clone().prefix("/")))
+}
+
+/**
  * Returns [GroupSelector] with based on `left` and `right` arguments
  */
 operator fun <T : BaseSelector> T.plus(xpath: String) = this.plus(xpathSelector(xpath))
-
 
 /**
  * Returns a [ComposeSelector] based on `left` and `right` arguments
@@ -168,9 +179,74 @@ fun <T : BaseSelector> T.repeat(count: Int): XpathSelector {
     return xpathSelector(res)
 }
 
+/**
+ * Group selectors with 'following'
+ *
+ * Require #1 - add following to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.following_r1
+ */
+infix fun <T : BaseSelector> T.following(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}following::")
+}
+
+/**
+ * Group selectors with 'following-sibling'
+ *
+ * Require #1 - add following-sibling to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.followingSibling_r1
+ */
+infix fun <T : BaseSelector> T.followingSibling(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}following-sibling::")
+}
+
+/**
+ * Group selectors with 'preceding'
+ *
+ * Require #1 - add preceding to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.preceding_r1
+ */
+infix fun <T : BaseSelector> T.preceding(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}preceding::")
+}
+
+/**
+ * Group selectors with 'precedingSibling'
+ *
+ * Require #1 - add preceding to arg selector
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests.precedingSibling_r1
+ */
+infix fun <T : BaseSelector> T.precedingSibling(s: Selector): GroupSelector {
+    val p = if(s.prefix == "/") "/" else "//"
+    return this + s.prefix("${p}preceding-sibling::")
+}
+
+/**
+ * Add [count] times '/..' string at the end of the Selector's xpath
+ *
+ * Require #1 - when [count] > 0 - '/..' string should be added [count] times to the end of xpath
+ * @sample org.xpathqs.core.selector.extensions.SelectorModificationTests.parentCount_r1
+ *
+ * Require #2 = when [count] <= 0 - nothing should be added
+ * @sample org.xpathqs.core.selector.extensions.SelectorModificationTests.parentCount_r2
+ */
+fun <T : BaseSelector> T.parentCount(count: Int) = selfClone {
+    if(count > 0) {
+        var parents = ""
+        repeat(count) { parents += "/.." }
+        val p = this.props.clone()
+        p.postfix = parents
+        setProps(p)
+    }
+}
+
 fun <T : BaseSelector> T.selfClone(f: BaseSelector.() -> Unit): T {
     val res = this.clone()
     res.f()
     return res
 }
 
+val <T : BaseSelector> T.result: ResultSelector
+    get() = ResultSelector(wrapper = this.clone())

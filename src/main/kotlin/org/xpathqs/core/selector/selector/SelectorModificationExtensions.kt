@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.selector.selector
 
+import org.xpathqs.core.reflection.setNoBase
 import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.extensions.core.clone
 
@@ -35,10 +36,33 @@ fun <T : Selector> T.tag(value: String): T {
 }
 
 /**
+ * Removes `base` from the [Selector]
+ */
+fun <T : Selector> T.noBase(): T {
+    val res = this.clone()
+    res.setNoBase(true)
+    return res
+}
+
+/**
  * Modifies `prefix` value of [Selector]
  */
 fun <T : Selector> T.prefix(value: String) = clone {
     setProps(props.clone(prefix = value))
+}
+
+/**
+ * Modifies `axe` value of [Selector]
+ */
+fun <T : Selector> T.axe(value: String) = clone {
+    setProps(props.clone(axe = value))
+}
+
+/**
+ * Modifies `postfix` value of [Selector]
+ */
+fun <T : Selector> T.postfix(value: String) = clone {
+    setProps(props.clone(postfix = value))
 }
 
 private fun <T : Selector> T.clone(f: Selector.() -> Unit): T {
