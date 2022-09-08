@@ -27,7 +27,7 @@ version = "0.1.3"
 group = "org.xpathqs"
 
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version "1.6.0"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
@@ -68,7 +68,7 @@ detekt {
 
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
@@ -129,9 +129,9 @@ publishing {
     }
 }
 
-signing {
+/*signing {
     sign(publishing.publications["mavenJava"])
-}
+}*/
 
 nexusStaging {
     serverUrl = "https://s01.oss.sonatype.org/service/local/"
