@@ -24,7 +24,6 @@ package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.selector.NullSelector
 import java.lang.reflect.Field
-import kotlin.reflect.KClass
 
 /**
  * Base class for the Selectors
@@ -79,6 +78,15 @@ abstract class BaseSelector(
             xpath
         }
     }
+
+    /**
+     * A holder collection for some custom properties
+     * which may be used for the extending the functionality via extension-functions
+     *
+     * Require #1 - map should not be cloned. It purposes only for holding some configuration constants
+     * @sample org.xpathqs.core.selector.base.BaseSelectorCustomPropsMapTest.r1
+     */
+    val customPropsMap = HashMap<String, Any?>()
 
     companion object {
         fun mergeXpath(xp1: String, xp2: String): String {

@@ -38,6 +38,7 @@ internal class SelectorReflectionFieldsTest {
         BaseSelector::annotations.name,
         BaseSelector::field.name,
         BaseSelector::noBase.name,
+        BaseSelector::customPropsMap.name,
         "Companion"
     )
 
