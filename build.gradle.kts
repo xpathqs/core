@@ -25,6 +25,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 version = "0.1.3"
 group = "org.xpathqs"
+val kotestVersion = "5.4.2"
 
 plugins {
     kotlin("jvm") version "1.6.0"
@@ -72,13 +73,11 @@ dependencies {
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    implementation("org.xpathqs:gwt:0.1.1")
+    implementation("org.xpathqs:gwt:0.2.1")
 
-    testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
-
-    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.23.1")
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
 }
 
 publishing {
