@@ -76,7 +76,7 @@ class BlockSelectorCloneTest : AnnotationSpec() {
     }
 
 
-    fun init() {
+    init {
         PageWithBlockMembers.parse()
     }
 }

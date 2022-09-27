@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
 import org.xpathqs.core.selector.extensions.core.get
@@ -48,14 +49,16 @@ class PageWithInnerClassMembersTest : AnnotationSpec() {
 
     @Test
     fun test2() {
-        PageWithInnerClassMembers.table1.rows[2].app
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+        assertSoftly {
+            PageWithInnerClassMembers.table1.rows[2].app
+                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
 
-        PageWithInnerClassMembers.table1.rows
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
+            PageWithInnerClassMembers.table1.rows
+                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
+        }
     }
 
-    fun init() {
+    init {
         SelectorParser(PageWithInnerClassMembers).parse()
     }
 }

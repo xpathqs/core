@@ -24,14 +24,16 @@ package org.xpathqs.core.selector.extensions
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.selector.block.deepClone
 
 class PageObjectCloneTests : AnnotationSpec() {
-    @BeforeEach
-    fun before() {
+
+    init {
         SelectorParser(PageWithBase).parse()
     }
 
@@ -43,8 +45,8 @@ class PageObjectCloneTests : AnnotationSpec() {
         assertSoftly {
             origin shouldNotBeSameInstanceAs cloned
             origin.props shouldNotBeSameInstanceAs cloned.props
-            origin.children shouldNotBeSameInstanceAs cloned.children
-            origin.children.size shouldNotBeSameInstanceAs cloned.children.size
+            origin.children shouldBeSameInstanceAs cloned.children
+            origin.children.size shouldBe cloned.children.size
         }
     }
 }

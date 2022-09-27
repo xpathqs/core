@@ -23,16 +23,17 @@
 package org.xpathqs.core.selector.extensions
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
-import org.xpathqs.nameShouldBe
 
 class SelectorGetExtensionTests : AnnotationSpec() {
+
     @Test
     fun simpleName() {
         SelectorParser(PageWithBase)
             .parse()
 
-        PageWithBase.s1.nameShouldBe("s1")
+        PageWithBase.s1.simpleName shouldBe "s1"
     }
 }

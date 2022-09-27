@@ -122,7 +122,7 @@ class SelectorAnnotationsTest : AnnotationSpec() {
         Inherited.annotations shouldHaveSize 2
     }
 
-    fun init() {
+    init {
         SelectorParser(PageWithAnnotations).parse()
         SelectorParser(WithContainer).parse()
         Inherited.parse()

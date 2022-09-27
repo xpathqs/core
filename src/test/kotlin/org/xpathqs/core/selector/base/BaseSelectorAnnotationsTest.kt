@@ -54,7 +54,6 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
         Page1::class.java.`package`.scan()
     }
 
-
     /**
      * Check Require #1 of [BaseSelector.hasParentAnnotation]
      */
@@ -68,7 +67,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
      */
     @Test
     fun r2_hasParentAnnotation() {
-        Page1.Inner.s1.hasParentAnnotation(TestAnnotation::class) shouldBe true
+        Page1.Inner.s1.hasParentAnnotation(TestAnnotation::class) shouldBe false
     }
 
 

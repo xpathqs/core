@@ -26,6 +26,7 @@ import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.PageWithGroupBase
 import org.xpathqs.core.reflection.SelectorParser
@@ -33,8 +34,7 @@ import org.xpathqs.core.selector.block.deepClone
 
 class PageObjectCloneGroupTests : AnnotationSpec() {
 
-    @BeforeEach
-    fun before() {
+    init {
         SelectorParser(PageWithGroupBase).parse()
     }
 
@@ -46,7 +46,7 @@ class PageObjectCloneGroupTests : AnnotationSpec() {
         assertSoftly {
             origin shouldNotBeSameInstanceAs cloned
             origin.props shouldNotBeSameInstanceAs cloned.props
-            origin.children shouldNotBeSameInstanceAs cloned.children
+            origin.children shouldBeSameInstanceAs cloned.children
             origin.children.size shouldBe cloned.children.size
             cloned.s1.field.shouldNotBeNull()
         }
