@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,9 @@
 
 package org.xpathqs.core.selector.group.extensions
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import assertk.assertions.isNotSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
@@ -34,8 +33,9 @@ import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
+import org.xpathqs.xpathShouldBe
 
-class DeepCloneTest {
+class DeepCloneTest : AnnotationSpec() {
     class TestCls : Block(tagSelector("div")) {
         val s = tagSelector("s1") + tagSelector("s2")
     }
@@ -49,12 +49,9 @@ class DeepCloneTest {
             TestCls().parse().s
         }.WHEN {
             given.deepClone()
-        }.ASSERT {
-            assertThat(actual.name)
-                .isEqualTo(given.name)
-
-            assertThat(actual.base)
-                .isEqualTo(given.base)
+        }.THEN {
+            actual.name shouldBe given.name
+            actual.base shouldBe given.base
         }
     }
 
@@ -67,24 +64,14 @@ class DeepCloneTest {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
             given.freeze().deepClone()
-        }.ASSERT {
-            assertThat(actual)
-                .isNotSameAs(given)
-
-            assertThat(actual.selectorsChain)
-                .isNotSameAs(given.selectorsChain)
-            assertThat(actual.selectorsChain.size)
-                .isEqualTo(actual.selectorsChain.size)
-
-            assertThat(actual.selectorsChain.first())
-                .isNotSameAs(given.selectorsChain.first())
-            assertThat(actual.selectorsChain.first().toXpath())
-                .isEqualTo(given.selectorsChain.first().toXpath())
-
-            assertThat(actual.selectorsChain.last())
-                .isNotSameAs(given.selectorsChain.last())
-            assertThat(actual.selectorsChain.last().toXpath())
-                .isEqualTo(given.selectorsChain.last().toXpath())
+        }.THEN {
+            actual shouldNotBeSameInstanceAs given
+            actual.selectorsChain shouldNotBeSameInstanceAs given.selectorsChain
+            actual.selectorsChain.size shouldBe given.selectorsChain.size
+            actual.selectorsChain.first() shouldNotBeSameInstanceAs given.selectorsChain.first()
+            actual.selectorsChain.first().toXpath() shouldBe given.selectorsChain.first().toXpath()
+            actual.selectorsChain.last() shouldNotBeSameInstanceAs given.selectorsChain.last()
+            actual.selectorsChain.last().toXpath() shouldBe given.selectorsChain.last().toXpath()
         }
     }
 
@@ -97,9 +84,8 @@ class DeepCloneTest {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
             given.freeze().deepClone()
-        }.ASSERT {
-            assertThat(actual.toXpath())
-                .isEqualTo(given.toXpath())
+        }.THEN {
+            actual.toXpath() shouldBe given.toXpath()
         }
     }
 
@@ -112,12 +98,9 @@ class DeepCloneTest {
             tagSelector("div") + tagSelector("p")
         }.WHEN {
             given.freeze().deepClone().add(tagSelector("div"))
-        }.ASSERT {
-            assertThat(actual.toXpath())
-                .isEqualTo("//div//p//div")
-
-            assertThat(given.toXpath())
-                .isEqualTo("//div//p")
+        }.THEN {
+            actual.xpathShouldBe("//div//p//div")
+            given.xpathShouldBe("//div//p")
         }
     }
 }

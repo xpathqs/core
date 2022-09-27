@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,18 @@
 
 package org.xpathqs.core.reflection
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
-internal class SelectorReflectionTest {
+class SelectorReflectionTest : AnnotationSpec() {
 
     object PageWithBase : Block(
         Selector(
@@ -47,17 +47,14 @@ internal class SelectorReflectionTest {
     fun setName() {
         val s = Selector()
         SelectorReflection(s).setProp("name", "test_name")
-        assertThat(s.name)
-            .isEqualTo("test_name")
+        s.nameShouldBe("test_name")
     }
 
     @Test
     fun setNameForObj() {
         SelectorReflection(PageWithBase).setProp("name", "test_name")
-        assertThat(PageWithBase.name)
-            .isEqualTo("test_name")
-        assertThat(PageWithBase.toString())
-            .isEqualTo("test_name")
+        PageWithBase.nameShouldBe("test_name")
+        PageWithBase.toString() shouldBe "test_name"
     }
 
     @Test
@@ -66,7 +63,6 @@ internal class SelectorReflectionTest {
         SelectorReflection(sel)
             .setArgs(SelectorArgs())
 
-        sel
-            .xpathShouldBe("//tag")
+        sel.xpathShouldBe("//tag")
     }
 }

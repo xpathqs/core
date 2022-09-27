@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,88 +22,73 @@
 
 package org.xpathqs.core.selector
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import io.kotest.assertions.throwables.shouldThrowExactly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.constants.CoreGlobalProps
 import org.xpathqs.core.constants.Global
 
-internal class CoreGlobalPropsTest {
+
+class CoreGlobalPropsTest : AnnotationSpec() {
 
     @Test
     fun checkTextPropForEmptyMap() {
-        assertThat(CoreGlobalProps(emptyMap()).TEXT_ARG)
-            .isEqualTo("text()")
+        CoreGlobalProps(emptyMap()).TEXT_ARG shouldBe "text()"
     }
 
     @Test
     fun checkIdPropForEmptyMap() {
-        assertThat(CoreGlobalProps(emptyMap()).ID_ARG)
-            .isEqualTo("@id")
+        CoreGlobalProps(emptyMap()).ID_ARG shouldBe "@id"
     }
 
     @Test
     fun checkDefaultTextProp() {
-        assertThat(CoreGlobalProps().TEXT_ARG)
-            .isEqualTo("text()")
+        CoreGlobalProps().TEXT_ARG shouldBe "text()"
     }
 
     @Test
     fun checkDefaultIdProp() {
-        assertThat(CoreGlobalProps().ID_ARG)
-            .isEqualTo("@id")
+        CoreGlobalProps().ID_ARG shouldBe "@id"
     }
 
     @Test
     fun checkDefaultIdPropForGlobal() {
-        assertThat(Global.ID_ARG)
-            .isEqualTo("@id")
+        Global.ID_ARG shouldBe "@id"
     }
 
     @Test
     fun checkDefaultTextPropForGlobal() {
-        assertThat(Global.TEXT_ARG)
-            .isEqualTo("text()")
+        Global.TEXT_ARG shouldBe "text()"
     }
 
     @Test
     fun checkOverrideTextProp() {
-        assertThat(
-            CoreGlobalProps(
-                mapOf("constants.text_arg" to "@text")
-            ).TEXT_ARG
-        )
-            .isEqualTo("@text")
+        CoreGlobalProps(
+            mapOf("constants.text_arg" to "@text")
+        ).TEXT_ARG shouldBe "@text"
     }
 
     @Test
     fun checkUpdateOfAProperty() {
-        assertThat(
+        CoreGlobalProps(
+            mapOf("constants.text_arg" to "@text")
+        ).update(
             CoreGlobalProps(
-                mapOf("constants.text_arg" to "@text")
-            ).update(
-                CoreGlobalProps(
-                    mapOf("constants.text_arg" to "text()")
-                )
-            ).TEXT_ARG
-        )
-            .isEqualTo("text()")
+                mapOf("constants.text_arg" to "text()")
+            )
+        ).TEXT_ARG shouldBe "text()"
     }
 
     @Test
     fun checkAbilityToLoadFromResources() {
-        assertThat(
-            CoreGlobalProps(
-                "config/config.yml"
-            ).TEXT_ARG
-        )
-            .isEqualTo("@text_test")
+        CoreGlobalProps(
+            "config/config.yml"
+        ).TEXT_ARG shouldBe "@text_test"
     }
 
     @Test
     fun incorrectPathShouldThrowAnException() {
-        assertThrows<IllegalArgumentException> {
+        shouldThrowExactly<IllegalArgumentException> {
             CoreGlobalProps(
                 "config/config_incorrect.yml"
             ).TEXT_ARG

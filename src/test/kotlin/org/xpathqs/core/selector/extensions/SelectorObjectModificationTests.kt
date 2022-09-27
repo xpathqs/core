@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,8 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.reflection.parse
@@ -44,7 +43,7 @@ object PageWithBase2 : Block(
     val s1 = Selector(props = SelectorProps(tag = "s1"))
 }
 
-class SelectorObjectModificationTests {
+class SelectorObjectModificationTests : AnnotationSpec() {
 
     @BeforeEach
     fun before() {
@@ -56,7 +55,7 @@ class SelectorObjectModificationTests {
         val s1 = PageWithBase
         val s2 = PageWithBase.tag("s2")
 
-        assertAll {
+        assertSoftly {
             s1.xpathShouldBe("//base")
             s2.xpathShouldBe("//s2")
             s1.xpathShouldBe("//base")
@@ -68,7 +67,7 @@ class SelectorObjectModificationTests {
         val s1 = PageWithBase
         val s2 = PageWithBase[2]
 
-        assertAll {
+        assertSoftly {
             s1.xpathShouldBe("//base")
             s2.xpathShouldBe("//base[position()=2]")
             s1.xpathShouldBe("//base")
@@ -79,7 +78,7 @@ class SelectorObjectModificationTests {
     fun positionSelTest() {
         PageWithBase2.parse()
 
-        assertAll {
+        assertSoftly {
             PageWithBase2.s1
                 .xpathShouldBe("//base//s1")
             PageWithBase2[2].s1
@@ -91,7 +90,7 @@ class SelectorObjectModificationTests {
 
     @Test
     fun tagTestForInnerSelector() {
-        assertAll {
+        assertSoftly {
             PageWithBase.tag("s2").s1
                 .xpathShouldBe("//s2//s1")
 
@@ -110,7 +109,7 @@ class SelectorObjectModificationTests {
     fun tagTestForInnerSelectorWithUpdate() {
         val s = PageWithBase.tag("s2").s1.tag("ss")
 
-        assertAll {
+        assertSoftly {
             s.xpathShouldBe("//s2//ss")
             s.xpathShouldBe("//s2//ss")
         }

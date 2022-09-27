@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,40 +22,31 @@
 
 package org.xpathqs.core.reflection
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.containsExactlyInAnyOrder
-import assertk.assertions.isEmpty
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.packagescannertestpages.Page1
 import org.xpathqs.core.reflection.packagescannertestpages.Page2
 import org.xpathqs.core.reflection.packagescannertestpages.innerpackage.Page3
 
-internal class PackageScannerTest {
+class PackageScannerTest : AnnotationSpec() {
     private val packageName = Page1::class.java.packageName
 
     @Test
     fun packageObjects() {
-        assertThat(
-            PackageScanner(packageName)
-                .packageObjects
-        ).containsExactlyInAnyOrder(Page1, Page2, Page3)
+        PackageScanner(packageName)
+            .packageObjects shouldContainExactlyInAnyOrder listOf(Page1, Page2, Page3)
     }
 
     @Test
     fun scan() {
         PackageScanner(packageName).scan()
 
-        assertAll {
-            assertThat(Page1.name)
-                .isEqualTo("Page1")
-
-            assertThat(Page2.name)
-                .isEqualTo("Page2")
-
-            assertThat(Page3.name)
-                .isEqualTo("Page3")
+        assertSoftly {
+            Page1.name shouldBe "Page1"
+            Page2.name shouldBe "Page2"
+            Page3.name shouldBe "Page3"
         }
     }
 }

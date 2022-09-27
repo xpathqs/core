@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,16 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.PageWithBaseAndInnerObject
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.xpathShouldBe
 
-
-internal class ObjectWithBaseAndInnerObjectTest {
+class ObjectWithBaseAndInnerObjectTest : AnnotationSpec() {
 
     @BeforeEach
     fun before() {
@@ -43,14 +40,12 @@ internal class ObjectWithBaseAndInnerObjectTest {
 
     @Test
     fun checkInnerName() {
-        assertThat(PageWithBaseAndInnerObject.Inner.name)
-            .isEqualTo("PageWithBaseAndInnerObject.Inner")
+        PageWithBaseAndInnerObject.Inner.name shouldBe "PageWithBaseAndInnerObject.Inner"
     }
 
     @Test
     fun checkSelectorName() {
-        assertThat(PageWithBaseAndInnerObject.Inner.s1_inner.name)
-            .isEqualTo("PageWithBaseAndInnerObject.Inner.s1_inner")
+        PageWithBaseAndInnerObject.Inner.s1_inner.name shouldBe "PageWithBaseAndInnerObject.Inner.s1_inner"
     }
 
     @Test
@@ -61,13 +56,12 @@ internal class ObjectWithBaseAndInnerObjectTest {
 
     @Test
     fun checkPageChildren() {
-        assertThat(PageWithBaseAndInnerObject.Inner.children)
-            .hasSize(1)
+        PageWithBaseAndInnerObject.Inner.children shouldHaveSize 1
     }
 
     @Test
     fun checkInnerPosition() {
-        assertAll {
+        assertSoftly {
             PageWithBaseAndInnerObject.Inner.s1_inner
                 .xpathShouldBe("//base//inner//inner_tag")
 

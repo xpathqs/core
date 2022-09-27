@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,16 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.PageWithBaseAndInnerGroupObject
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.xpathShouldBe
 
 
-internal class ObjectWithBaseAndGroupObjectTest {
+internal class ObjectWithBaseAndGroupObjectTest : AnnotationSpec() {
 
     @BeforeEach
     fun before() {
@@ -41,14 +40,12 @@ internal class ObjectWithBaseAndGroupObjectTest {
 
     @Test
     fun checkInnerName() {
-        assertThat(PageWithBaseAndInnerGroupObject.Inner.name)
-            .isEqualTo("PageWithBaseAndInnerGroupObject.Inner")
+        PageWithBaseAndInnerGroupObject.Inner.name shouldBe "PageWithBaseAndInnerGroupObject.Inner"
     }
 
     @Test
     fun checkSelectorName() {
-        assertThat(PageWithBaseAndInnerGroupObject.Inner.s1_inner.name)
-            .isEqualTo("PageWithBaseAndInnerGroupObject.Inner.s1_inner")
+        PageWithBaseAndInnerGroupObject.Inner.s1_inner.name shouldBe "PageWithBaseAndInnerGroupObject.Inner.s1_inner"
     }
 
     @Test
@@ -59,7 +56,6 @@ internal class ObjectWithBaseAndGroupObjectTest {
 
     @Test
     fun checkPageChildren() {
-        assertThat(PageWithBaseAndInnerGroupObject.Inner.children)
-            .hasSize(1)
+        PageWithBaseAndInnerGroupObject.Inner.children shouldHaveSize 1
     }
 }

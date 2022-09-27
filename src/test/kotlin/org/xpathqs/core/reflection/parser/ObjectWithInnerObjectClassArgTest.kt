@@ -22,18 +22,16 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.hasSize
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
 import org.xpathqs.core.reflection.*
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
 
-class ObjectWithInnerObjectClassArgTest {
+class ObjectWithInnerObjectClassArgTest : AnnotationSpec() {
     @BeforeEach
     fun parse() {
         SelectorParser(PageWithInnerObjectClassArg)
@@ -42,10 +40,8 @@ class ObjectWithInnerObjectClassArgTest {
 
     @Test
     fun innerSelectorFields() {
-        assertThat(
-            SelectorReflectionFields(PageWithInnerObjectClassArg.Holder1)
-                .innerSelectorFields
-        ).hasSize(3)
+        SelectorReflectionFields(PageWithInnerObjectClassArg.Holder1)
+            .innerSelectorFields shouldHaveSize 3
     }
 
     @Test
@@ -56,7 +52,7 @@ class ObjectWithInnerObjectClassArgTest {
 
     @Test
     fun testSelectorFromClass() {
-        assertAll {
+        assertSoftly {
             PageWithInnerObjectClassArg.Holder1.sel1
                 .xpathShouldBe("//base//s1")
                 .nameShouldBe("PageWithInnerObjectClassArg.Holder1.sel1")
@@ -65,7 +61,7 @@ class ObjectWithInnerObjectClassArgTest {
 
     @Test
     fun testSelectorFromClassWithPos() {
-        assertAll {
+        assertSoftly {
             PageWithInnerObjectClassArg.Holder1.sel1[2]
                 .xpathShouldBe("//base//s1[position()=2]")
         }
@@ -73,7 +69,7 @@ class ObjectWithInnerObjectClassArgTest {
 
     @Test
     fun testSelectorFromClassWithBasePos() {
-        assertAll {
+        assertSoftly {
             PageWithInnerObjectClassArg.Holder1[2].sel1
                 .xpathShouldBe("//base[position()=2]//s1")
 

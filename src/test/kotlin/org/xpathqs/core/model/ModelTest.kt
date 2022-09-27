@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,11 @@
 
 package org.xpathqs.core.model
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.WHEN
 
 data class TestModel(
     val name1: String = "",
@@ -48,50 +45,32 @@ class XpathExtractor : ISelectorValueExtractor {
     }
 }
 
-internal class ModelTest {
+class ModelTest : AnnotationSpec() {
+    init {
+        SelectorParser(TestModelPage).parse()
+    }
 
+    /**
+     * Checks #1 of [Model.associations]
+     */
     @Test
-    fun associationTest() {
-        val res = Model(TestModel::class.java, TestModelPage).associations
-
-        val expected = listOf(
-            ModelAssociation(
-                TestModelPage.name1,
-                TestModel::name1
-            ),
-            ModelAssociation(
-                TestModelPage.name2,
-                TestModel::name2
+    fun associations_r1() {
+        WHEN {
+            Model(
+                TestModel::class.java,
+                TestModelPage
+            ).associations
+        }.THEN(
+            listOf(
+                ModelAssociation(
+                    TestModelPage.name1,
+                    TestModel::name1
+                ),
+                ModelAssociation(
+                    TestModelPage.name2,
+                    TestModel::name2
+                )
             )
         )
-
-        assertThat(expected)
-            .isEqualTo(res)
-    }
-
-    @Test
-    fun applyTest() {
-        val model = TestModel()
-
-        ValueSetter(
-            Model(TestModel::class.java, TestModelPage).associations,
-            XpathExtractor()
-        ).init(model)
-
-        assertAll {
-            assertThat(model.name1)
-                .isEqualTo("//div")
-
-            assertThat(model.name2)
-                .isEqualTo("//p")
-        }
-    }
-
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun init() {
-            SelectorParser(TestModelPage).parse()
-        }
     }
 }

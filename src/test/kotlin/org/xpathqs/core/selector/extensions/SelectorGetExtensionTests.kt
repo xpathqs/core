@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,17 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.nameShouldBe
 
-class SelectorGetExtensionTests {
+class SelectorGetExtensionTests : AnnotationSpec() {
     @Test
     fun simpleName() {
         SelectorParser(PageWithBase)
             .parse()
 
-        assertThat(PageWithBase.s1.simpleName)
-            .isEqualTo("s1")
+        PageWithBase.s1.nameShouldBe("s1")
     }
 }

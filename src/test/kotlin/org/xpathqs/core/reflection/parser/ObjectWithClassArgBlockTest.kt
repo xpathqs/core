@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,8 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.PageWithBlockArgMembers
 import org.xpathqs.core.reflection.PageWithBlockMembers
 import org.xpathqs.core.reflection.SelectorParser
@@ -32,7 +31,8 @@ import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
-class ObjectWithClassArgBlockTest {
+
+class ObjectWithClassArgBlockTest : AnnotationSpec() {
     @BeforeEach
     fun parse() {
         SelectorParser(PageWithBlockArgMembers)
@@ -50,7 +50,7 @@ class ObjectWithClassArgBlockTest {
 
     @Test
     fun testSelectorFromClass() {
-        assertAll {
+        assertSoftly {
             PageWithBlockArgMembers.holder1.sel1
                 .xpathShouldBe("//base//s1")
                 .nameShouldBe("PageWithBlockArgMembers.holder1.sel1")
@@ -59,7 +59,7 @@ class ObjectWithClassArgBlockTest {
 
     @Test
     fun testSelectorFromClassWithPos() {
-        assertAll {
+        assertSoftly {
             PageWithBlockMembers.holder1.sel1[2]
                 .xpathShouldBe("//base//hold//div[position()=2]")
         }
@@ -67,7 +67,7 @@ class ObjectWithClassArgBlockTest {
 
     @Test
     fun testSelectorFromClassWithBasePos() {
-        assertAll {
+        assertSoftly {
             PageWithBlockMembers.holder1[2].sel1
                 .xpathShouldBe("//base//hold[position()=2]//div")
 

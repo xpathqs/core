@@ -22,64 +22,58 @@
 
 package org.xpathqs.core.reflection.annotations
 
-import assertk.assertThat
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.xpathqs.core.annotations.NoXpathBase
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.plus
-import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.xpathShouldBe
 
-class NoXpathBaseTest {
+class NoXpathBaseTest : FreeSpec() {
 
     object NoXpathBaseOjb : Block(tagSelector("baseSel")) {
         @NoXpathBase
-        val sel = tagSelector("tag")
+        val baseSelector = tagSelector("tag")
 
         @NoXpathBase
-        val sel2 = tagSelector("tag") + tagSelector("tag2")
+        val composeSelector = tagSelector("tag") + tagSelector("tag2")
 
         @NoXpathBase
-        val sel3 = xpathSelector("//tag")
-
-        //tag
+        val xpathSelector = xpathSelector("//tag")
     }
 
     init {
         NoXpathBaseOjb.parse()
+        noXpathBaseTests()
     }
 
     /**
      * Checks Require #1 of [NoXpathBase]
      */
-    @Test
-    fun r1() {
-        NoXpathBaseOjb.sel.xpathShouldBe("//tag")
-        assertThat(NoXpathBaseOjb.sel.base)
-            .isSameAs(NoXpathBaseOjb)
-    }
-
-    /**
-     * Checks Require #2 of [NoXpathBase]
-     */
-    @Test
-    fun r2() {
-        NoXpathBaseOjb.sel2.xpathShouldBe("//tag//tag2")
-        assertThat(NoXpathBaseOjb.sel2.base)
-            .isSameAs(NoXpathBaseOjb)
-    }
-
-    /**
-     * Checks Require #3 of [NoXpathBase]
-     */
-    @Test
-    fun r3() {
-        NoXpathBaseOjb.sel.xpathShouldBe("//tag")
-        assertThat(NoXpathBaseOjb.sel3.base)
-            .isSameAs(NoXpathBaseOjb)
+    fun noXpathBaseTests() {
+        "Check requirements of 'NoXpathBase'" - {
+            "#1 Annotated selector should ignore base xpath for [BaseSelector]" {
+                assertSoftly(NoXpathBaseOjb.baseSelector) {
+                    xpathShouldBe("//tag")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb
+                }
+            }
+            "#2 Annotated selector should ignore base xpath for [GroupSelector]" {
+                assertSoftly(NoXpathBaseOjb.composeSelector) {
+                    xpathShouldBe("//tag//tag2")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb
+                }
+            }
+            "#3 Annotated selector should ignore base xpath for [XpathSelector]" {
+                assertSoftly(NoXpathBaseOjb.xpathSelector) {
+                    xpathShouldBe("//tag")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb
+                }
+            }
+        }
     }
 }

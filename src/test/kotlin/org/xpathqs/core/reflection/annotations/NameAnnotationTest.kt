@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 package org.xpathqs.core.reflection.annotations
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.annotations.Name
 import org.xpathqs.core.reflection.scanPackage
 import org.xpathqs.core.selector.block.Block
@@ -76,7 +76,7 @@ object Page5: Block() {
     val inn3 = InnerMember2()
 }
 
-class NameAnnotationTest {
+class NameAnnotationTest : AnnotationSpec() {
     init {
         scanPackage(this)
     }
@@ -88,9 +88,9 @@ class NameAnnotationTest {
     fun r1() {
         WHEN {
             Page.s1.name
-        }.THEN {
+        }.THEN(
             "Page.Sel1"
-        }
+        )
     }
 
     /**
@@ -100,9 +100,9 @@ class NameAnnotationTest {
     fun r2() {
         WHEN {
             Page2.s1.name
-        }.THEN {
+        }.THEN(
             "P2.s1"
-        }
+        )
     }
 
     /**
@@ -112,9 +112,9 @@ class NameAnnotationTest {
     fun r3() {
         WHEN {
             Page3.s1.name
-        }.THEN {
+        }.THEN(
             "P3.Sel1"
-        }
+        )
     }
 
     /**
@@ -124,9 +124,9 @@ class NameAnnotationTest {
     fun r4() {
         WHEN {
             Page4.Inn.s1.name
-        }.THEN {
+        }.THEN(
             "Page4.Sel1.s1"
-        }
+        )
     }
 
     /**
@@ -136,9 +136,9 @@ class NameAnnotationTest {
     fun r5() {
         WHEN {
             Page5.inn.s2.name
-        }.THEN {
+        }.THEN(
             "Page5.inn.Sel2"
-        }
+        )
     }
 
     /**
@@ -148,9 +148,9 @@ class NameAnnotationTest {
     fun r6() {
         WHEN {
             Page5.inn2.s2.name
-        }.THEN {
+        }.THEN(
             "Page5.Inner2.Sel2"
-        }
+        )
     }
 
     /**
@@ -160,8 +160,8 @@ class NameAnnotationTest {
     fun r7() {
         WHEN {
             Page5.inn3.s2.name
-        }.THEN {
+        }.THEN(
             "Page5.inn3.Sel2"
-        }
+        )
     }
 }

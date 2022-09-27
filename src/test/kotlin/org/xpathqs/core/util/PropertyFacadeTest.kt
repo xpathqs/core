@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,8 @@
 
 package org.xpathqs.core.util
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
-
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.constants.CoreGlobalProps
 import org.xpathqs.core.constants.Global
 import org.xpathqs.core.selector.extensions.id
@@ -35,8 +32,7 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
-internal class PropertyFacadeTest {
-
+internal class PropertyFacadeTest : AnnotationSpec() {
     val PATH = "config/config.yml"
 
     @AfterEach
@@ -48,24 +44,20 @@ internal class PropertyFacadeTest {
 
     @Test
     fun parseWithInputStream() {
-        assertThat(
-            CoreGlobalProps(
-                this::class.java.classLoader.getResource(PATH)?.openStream()
-                    ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
-            ).TEXT_ARG
-        ).isEqualTo("@text_test")
+        CoreGlobalProps(
+            this::class.java.classLoader.getResource(PATH)?.openStream()
+                ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
+        ).TEXT_ARG shouldBe "@text_test"
     }
 
     @Test
     fun parseWithFacade() {
-        assertThat(
-            CoreGlobalProps(
-                PropertyFacade(
-                    this::class.java.classLoader.getResource(PATH)?.openStream()
-                        ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
-                )
-            ).TEXT_ARG
-        ).isEqualTo("@text_test")
+        CoreGlobalProps(
+            PropertyFacade(
+                this::class.java.classLoader.getResource(PATH)?.openStream()
+                    ?: throw IllegalArgumentException("'$PATH' Resource can't be found")
+            )
+        ).TEXT_ARG shouldBe "@text_test"
     }
 
     @Test

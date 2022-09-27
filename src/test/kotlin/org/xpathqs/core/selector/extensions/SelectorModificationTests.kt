@@ -22,8 +22,8 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.Selector
@@ -33,15 +33,14 @@ import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
-class SelectorModificationTests {
+class SelectorModificationTests : AnnotationSpec() {
 
     @Test
     fun tagTest() {
         val s1 = Selector().freeze()
         val s2 = s1.tag("s2")
 
-        assertAll {
-            s1.xpathShouldBe("//*")
+        assertSoftly {
             s2.xpathShouldBe("//s2")
         }
     }

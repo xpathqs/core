@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,7 @@
 
 package org.xpathqs.core.util
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.util.SelectorFactory.idContainsSelector
 import org.xpathqs.core.util.SelectorFactory.idSelector
 import org.xpathqs.core.util.SelectorFactory.tagSelector
@@ -32,35 +30,20 @@ import org.xpathqs.core.util.SelectorFactory.textContainsSelector
 import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
-internal class SelectorFactoryTest {
+class SelectorFactoryTest : AnnotationSpec() {
 
     @Test
-    fun tagSelector() {
-        assertThat(tagSelector("div").toXpath())
-            .isEqualTo("//div")
-    }
+    fun tagSelector() = tagSelector("div").xpathShouldBe("//div")
 
     @Test
-    fun textSelector() {
-        assertThat(textSelector("div").toXpath())
-            .isEqualTo("//*[text()='div']")
-    }
+    fun textSelector() = textSelector("div").xpathShouldBe("//*[text()='div']")
 
     @Test
-    fun textContainsSelector() {
-        assertThat(textContainsSelector("some text").toXpath())
-            .isEqualTo("//*[contains(text(), 'some text')]")
-    }
+    fun textContainsSelector() = textContainsSelector("some text").xpathShouldBe("//*[contains(text(), 'some text')]")
 
     @Test
-    fun idSelector() {
-        idSelector("id")
-            .xpathShouldBe("//*[@id='id']")
-    }
+    fun idSelector() = idSelector("id").xpathShouldBe("//*[@id='id']")
 
     @Test
-    fun idContainsSelector() {
-        idContainsSelector("id")
-            .xpathShouldBe("//*[contains(@id, 'id')]")
-    }
+    fun idContainsSelector() = idContainsSelector("id").xpathShouldBe("//*[contains(@id, 'id')]")
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,18 @@
 
 package org.xpathqs.core.selector
 
-import assertk.assertThat
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 
 import org.xpathqs.xpathShouldBe
 
-internal class NullSelectorTest {
-
+class NullSelectorTest : AnnotationSpec() {
     @Test
     fun toXpath() = NullSelector().xpathShouldBe("")
 
     @Test
     fun clone() {
         val s = NullSelector()
-        assertThat(s)
-            .isSameAs(s.clone())
+        s shouldBeSameInstanceAs s.clone()
     }
 }

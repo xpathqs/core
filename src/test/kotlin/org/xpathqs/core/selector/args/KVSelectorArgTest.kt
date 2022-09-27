@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,13 @@
 
 package org.xpathqs.core.selector.args
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-internal class KVSelectorArgTest {
+class KVSelectorArgTest : AnnotationSpec() {
 
     @Test
     fun toXpath() {
-        assertThat(KVSelectorArg("position()", "1").toXpath())
-            .isEqualTo("position()=1")
+        KVSelectorArg("position()", "1").toXpath() shouldBe "position()=1"
     }
 }

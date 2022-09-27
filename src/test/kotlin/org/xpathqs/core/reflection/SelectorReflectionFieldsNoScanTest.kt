@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,41 +22,32 @@
 
 package org.xpathqs.core.reflection
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
 
-internal class SelectorReflectionFieldsNoScanTest {
+class SelectorReflectionFieldsNoScanTest : AnnotationSpec() {
 
     @Test
     fun noScanForInnerSelectorTopLevel() {
-        assertThat(
-            SelectorReflectionFields(PageWithNoScan)
-                .innerSelectors
-        ).hasSize(3)
+        SelectorReflectionFields(PageWithNoScan)
+            .innerSelectors shouldHaveSize 3
     }
 
     @Test
     fun noScanForInnerObjectTopLevel() {
-        assertThat(
-            SelectorReflectionFields(PageWithNoScan)
-                .innerObjectClasses
-        ).hasSize(2)
+        SelectorReflectionFields(PageWithNoScan)
+            .innerObjectClasses shouldHaveSize 2
     }
 
     @Test
     fun noScanForMemberSelectorTopLevel() {
-        assertThat(
-            SelectorReflectionFields(PageWithNoScan.holder1)
-                .innerSelectors
-        ).hasSize(2)
+        SelectorReflectionFields(PageWithNoScan.holder1)
+            .innerSelectors shouldHaveSize 2
     }
 
     @Test
     fun noScanForMemberObjectSelectorTopLevel() {
-        assertThat(
-            SelectorReflectionFields(PageWithNoScan.InnerObject1)
-                .innerSelectors
-        ).hasSize(1)
+        SelectorReflectionFields(PageWithNoScan.InnerObject1)
+            .innerSelectors shouldHaveSize 1
     }
 }

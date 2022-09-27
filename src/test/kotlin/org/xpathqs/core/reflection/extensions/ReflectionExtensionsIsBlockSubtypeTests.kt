@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,12 @@
 
 package org.xpathqs.core.reflection.extensions
 
-import assertk.assertThat
-import assertk.assertions.isFalse
-import assertk.assertions.isTrue
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.isBlockSubtype
 import org.xpathqs.core.selector.block.Block
 
-class ReflectionExtensionsIsBlockSubtypeTests {
+class ReflectionExtensionsIsBlockSubtypeTests : AnnotationSpec() {
 
     open class B: Block()
     object Obj: B()
@@ -40,8 +38,7 @@ class ReflectionExtensionsIsBlockSubtypeTests {
      */
     @Test
     fun r1() {
-        assertThat(Obj.isBlockSubtype())
-            .isTrue()
+        Obj.isBlockSubtype() shouldBe true
     }
 
     /**
@@ -49,7 +46,6 @@ class ReflectionExtensionsIsBlockSubtypeTests {
      */
     @Test
     fun r2() {
-        assertThat(Obj2.isBlockSubtype())
-            .isFalse()
+        Obj2.isBlockSubtype() shouldBe false
     }
 }

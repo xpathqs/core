@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,9 @@
 
 package org.xpathqs.core.selector.base
 
-import assertk.assertThat
-import assertk.assertions.isFalse
-import assertk.assertions.isNotNull
-import assertk.assertions.isNull
-import assertk.assertions.isTrue
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.reflection.scan
 import org.xpathqs.core.selector.block.Block
@@ -50,19 +47,20 @@ object Page1 : Block() {
     }
 }
 
-class BaseSelectorAnnotationsTest {
+
+class BaseSelectorAnnotationsTest : AnnotationSpec() {
 
     init {
         Page1::class.java.`package`.scan()
     }
+
 
     /**
      * Check Require #1 of [BaseSelector.hasParentAnnotation]
      */
     @Test
     fun r1_hasParentAnnotation() {
-        assertThat(Page1.s1.hasParentAnnotation(TestAnnotation::class))
-            .isTrue()
+        Page1.s1.hasParentAnnotation(TestAnnotation::class) shouldBe true
     }
 
     /**
@@ -70,17 +68,16 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r2_hasParentAnnotation() {
-        assertThat(Page1.Inner.s1.hasParentAnnotation(TestAnnotation::class))
-            .isFalse()
+        Page1.Inner.s1.hasParentAnnotation(TestAnnotation::class) shouldBe true
     }
+
 
     /**
      * Check Require #1 of [BaseSelector.hasAnyParentAnnotation]
      */
     @Test
     fun r1_hasAnyParentAnnotation() {
-        assertThat(Page1.Inner.s1.hasAnyParentAnnotation(TestAnnotation::class))
-            .isTrue()
+        Page1.Inner.s1.hasAnyParentAnnotation(TestAnnotation::class) shouldBe true
     }
 
     /**
@@ -88,8 +85,7 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r2_hasAnyParentAnnotation() {
-        assertThat(Page1.Inner.s1.hasAnyParentAnnotation(NoScan::class))
-            .isFalse()
+        Page1.Inner.s1.hasAnyParentAnnotation(NoScan::class) shouldBe false
     }
 
     /**
@@ -97,26 +93,24 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r1_findAnnotation() {
-        assertThat(Page1.findAnnotation<TestAnnotation>())
-            .isNotNull()
+        Page1.findAnnotation<TestAnnotation>() shouldNotBe null
     }
 
-    /**
+   /**
      * Check Require #2 of [BaseSelector.findAnnotation]
      */
     @Test
     fun r2_findAnnotation() {
-        assertThat(Page1.findAnnotation<NoScan>())
-            .isNull()
+        Page1.findAnnotation<NoScan>() shouldBe null
     }
+
 
     /**
      * Check Require #1 of [BaseSelector.findParentAnnotation]
      */
     @Test
     fun r1_findParentAnnotation() {
-        assertThat(Page1.s1.findParentAnnotation<TestAnnotation>())
-            .isNotNull()
+        Page1.s1.findParentAnnotation<TestAnnotation>() shouldNotBe null
     }
 
     /**
@@ -124,8 +118,7 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r2_findParentAnnotation() {
-        assertThat(Page1.Inner.s1.findParentAnnotation<TestAnnotation>())
-            .isNull()
+        Page1.Inner.s1.findParentAnnotation<TestAnnotation>() shouldBe null
     }
 
     /**
@@ -133,8 +126,7 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r1_findAnyParentAnnotation() {
-        assertThat(Page1.Inner.s1.findAnyParentAnnotation<TestAnnotation>())
-            .isNotNull()
+        Page1.Inner.s1.findAnyParentAnnotation<TestAnnotation>() shouldNotBe null
     }
 
     /**
@@ -142,8 +134,7 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r2_findAnyParentAnnotation() {
-        assertThat(Page1.Inner.s1.findParentAnnotation<NoScan>())
-            .isNull()
+        Page1.Inner.s1.findParentAnnotation<NoScan>() shouldBe null
     }
 
     /**
@@ -151,8 +142,7 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r1_findParentWithAnnotation() {
-        assertThat(Page1.s1.findParentWithAnnotation(TestAnnotation::class))
-            .isNotNull()
+        Page1.s1.findParentWithAnnotation(TestAnnotation::class) shouldNotBe null
     }
 
     /**
@@ -160,7 +150,6 @@ class BaseSelectorAnnotationsTest {
      */
     @Test
     fun r2_findParentWithAnnotation() {
-        assertThat(Page1.s1.findParentWithAnnotation(NoScan::class))
-            .isNull()
+        Page1.s1.findParentWithAnnotation(NoScan::class) shouldBe null
     }
 }

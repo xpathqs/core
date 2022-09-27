@@ -22,7 +22,7 @@
 
 package org.xpathqs.core.reflection.parser
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.annotations.NoBase
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
@@ -30,7 +30,7 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 import org.xpathqs.xpathShouldBe
 
-class NoBaseTest {
+class NoBaseTest : AnnotationSpec() {
     class TestCls : Block(tagSelector("base")) {
         val s1 = tagSelector("div1")
         @NoBase
@@ -41,7 +41,7 @@ class NoBaseTest {
     fun noBaseCheck() {
         WHEN {
             TestCls().parse()
-        }.ASSERT {
+        }.THEN {
             actual.s1.xpathShouldBe("//base//div1")
             actual.s2.xpathShouldBe("//div2")
         }

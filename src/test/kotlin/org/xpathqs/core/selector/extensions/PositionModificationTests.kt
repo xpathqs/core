@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,20 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.selector.extensions.core.get
-import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.xpathShouldBe
 
-internal class PositionModificationTests {
-
-    @Test
-    fun getTestForSelector() {
-        Selector()["position()=last()"]
-            .xpathShouldBe("//*[position()=last()]")
-    }
+class PositionModificationTests : AnnotationSpec() {
 
     @Test
     fun positionTestForSelector() {
         val s = SelectorFactory.tagSelector("div").freeze()
 
-        assertAll {
+        assertSoftly {
             s[1].xpathShouldBe("//div[position()=1]")
             s[2].xpathShouldBe("//div[position()=2]")
             s.xpathShouldBe("//div")

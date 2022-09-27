@@ -22,12 +22,12 @@
 
 package org.xpathqs.core.selector.base
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
 
-internal class BaseSelectorCustomPropsMapTest {
+class BaseSelectorCustomPropsMapTest : AnnotationSpec() {
 
     /**
      * Checks Require #1
@@ -41,7 +41,7 @@ internal class BaseSelectorCustomPropsMapTest {
             }
         }.WHEN {
             given.clone()
-        }.ASSERT {
+        }.THEN {
             given.customPropsMap === actual.customPropsMap
         }
     }

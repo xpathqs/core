@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,15 @@
 
 package org.xpathqs.core.selector.block
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.gwt.AFTER
 import org.xpathqs.gwt.GIVEN
 
-class BlockSelectorXpathTest {
+class BlockSelectorXpathTest : AnnotationSpec() {
     object TestCls : Block(
         tagSelector("div")
     ) {
@@ -53,7 +54,7 @@ class BlockSelectorXpathTest {
             given.xpath
         }.THEN {
             "//div[position()=2]//p"
-        }.AFTER {
+        }.THEN {
             given.toXpath()
         }
     }
@@ -69,9 +70,7 @@ class BlockSelectorXpathTest {
         }.WHEN {
             given.toXpath()
             given.toXpath()
-        }.THEN {
-            "//div//p"
-        }
+        }.THEN("//div//p")
     }
 
     @Test
@@ -84,9 +83,9 @@ class BlockSelectorXpathTest {
             given.toString()
             given.toString()
             given.toXpath()
-        }.THEN {
+        }.THEN(
             "//div[position()=2]"
-        }.AFTER {
+        ).AFTER {
             given.toXpath()
         }
     }

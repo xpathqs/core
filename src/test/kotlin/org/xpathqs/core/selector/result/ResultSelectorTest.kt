@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,16 @@
 
 package org.xpathqs.core.selector.result
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.string.shouldBeEmpty
 
-import org.junit.jupiter.api.Assertions.*
-import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.extensions.result
 import org.xpathqs.core.selector.extensions.textNotEmpty
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
-internal class ResultSelectorTest {
+class ResultSelectorTest : AnnotationSpec() {
 
     @Test
     fun toXpath() {
@@ -48,7 +47,7 @@ internal class ResultSelectorTest {
 
     @Test
     fun getTag() {
-        assertEquals("", ResultSelector(tagSelector()).tag)
+        ResultSelector(tagSelector()).tag.shouldBeEmpty()
     }
 
     @Test
