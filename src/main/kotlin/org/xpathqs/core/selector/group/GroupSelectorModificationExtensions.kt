@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,8 @@ package org.xpathqs.core.selector.group
 
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.core.selector.selector.Selector
@@ -80,13 +80,24 @@ fun <T : GroupSelector> T.prefix(value: String): T {
  */
 fun <T : GroupSelector> T.addGroupArg(arg: ValueArg): T {
     val res = this.clone()
-    if (this.selectorsChain.size == 1) {
-        val first = this.selectorsChain.first()
-        res.selectorsChain = arrayListOf(first.addArg(arg))
-    } else {
-        res.props.args.add(
-            arg
-        )
+
+    when {
+        selectorsChain.size == 0 -> {
+            if(res.base is BaseSelector) {
+                res.base[arg]
+            }
+        }
+        selectorsChain.size == 1 -> {
+            val first = this.selectorsChain.first()
+            res.selectorsChain = arrayListOf(first[arg])
+        }
+        else -> {
+            res.props.args.add(
+                arg
+            )
+        }
     }
+
+
     return res
 }

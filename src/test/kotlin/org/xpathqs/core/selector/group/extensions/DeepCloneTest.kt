@@ -51,7 +51,7 @@ class DeepCloneTest : AnnotationSpec() {
             given.deepClone()
         }.THEN {
             actual.name shouldBe given.name
-            actual.base shouldBe given.base
+            actual.base shouldNotBeSameInstanceAs given.base
         }
     }
 

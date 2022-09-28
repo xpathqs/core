@@ -20,28 +20,35 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.model
+package org.xpathqs.core.selector.block.extensions
 
-/**
- * Class to set model values based on associations
- */
-class ValueSetter(
-    private val associations: Collection<ModelAssociation>,
-    private val extractor: ISelectorValueExtractor
-) {
-    /**
-     * Apply assisiations to the [obj]
-     *
-     * Requirements:
-     *   #1 - All associations should be applied to the given [obj]
-     *   @test [ValueSetterTest.init_r1]
-     */
-    fun init(obj: Any) {
-        associations.forEach {
-            it.applyTo(
-                obj,
-                extractor
-            )
-        }
+import io.kotest.core.spec.style.AnnotationSpec
+import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.block.Block
+import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.util.SelectorFactory.textSelector
+import org.xpathqs.xpathShouldBe
+
+object PositionTestPage: Block(textSelector("base1")) {
+    val inner = Inner1()
+
+    open class Inner1(
+        base: ISelector = textSelector("s3")
+    ): Block(base) {
+        val sel = textSelector("sel")
+    }
+}
+
+class PositionTest : AnnotationSpec() {
+    init {
+        PositionTestPage.parse()
+    }
+
+    @Test
+    fun test1() {
+        PositionTestPage.inner.xpathShouldBe("//*[text()='base1']//*[text()='s3']")
+        PositionTestPage.inner[2].xpathShouldBe("//*[text()='base1']//*[text()='s3' and position()=2]")
+        PositionTestPage.inner.xpathShouldBe("//*[text()='base1']//*[text()='s3']")
     }
 }

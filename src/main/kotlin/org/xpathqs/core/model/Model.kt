@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,28 @@
 
 package org.xpathqs.core.model
 
-import org.xpathqs.core.reflection.SelectorReflectionFields
 import org.xpathqs.core.selector.block.Block
 
+/**
+ * Class for mapping selectors to the model properties [finder]
+ */
 class Model(
-    private val cls: Class<*>,
-    private val block: Block,
-    private val assocList: Collection<IModelAssociation> = listOf(
-        NameAssociation()
-    )
+    private val finder: IAssociationFinder
 ) {
+    constructor(cls: Class<*>, block: Block) : this(
+        ClassBlockAssociationFinder(
+            cls, block
+        )
+    )
+
+    /**
+     * Get the list of associations
+     *
+     * Requirements:
+     *   #1 - associations should be parsed based on [finder]
+     *   @test [ModelTest.association_r1]
+     */
     val associations: Collection<ModelAssociation> by lazy {
-        val fields = cls.declaredFields
-        val selectors = SelectorReflectionFields(block).innerSelectors
-
-        val ass =
-            AssociationFinder(
-                fields.toList(),
-                selectors,
-                assocList
-            )
-
-        ass.mappings
+        finder.mappings
     }
 }

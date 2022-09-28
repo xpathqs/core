@@ -27,6 +27,7 @@ import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setBlank
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
@@ -36,9 +37,14 @@ import kotlin.reflect.KClass
 /**
  * @return clone of a [Block] Selector
  *
+ *
  */
 @Suppress("UNCHECKED_CAST")
 internal fun <T : Block> T.deepClone(): T {
+    if (this.state != SelectorState.FREEZE) {
+        return this
+    }
+
     val cloned = (this as GroupSelector).deepClone() as T
     cloned.setBlank(this.isBlank)
 

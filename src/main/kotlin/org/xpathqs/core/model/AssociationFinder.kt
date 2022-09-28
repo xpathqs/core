@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,35 @@
 
 package org.xpathqs.core.model
 
+import org.xpathqs.core.reflection.SelectorReflectionFields
 import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.block.Block
 import java.lang.reflect.Field
 
+interface IAssociationFinder {
+    val mappings: Collection<ModelAssociation>
+}
+
+class ClassBlockAssociationFinder(
+    private val cls: Class<*>,
+    private val block: Block
+) : IAssociationFinder {
+    override val mappings: Collection<ModelAssociation>
+        get() = AssociationFinder(
+            cls.declaredFields.toList(),
+            SelectorReflectionFields(block).innerSelectors,
+            listOf(
+                NameAssociation()
+            )
+        ).mappings
+}
 
 class AssociationFinder(
     private val fields: Collection<Field>,
     private val selectors: Collection<BaseSelector>,
     private val associations: Collection<IModelAssociation>
-) {
-    val mappings: Collection<ModelAssociation>
+) : IAssociationFinder {
+    override val mappings: Collection<ModelAssociation>
         get() {
             return scanFields(associations.first())
         }

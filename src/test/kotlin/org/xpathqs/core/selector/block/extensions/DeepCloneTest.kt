@@ -27,11 +27,13 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.block.deepClone
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.gwt.GIVEN
 import org.xpathqs.stateShouldBe
 import org.xpathqs.xpathShouldBe
@@ -39,10 +41,17 @@ import org.xpathqs.xpathShouldBe
 class DeepCloneTest : AnnotationSpec() {
     open class BlockCls : Block() {
         val s1 = tagSelector("div")
+        val inner = Inner1()
     }
 
     open class BlockClsWithBase : Block(tagSelector("base")) {
         val s1 = tagSelector("div")
+    }
+
+    open class Inner1(
+        base: ISelector = textSelector("s3")
+    ): Block(base) {
+        val sel = textSelector("sel")
     }
 
     object Object : BlockCls()
@@ -80,14 +89,12 @@ class DeepCloneTest : AnnotationSpec() {
         }.WHEN {
             given.deepClone().freeze()
         }.THEN {
-            given.s1[2]
-                .xpathShouldBe("//div[position()=2]")
-            actual.s1[3]
-                .xpathShouldBe("//div[position()=3]")
-            given.s1
-                .xpathShouldBe("//div")
-            actual.s1
-                .xpathShouldBe("//div")
+            given.s1.xpathShouldBe("//div")
+            actual.s1.xpathShouldBe("//div")
+            given.s1[2].xpathShouldBe("//div[position()=2]")
+            actual.s1[3].xpathShouldBe("//div[position()=3]")
+            given.s1.xpathShouldBe("//div")
+            actual.s1.xpathShouldBe("//div")
         }
     }
 }

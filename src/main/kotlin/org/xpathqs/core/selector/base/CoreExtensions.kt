@@ -60,7 +60,12 @@ fun <T : BaseSelector> T.deepClone(): T {
     val newObj = this.newInstance()
 
     newObj.setName(this.name)
-    newObj.setBase(this.base)
+    if(this.base is BaseSelector) {
+        newObj.setBase(base.deepClone())
+    } else {
+        newObj.setBase(base)
+    }
+
     newObj.setNoBase(this.noBase)
     newObj.setAnnotations(this.annotations)
     newObj.setField(this.field)

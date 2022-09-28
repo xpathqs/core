@@ -68,7 +68,7 @@ class DeepCloneTest : AnnotationSpec() {
             assertSoftly {
                 given shouldNotBeSameInstanceAs actual
                 given.name shouldBe actual.name
-                given.base shouldBe actual.base
+                given.base shouldNotBeSameInstanceAs actual.base
                 given.annotations shouldBe actual.annotations
                 given.field shouldBe actual.field
                 given.props shouldNotBeSameInstanceAs actual.props

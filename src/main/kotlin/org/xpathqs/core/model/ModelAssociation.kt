@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,28 @@ import org.xpathqs.core.selector.base.BaseSelector
 import java.lang.reflect.Field
 import kotlin.reflect.KProperty
 
+/**
+ * Wrapper class of a selector and associated model field
+ */
 data class ModelAssociation(
     val sel: BaseSelector,
     val field: Field
 ) {
-    constructor(sel: BaseSelector, prop: KProperty<*>) : this(sel, prop.toField())
+    /**
+     * Secondary constructor with KProperty converted to the Java's field
+     */
+    constructor(sel: BaseSelector, prop: KProperty<*>) : this(
+        sel,
+        prop.toField()
+    )
 
+    /**
+     * Sets the extracted value of [field] property received from [extractor] to the [source] object
+     */
     fun applyTo(source: Any, extractor: ISelectorValueExtractor) {
-        field.set(source, extractor.apply(this))
+        field.set(
+            source,
+            extractor.apply(this)
+        )
     }
 }
