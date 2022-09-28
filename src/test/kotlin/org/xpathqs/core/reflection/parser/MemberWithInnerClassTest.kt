@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,14 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.reflection.pages.AppTable
 import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
 import org.xpathqs.shouldBeFreeze
 
-class MemberWithInnerClassTest {
+class MemberWithInnerClassTest : AnnotationSpec() {
 
     @Test
     fun parseMember() {
@@ -46,7 +46,7 @@ class MemberWithInnerClassTest {
     }
 
     private fun checkState(obj: AppTable) {
-        assertAll {
+        assertSoftly {
             obj.shouldBeFreeze()
             obj.rows.shouldBeFreeze()
             obj.rows.app.shouldBeFreeze()

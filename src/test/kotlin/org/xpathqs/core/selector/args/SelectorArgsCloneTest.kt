@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,10 @@
 
 package org.xpathqs.core.selector.args
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-class SelectorArgsCloneTest {
+class SelectorArgsCloneTest : AnnotationSpec() {
 
     @Test
     fun test1() {
@@ -35,7 +34,6 @@ class SelectorArgsCloneTest {
 
         val cloned = args.clone()
 
-        assertThat(args.toXpath())
-            .isEqualTo(cloned.toXpath())
+        args.toXpath() shouldBe cloned.toXpath()
     }
 }

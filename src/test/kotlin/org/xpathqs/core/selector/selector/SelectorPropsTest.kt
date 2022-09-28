@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,20 @@
 
 package org.xpathqs.core.selector.selector
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.args.ValueArg
 
-class SelectorPropsTest {
+class SelectorPropsTest : AnnotationSpec() {
     @Test
     fun toXpath() {
-        assertThat(
-            SelectorProps(
-                prefix = "/",
-                tag = "div",
-                args = SelectorArgs(
-                    args = hashMapOf("text()" to ValueArg("text()='asd'"))
-                )
-            ).toXpath()
-        ).isEqualTo("/div[text()='asd']")
+        SelectorProps(
+            prefix = "/",
+            tag = "div",
+            args = SelectorArgs(
+                args = hashMapOf("text()" to ValueArg("text()='asd'"))
+            )
+        ).toXpath() shouldBe "/div[text()='asd']"
     }
 }

@@ -22,13 +22,12 @@
 
 package org.xpathqs.core.reflection
 
-import assertk.assertThat
-import assertk.assertions.containsExactlyInAnyOrder
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.selector.Selector
 
-internal class SelectorReflectionFieldsTest {
+class SelectorReflectionFieldsTest : AnnotationSpec() {
 
     private val selectorFields = arrayOf(
         BaseSelector::state.name,
@@ -48,10 +47,7 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(s).declaredFields
         val names = actual.map { it.name }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                *selectorFields
-            )
+        names shouldContainExactlyInAnyOrder selectorFields.toList()
     }
 
     @Test
@@ -68,10 +64,7 @@ internal class SelectorReflectionFieldsTest {
         expected.add("selectorsChain")
         expected.add("originFieldProps")
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                *expected.toTypedArray()
-            )
+        names shouldContainExactlyInAnyOrder expected.toList()
     }
 
     @Test
@@ -79,10 +72,7 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(PageWithBase).innerSelectorFields
         val names = actual.map { it.name }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "s1", "originBlock"
-            )
+        names shouldContainExactlyInAnyOrder listOf("s1", "originBlock")
     }
 
     @Test
@@ -90,10 +80,7 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerSelectorFields
         val names = actual.map { it.name }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "s1_base", "originBlock"
-            )
+        names shouldContainExactlyInAnyOrder listOf("s1_base", "originBlock")
     }
 
     @Test
@@ -105,10 +92,7 @@ internal class SelectorReflectionFieldsTest {
             it.name
         }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "s1_base", "originBlock"
-            )
+        names shouldContainExactlyInAnyOrder listOf("s1_base", "originBlock")
     }
 
     @Test
@@ -117,10 +101,7 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectors
         val names = actual.map { it.toXpath() }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "//base//base_tag"
-            )
+        names shouldContainExactlyInAnyOrder listOf("//base//base_tag")
     }
 
     @Test
@@ -128,10 +109,7 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject.Inner).innerSelectorFields
         val names = actual.map { it.name }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "s1_inner", "originBlock"
-            )
+        names shouldContainExactlyInAnyOrder listOf("s1_inner", "originBlock")
     }
 
     @Test
@@ -139,19 +117,13 @@ internal class SelectorReflectionFieldsTest {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerObjectClasses
         val names = actual.map { it.simpleName }
 
-        assertThat(names)
-            .containsExactlyInAnyOrder(
-                "Inner"
-            )
+        names shouldContainExactlyInAnyOrder listOf("Inner")
     }
 
     @Test
     fun innerBlocks() {
         val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerBlocks
 
-        assertThat(actual)
-            .containsExactlyInAnyOrder(
-                PageWithBaseAndInnerObject.Inner
-            )
+        actual shouldContainExactlyInAnyOrder listOf(PageWithBaseAndInnerObject.Inner)
     }
 }

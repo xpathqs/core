@@ -22,13 +22,12 @@
 
 package org.xpathqs.core.reflection
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import assertk.assertions.isNotNull
-import assertk.assertions.isNull
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
@@ -73,72 +72,59 @@ open class Base: Block()
 @TestAnnotation2
 object Inherited: Base()
 
-class SelectorAnnotationsTest {
+class SelectorAnnotationsTest : AnnotationSpec() {
 
     @Test
     fun checkBlock() {
-        assertThat(PageWithAnnotations.annotations)
-            .hasSize(1)
+        PageWithAnnotations.annotations shouldHaveSize 1
     }
 
     @Test
     fun checkSelector() {
-        assertThat(PageWithAnnotations.s1.annotations)
-            .hasSize(1)
+        PageWithAnnotations.s1.annotations shouldHaveSize 1
     }
 
     @Test
     fun checkSelectorWithoutAnnotation() {
-        assertThat(PageWithAnnotations.s2.annotations)
-            .hasSize(0)
+        PageWithAnnotations.s2.annotations shouldHaveSize 0
     }
 
     @Test
     fun checkSelectorWithTwoAnnotation() {
-        assertThat(PageWithAnnotations.s3.annotations)
-            .hasSize(2)
+        PageWithAnnotations.s3.annotations shouldHaveSize 2
     }
 
     @Test
     fun annotationsShouldBeCloned() {
-        assertThat(PageWithAnnotations.s3[2].annotations)
-            .hasSize(2)
+        PageWithAnnotations.s3[2].annotations shouldHaveSize 2
     }
 
     @Test
     fun noFieldForRootObj() {
-        assertThat(PageWithAnnotations.field)
-            .isNull()
+        PageWithAnnotations.field.shouldBeNull()
     }
 
     @Test
     fun fieldForSelectors() {
-        assertThat(PageWithAnnotations.s1.field)
-            .isNotNull()
-
-        assertThat(PageWithAnnotations.s1.field?.name)
-            .isEqualTo("s1")
+        assertSoftly {
+            PageWithAnnotations.s1.field.shouldNotBeNull()
+            PageWithAnnotations.s1.field?.name shouldBe "s1"
+        }
     }
 
     @Test
     fun parseAnnotationsForBlockMember() {
-        SelectorParser(WithContainer).parse()
-        assertThat(WithContainer.s4.annotations)
-            .hasSize(1)
+        WithContainer.s4.annotations shouldHaveSize 1
     }
 
     @Test
     fun checkInheritedBlock() {
-        assertThat(Inherited.annotations)
-            .hasSize(2)
+        Inherited.annotations shouldHaveSize 2
     }
 
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun init() {
-            SelectorParser(PageWithAnnotations).parse()
-            Inherited.parse()
-        }
+    init {
+        SelectorParser(PageWithAnnotations).parse()
+        SelectorParser(WithContainer).parse()
+        Inherited.parse()
     }
 }

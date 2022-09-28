@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,13 @@
 
 package org.xpathqs.core.reflection
 
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.xpathShouldBe
 
-class PageWithInnerClassMembersTest {
+class PageWithInnerClassMembersTest : AnnotationSpec() {
 
     @Test
     fun testXpath() {
@@ -49,19 +49,16 @@ class PageWithInnerClassMembersTest {
 
     @Test
     fun test2() {
+        assertSoftly {
+            PageWithInnerClassMembers.table1.rows[2].app
+                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
 
-        PageWithInnerClassMembers.table1.rows[2].app
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
-
-        PageWithInnerClassMembers.table1.rows
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
+            PageWithInnerClassMembers.table1.rows
+                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
+        }
     }
 
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun init() {
-            SelectorParser(PageWithInnerClassMembers).parse()
-        }
+    init {
+        SelectorParser(PageWithInnerClassMembers).parse()
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,16 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.isNotNull
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldNotBe
 import org.xpathqs.core.reflection.PageWithBlockMembers
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.nameShouldBe
 import org.xpathqs.xpathShouldBe
 
-
-class ObjectWithClassBlockTest {
+class ObjectWithClassBlockTest : AnnotationSpec() {
     @BeforeEach
     fun parse() {
         SelectorParser(PageWithBlockMembers)
@@ -43,7 +40,7 @@ class ObjectWithClassBlockTest {
 
     @Test
     fun testSelectorFromClass() {
-        assertAll {
+        assertSoftly {
             PageWithBlockMembers.holder1
                 .xpathShouldBe("//base//hold")
                 .nameShouldBe("PageWithBlockMembers.holder1")
@@ -56,7 +53,7 @@ class ObjectWithClassBlockTest {
 
     @Test
     fun testSelectorFromClassWithPos() {
-        assertAll {
+        assertSoftly {
             PageWithBlockMembers.holder1.sel1[2]
                 .xpathShouldBe("//base//hold//div[position()=2]")
         }
@@ -64,7 +61,7 @@ class ObjectWithClassBlockTest {
 
     @Test
     fun testSelectorFromClassWithBasePos() {
-        assertAll {
+        assertSoftly {
             PageWithBlockMembers.holder1[2].sel1
                 .xpathShouldBe("//base//hold[position()=2]//div")
 
@@ -75,13 +72,11 @@ class ObjectWithClassBlockTest {
 
     @Test
     fun fieldsForSelectors() {
-        assertThat(PageWithBlockMembers.holder1.field)
-            .isNotNull()
+        PageWithBlockMembers.holder1.field shouldNotBe null
     }
 
     @Test
     fun fieldsForInnerSelectors() {
-        assertThat(PageWithBlockMembers.holder1.sel1.field)
-            .isNotNull()
+        PageWithBlockMembers.holder1.sel1.field shouldNotBe null
     }
 }

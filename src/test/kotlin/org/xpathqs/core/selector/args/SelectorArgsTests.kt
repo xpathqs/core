@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,70 +22,63 @@
 
 package org.xpathqs.core.selector.args
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 
-internal class SelectorArgsTests {
+
+class SelectorArgsTests : AnnotationSpec() {
 
     @Test
     fun toXpath_ForNoArgs() {
-        assertThat(SelectorArgs().toXpath())
-            .isEqualTo("")
+        SelectorArgs().toXpath() shouldBe ""
     }
 
     @Test
     fun toXpath_forSingleArg() {
-        assertThat(
-            SelectorArgs()
-                .add(
-                    ValueArg("last()")
-                ).toXpath()
-        ).isEqualTo("[last()]")
+        SelectorArgs()
+            .add(
+                ValueArg("last()")
+            ).toXpath() shouldBe "[last()]"
     }
 
     @Test
     fun toXpath_forAndArg() {
-        assertThat(
-            SelectorArgs()
-                .add(
-                    ValueArg("first()")
-                ).add(
-                    ValueArg("last()")
-                ).toXpath()
-        ).isEqualTo("[first() and last()]")
+        SelectorArgs()
+            .add(
+                ValueArg("first()")
+            ).add(
+                ValueArg("last()")
+            ).toXpath() shouldBe "[first() and last()]"
     }
 
     @Test
     fun toXpath_forOrArg() {
-        assertThat(
-            SelectorArgs()
-                .add(
-                    ValueArg("first()")
-                ).add(
-                    ValueArg("last()", JoinType.OR)
-                ).toXpath()
-        ).isEqualTo("[first() or last()]")
+        SelectorArgs()
+            .add(
+                ValueArg("first()")
+            ).add(
+                ValueArg("last()", JoinType.OR)
+            ).toXpath() shouldBe "[first() or last()]"
     }
 
     @Test
     fun toXpath_forOrAndArg() {
-        assertThat(
-            SelectorArgs()
-                .add(
-                    ValueArg("before()")
-                )
-                .add(
-                    ValueArg("first()")
-                ).add(
-                    ValueArg("second()", JoinType.OR)
-                ).add(
-                    ValueArg("last()", JoinType.AND)
-                ).toXpath()
-        ).isEqualTo("[before() and first() and last() or second()]")
+        SelectorArgs()
+            .add(
+                ValueArg("before()")
+            )
+            .add(
+                ValueArg("first()")
+            ).add(
+                ValueArg("second()", JoinType.OR)
+            ).add(
+                ValueArg("last()", JoinType.AND)
+            ).toXpath() shouldBe "[before() and first() and last() or second()]"
     }
+
 
     /**
      * Check require #1 of [SelectorArgs.add]

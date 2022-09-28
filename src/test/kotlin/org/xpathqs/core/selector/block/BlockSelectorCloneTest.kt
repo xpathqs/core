@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,8 @@
 
 package org.xpathqs.core.selector.block
 
-import assertk.assertThat
-import assertk.assertions.isNotSameAs
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.SomeHolder
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.base.BaseSelector
@@ -34,7 +32,7 @@ import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
-class BlockSelectorCloneTest {
+class BlockSelectorCloneTest : AnnotationSpec() {
     open class HolderWithArgsNoScan(
         base: Selector,
         val sel1: BaseSelector,
@@ -53,8 +51,7 @@ class BlockSelectorCloneTest {
         val s1 = SomeTest().parse()
         val s2 = s1.deepClone()
 
-        assertThat(s1)
-            .isNotSameAs(s2)
+        s1 shouldNotBeSameInstanceAs s2
     }
 
     @Test
@@ -62,8 +59,7 @@ class BlockSelectorCloneTest {
         val props1 = PageWithBlockMembers.holder1.props
         val props2 = PageWithBlockMembers.holder1.originFieldProps
 
-        assertThat(props1)
-            .isNotSameAs(props2)
+        props1 shouldNotBeSameInstanceAs props2
 
         PageWithBlockMembers.holder1[2].sel1
             .xpathShouldBe("//base//hold[position()=2]//div")
@@ -79,11 +75,8 @@ class BlockSelectorCloneTest {
         sel.xpathShouldBe("//div")
     }
 
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun init() {
-            PageWithBlockMembers.parse()
-        }
+
+    init {
+        PageWithBlockMembers.parse()
     }
 }

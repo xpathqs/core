@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,8 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertThat
-import assertk.assertions.isNotSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.PageWithBaseWithChain
 import org.xpathqs.core.reflection.PageWithBaseWithChainXpath
 import org.xpathqs.core.reflection.SelectorParser
@@ -35,15 +34,14 @@ import org.xpathqs.xpathShouldBe
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.extensions.core.get
 
-class SelectorCloneTests {
+class SelectorCloneTests : AnnotationSpec() {
 
     @Test
     fun simpleClone() {
         val s1 = Selector().freeze()
         val s2 = s1.clone()
 
-        assertThat(s1)
-            .isNotSameAs(s2)
+        s1 shouldNotBeSameInstanceAs s2
     }
 
     @Test

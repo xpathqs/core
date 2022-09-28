@@ -22,13 +22,13 @@
 
 package org.xpathqs.core.selector.group
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.extensions.times
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
-internal class GroupSelectorTest {
+class GroupSelectorTest : AnnotationSpec() {
 
     @Test
     fun tagShouldNotBeUpdated() {

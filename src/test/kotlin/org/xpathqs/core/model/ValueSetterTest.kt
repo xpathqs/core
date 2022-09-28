@@ -20,40 +20,34 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.extensions
+package org.xpathqs.core.model
 
-import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import org.xpathqs.core.selector.extensions.core.get
-import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.core.util.SelectorFactory.xpathSelector
-import org.xpathqs.xpathShouldBe
+import org.xpathqs.core.reflection.SelectorParser
+import org.xpathqs.gwt.GIVEN
 
-class SelectorAddTests : AnnotationSpec() {
-    @Test
-    fun combineTwoTagSelectors() {
-        (tagSelector("div") + tagSelector("p"))
-            .xpathShouldBe("//div//p")
+class ValueSetterTest : AnnotationSpec() {
+    init {
+        SelectorParser(TestModelPage).parse()
     }
 
+    /**
+     * Checks #1 of [ValueSetter.init]
+     */
     @Test
-    fun combineTwoTagSelectorsWithArgs() {
-        (tagSelector("div")[2] + tagSelector("p")[3])
-            .xpathShouldBe("//div[position()=2]//p[position()=3]")
-    }
-
-    @Test
-    fun addXpathSelector() {
-        val firstSel = xpathSelector("//div")
-        val secondSel = xpathSelector("//p")
-
-        val combinedSelector = firstSel + secondSel
-
-        assertSoftly {
-           combinedSelector.selectorsChain.size shouldBe 2
-
-            combinedSelector.xpathShouldBe("//div//p")
+    fun init_r1() {
+        GIVEN {
+            TestModel()
+        }.WHEN {
+            ValueSetter(
+                Model(TestModel::class.java, TestModelPage).associations,
+                XpathExtractor()
+            ).init(given)
+        }.THEN {
+            given.name1 shouldBe "//div"
+            given.name2 shouldBe "//p"
         }
     }
+
 }

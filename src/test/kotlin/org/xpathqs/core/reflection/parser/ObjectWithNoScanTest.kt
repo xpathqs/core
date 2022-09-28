@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,14 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEmpty
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.PageWithBase
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldBeEmpty
 import org.xpathqs.core.reflection.PageWithNoScan
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.xpathShouldBe
 
-
-internal class ObjectWithNoScanTest {
+internal class ObjectWithNoScanTest : AnnotationSpec() {
 
     @BeforeEach
     fun before() {
@@ -43,14 +38,12 @@ internal class ObjectWithNoScanTest {
 
     @Test
     fun checkSelectorName() {
-        assertThat(PageWithNoScan.s1.name)
-            .isEqualTo("PageWithNoScan.s1")
+        PageWithNoScan.s1.name shouldBe ("PageWithNoScan.s1")
     }
 
     @Test
     fun checkSelectorNoScanName() {
-        assertThat(PageWithNoScan.s2.name)
-            .isEmpty()
+        PageWithNoScan.s2.name.shouldBeEmpty()
     }
 
     @Test

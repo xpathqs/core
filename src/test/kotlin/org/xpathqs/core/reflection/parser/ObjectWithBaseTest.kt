@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,9 @@
 
 package org.xpathqs.core.reflection.parser
 
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.reflection.SelectorParser
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.selector.Selector
@@ -42,7 +39,7 @@ object PageWithBase : Block(
     val s1 = Selector(props = SelectorProps(tag = "s1"))
 }
 
-internal class ObjectWithBaseTest {
+class ObjectWithBaseTest : AnnotationSpec() {
 
     init {
         PageWithBase.parse()
@@ -50,14 +47,12 @@ internal class ObjectWithBaseTest {
 
     @Test
     fun checkSelectorName() {
-        assertThat(PageWithBase.s1.name)
-            .isEqualTo("PageWithBase.s1")
+        PageWithBase.s1.name shouldBe "PageWithBase.s1"
     }
 
     @Test
     fun checkSelectorPageName() {
-        assertThat(PageWithBase.name)
-            .isEqualTo("PageWithBase")
+        PageWithBase.name shouldBe "PageWithBase"
     }
 
     @Test
@@ -68,7 +63,6 @@ internal class ObjectWithBaseTest {
 
     @Test
     fun checkPageChildren() {
-        assertThat(PageWithBase.children)
-            .hasSize(1)
+        PageWithBase.children shouldHaveSize 1
     }
 }

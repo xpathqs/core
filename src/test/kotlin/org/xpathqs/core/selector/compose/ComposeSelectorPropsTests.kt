@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,41 +22,33 @@
 
 package org.xpathqs.core.selector.compose
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
-internal class ComposeSelectorPropsTests {
+class ComposeSelectorPropsTests : AnnotationSpec() {
 
     @Test
     fun toXpathForEmpty() {
-        assertThat(ComposeSelectorProps().toXpath())
-            .isEqualTo("")
+        ComposeSelectorProps().toXpath() shouldBe ""
     }
 
     @Test
     fun toXpathForOne() {
-        assertThat(
-            ComposeSelectorProps(
-                arrayListOf(
-                    tagSelector("div")
-                )
-            ).toXpath()
-        )
-            .isEqualTo("//div")
+        ComposeSelectorProps(
+            arrayListOf(
+                tagSelector("div")
+            )
+        ).toXpath() shouldBe "//div"
     }
 
     @Test
     fun toXpathForMoreThanOne() {
-        assertThat(
-            ComposeSelectorProps(
-                arrayListOf(
-                    tagSelector("div"),
-                    tagSelector("div")
-                )
-            ).toXpath()
-        )
-            .isEqualTo("(//div) | (//div)")
+        ComposeSelectorProps(
+            arrayListOf(
+                tagSelector("div"),
+                tagSelector("div")
+            )
+        ).toXpath() shouldBe "(//div) | (//div)"
     }
 }

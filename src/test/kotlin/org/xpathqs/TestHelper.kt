@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,19 @@
 
 package org.xpathqs
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
+
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
 fun <T : ISelector> T.xpathShouldBe(xpath: String): T {
-    assertThat(this.toXpath())
-        .isEqualTo(xpath)
-
+    this.toXpath() shouldBe xpath
     return this
 }
 
 fun <T : ISelector> T.nameShouldBe(name: String): T {
-    assertThat(this.name)
-        .isEqualTo(name)
-
+    this.name shouldBe name
     return this
 }
 
@@ -48,8 +44,7 @@ fun <T : ISelector> T.shouldBeCloned() = stateShouldBe(SelectorState.CLONED)
 
 fun <T : ISelector> T.stateShouldBe(state: SelectorState): T {
     this as BaseSelector
-    assertThat(this.state)
-        .isEqualTo(state)
+    this.state shouldBe state
 
     return this
 }

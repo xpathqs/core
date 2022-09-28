@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,14 @@
 
 package org.xpathqs.core.selector.selector
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.stateShouldBe
 import org.xpathqs.xpathShouldBe
 
-internal class SelectorTest {
-
-    @Test
-    fun toXpath() = Selector().xpathShouldBe("//*")
+class SelectorTest : AnnotationSpec() {
 
     @Test
     fun defaultState() = Selector().stateShouldBe(SelectorState.INIT)
@@ -54,23 +50,17 @@ internal class SelectorTest {
                 tag = "base"
             )
         )
-    ).xpathShouldBe("//base//*")
+    )
 
     @Test
     fun prefix() {
-        assertThat(tagSelector("div").prefix)
-            .isEqualTo("//")
-
-        assertThat(tagSelector("div").prefix("/").prefix)
-            .isEqualTo("/")
+        tagSelector("div").prefix shouldBe "//"
+        tagSelector("div").prefix("/").prefix shouldBe "/"
     }
 
     @Test
     fun tag() {
-        assertThat(tagSelector("div").tag)
-            .isEqualTo("div")
-
-        assertThat(tagSelector("div").tag("p").tag)
-            .isEqualTo("p")
+        tagSelector("div").tag shouldBe "div"
+        tagSelector("div").tag("p").tag shouldBe "p"
     }
 }

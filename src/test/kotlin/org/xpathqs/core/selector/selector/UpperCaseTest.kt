@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,7 @@
 
 package org.xpathqs.core.selector.selector
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.constants.CoreGlobalProps
 import org.xpathqs.core.constants.Global
 import org.xpathqs.core.reflection.scanPackage
@@ -39,7 +38,7 @@ object Page: Block() {
     }
 }
 
-class UpperCaseTest {
+class UpperCaseTest : AnnotationSpec() {
 
     @AfterEach
     fun restoreDefaults() {

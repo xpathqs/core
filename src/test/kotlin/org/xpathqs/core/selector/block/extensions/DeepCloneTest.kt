@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,9 @@
 
 package org.xpathqs.core.selector.block.extensions
 
-import assertk.assertThat
-import assertk.assertions.isNotSameAs
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldBeSameInstanceAs
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.reflection.freeze
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.base.SelectorState
@@ -37,7 +36,7 @@ import org.xpathqs.gwt.GIVEN
 import org.xpathqs.stateShouldBe
 import org.xpathqs.xpathShouldBe
 
-class DeepCloneTest {
+class DeepCloneTest : AnnotationSpec() {
     open class BlockCls : Block() {
         val s1 = tagSelector("div")
     }
@@ -54,18 +53,11 @@ class DeepCloneTest {
             BlockCls().parse()
         }.WHEN {
             given.deepClone()
-        }.ASSERT {
-            assertThat(actual)
-                .isNotSameAs(given)
-
-            assertThat(actual.s1)
-                .isNotSameAs(given.s1)
-
-            assertThat(actual.s1.base)
-                .isNotSameAs(given.s1.base)
-
-            assertThat(actual.s1.base)
-                .isSameAs(actual)
+        }.THEN {
+            actual shouldNotBeSameInstanceAs given
+            actual.s1 shouldNotBeSameInstanceAs given.s1
+            actual.s1.base shouldNotBeSameInstanceAs given.s1.base
+            actual.s1.base shouldBeSameInstanceAs actual
         }
     }
 
@@ -75,7 +67,7 @@ class DeepCloneTest {
             BlockCls().parse()
         }.WHEN {
             given.deepClone()
-        }.ASSERT {
+        }.THEN {
             actual.stateShouldBe(SelectorState.CLONED)
             actual.s1.stateShouldBe(SelectorState.CLONED)
         }
@@ -87,7 +79,7 @@ class DeepCloneTest {
             BlockCls().parse()
         }.WHEN {
             given.deepClone().freeze()
-        }.ASSERT {
+        }.THEN {
             given.s1[2]
                 .xpathShouldBe("//div[position()=2]")
             actual.s1[3]

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,12 @@
 
 package org.xpathqs.core.util
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.util.SelectorFactory.attrSelector
 import org.xpathqs.core.util.SelectorFactory.textWithInnerTagsSelector
 import org.xpathqs.xpathShouldBe
 
-class SelectorFactoryAttrSelectorTest {
+class SelectorFactoryAttrSelectorTest : AnnotationSpec() {
 
     /**
      * Check require #1 of [SelectorFactory.attrSelector]

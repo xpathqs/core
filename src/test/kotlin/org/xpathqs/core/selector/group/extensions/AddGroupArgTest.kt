@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,15 @@
 
 package org.xpathqs.core.selector.group.extensions
 
-import org.junit.jupiter.api.Test
-import org.xpathqs.core.selector.args.SelectorArgs
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.args.ValueArg
-import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.addGroupArg
-import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
 
-class AddGroupArgTest {
+class AddGroupArgTest : AnnotationSpec() {
     /**
      * Check #1 require
      * @see [org.xpathqs.core.selector.group.GroupSelector.addGroupArg]

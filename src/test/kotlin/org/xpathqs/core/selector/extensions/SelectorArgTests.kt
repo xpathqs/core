@@ -22,13 +22,13 @@
 
 package org.xpathqs.core.selector.extensions
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.preceding
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
-class SelectorArgTests {
+class SelectorArgTests : AnnotationSpec() {
 
     @Test
     fun onlyText() {

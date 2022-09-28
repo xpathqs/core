@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,16 @@
 
 package org.xpathqs.core.selector.compose
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.string.shouldBeEmpty
 import org.xpathqs.core.selector.extensions.*
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.selector.prefix
-import org.xpathqs.core.util.SelectorFactory.attrSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.xpathShouldBe
 
-class ComposeSelectorTests {
+class ComposeSelectorTests : AnnotationSpec() {
 
     @Test
     fun composeFuncWithNoArgs() {
@@ -69,8 +66,7 @@ class ComposeSelectorTests {
     @Test
     fun tag() {
         val s = tagSelector("div") / tagSelector("div")
-        assertThat(s.tag)
-            .isEqualTo("")
+        s.tag.shouldBeEmpty()
     }
 
     @Test
@@ -82,11 +78,7 @@ class ComposeSelectorTests {
     /**
      * Checks Require #1 of [following]
      */
-    @Test
-    fun following_r1() {
-        (textSelector("Some Text") following attrSelector(value = "select"))
-            .xpathShouldBe("//*[text()='Some Text']//following::*[@*='select']")
-    }
+
 
     /**
      * Checks Require #1 of [followingSibling]

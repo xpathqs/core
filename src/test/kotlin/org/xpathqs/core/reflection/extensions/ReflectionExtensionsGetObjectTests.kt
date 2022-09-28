@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,13 @@
 
 package org.xpathqs.core.reflection.extensions
 
-import assertk.assertThat
-import assertk.assertions.hasClass
-import assertk.assertions.isFailure
-import assertk.assertions.isSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.throwables.shouldThrowExactly
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.xpathqs.core.reflection.getObject
 import org.xpathqs.core.selector.block.Block
 
-internal class ReflectionExtensionsGetObjectTests {
+class ReflectionExtensionsGetObjectTests : AnnotationSpec() {
 
     open class PageCls
     object Page : Block()
@@ -38,25 +36,20 @@ internal class ReflectionExtensionsGetObjectTests {
 
     @Test
     fun getObjectForObject() {
-        assertThat(Page::class.java.getObject())
-            .isSameAs(Page)
+        Page::class.java.getObject() shouldBeSameInstanceAs Page
     }
 
     @Test
     fun getObjectForNotPageObject() {
-        assertThat {
-            NoBasePage::class.java.getObject()
-        }
-            .isFailure()
-            .hasClass(IllegalArgumentException::class.java)
+         shouldThrowExactly<IllegalArgumentException> {
+             NoBasePage::class.java.getObject()
+         }
     }
 
     @Test
     fun getObjectForClass() {
-        assertThat {
+        shouldThrowExactly<IllegalArgumentException> {
             PageCls()::class.java.getObject()
         }
-            .isFailure()
-            .hasClass(IllegalArgumentException::class.java)
     }
 }

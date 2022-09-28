@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 package org.xpathqs.core.selector.base.extension
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.contains
 import org.xpathqs.core.selector.extensions.containsAny
 import org.xpathqs.core.selector.extensions.containsParent
@@ -32,7 +32,7 @@ import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.WHEN
 import org.xpathqs.xpathShouldBe
 
-class SelectorParametersTest {
+class SelectorParametersTest : AnnotationSpec() {
 
     /**
      * Checks #1 require
@@ -42,9 +42,8 @@ class SelectorParametersTest {
     fun r1_contains() {
         WHEN {
             tagSelector("div") contains tagSelector("p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[./p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[./p]")
         }
     }
 
@@ -56,9 +55,8 @@ class SelectorParametersTest {
     fun r1_containsAny() {
         WHEN {
             tagSelector("div") containsAny tagSelector("p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[.//p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[.//p]")
         }
     }
 
@@ -70,9 +68,8 @@ class SelectorParametersTest {
     fun r2_containsAnyXpathWithPrefix() {
         WHEN {
             tagSelector("div") containsAny xpathSelector("./p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[./p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[./p]")
         }
     }
 
@@ -84,9 +81,8 @@ class SelectorParametersTest {
     fun r2_containsXpathWithPrefix() {
         WHEN {
             tagSelector("div") contains xpathSelector("./p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[./p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[./p]")
         }
     }
     /**
@@ -97,9 +93,8 @@ class SelectorParametersTest {
     fun r3_containsXpathWithoutPrefix() {
         WHEN {
             tagSelector("div") contains xpathSelector("p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[./p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[./p]")
         }
     }
     /**
@@ -110,9 +105,8 @@ class SelectorParametersTest {
     fun r1_containsParent() {
         WHEN {
             tagSelector("div") containsParent textSelector("some text")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[../*[text()='some text']]")
+        }.THEN {
+            actual.xpathShouldBe("//div[../*[text()='some text']]")
         }
     }
     /**
@@ -123,9 +117,8 @@ class SelectorParametersTest {
     fun r2_containsParentXpathWithPrefix() {
         WHEN {
             tagSelector("div") containsParent xpathSelector("../p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[../p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[../p]")
         }
     }
     /**
@@ -136,9 +129,8 @@ class SelectorParametersTest {
     fun r3_containsParentXpathWithoutPrefix() {
         WHEN {
             tagSelector("div") containsParent xpathSelector("p")
-        }.ASSERT {
-            actual
-                .xpathShouldBe("//div[../p]")
+        }.THEN {
+            actual.xpathShouldBe("//div[../p]")
         }
     }
 }

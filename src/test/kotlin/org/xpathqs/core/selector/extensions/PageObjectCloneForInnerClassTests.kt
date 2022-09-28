@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,24 @@
 
 package org.xpathqs.core.selector.extensions
 
-import assertk.assertAll
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.assertSoftly
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.SelectorParser
 import org.xpathqs.core.reflection.pages.PageWithInnerClassMembers
 import org.xpathqs.core.selector.block.deepClone
 import org.xpathqs.shouldBeCloned
 
-class PageObjectCloneForInnerClassTests {
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun init() {
-            SelectorParser(PageWithInnerClassMembers).parse()
-        }
+class PageObjectCloneForInnerClassTests : AnnotationSpec() {
+
+    fun init() {
+        SelectorParser(PageWithInnerClassMembers).parse()
     }
 
     @Test
     fun checkClone() {
         val cloned = PageWithInnerClassMembers.table1.rows.deepClone()
 
-        assertAll {
+        assertSoftly {
             cloned.shouldBeCloned()
             cloned.app.shouldBeCloned()
             cloned.principal.shouldBeCloned()

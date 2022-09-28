@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,8 @@
 
 package org.xpathqs.core.selector.base.extension
 
-import assertk.assertThat
-import assertk.assertions.isNotSameAs
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.xpathqs.core.selector.base.newInstance
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.plus
@@ -32,7 +31,7 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.GIVEN
 
-class NewInstanceTest {
+class NewInstanceTest : AnnotationSpec() {
     class BlockCls : Block()
     object R1 : Block() {
         val m = BlockCls()
@@ -61,9 +60,8 @@ class NewInstanceTest {
             tagSelector("div")
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -77,9 +75,8 @@ class NewInstanceTest {
             xpathSelector("//div")
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -93,9 +90,8 @@ class NewInstanceTest {
             tagSelector("div") + tagSelector("div")
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -109,9 +105,8 @@ class NewInstanceTest {
             BlockCls()
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -125,9 +120,8 @@ class NewInstanceTest {
             R2Cls()
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -141,9 +135,8 @@ class NewInstanceTest {
             InnerMembers().m1
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 
@@ -157,9 +150,8 @@ class NewInstanceTest {
             R1
         }.WHEN {
             given.newInstance()
-        }.ASSERT {
-            assertThat(given)
-                .isNotSameAs(actual)
+        }.THEN {
+            given shouldNotBeSameInstanceAs actual
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,19 @@
 
 package org.xpathqs.core.selector.args.decorators
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.KVSelectorArg
 
-internal class ContainsDecoratorTest {
 
+class ContainsDecoratorTest : AnnotationSpec() {
     @Test
     fun toXpath() {
-        assertThat(ContainsDecorator(KVSelectorArg("text()", "text")).toXpath())
-            .isEqualTo("contains(text(), text)")
+        ContainsDecorator(
+            KVSelectorArg(
+                "text()",
+                "text"
+            )
+        ).toXpath() shouldBe "contains(text(), text)"
     }
 }

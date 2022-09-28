@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,14 @@
 
 package org.xpathqs.core.selector.group.extensions
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.GIVEN
 
-class PrefixTest {
+class PrefixTest : AnnotationSpec() {
 
     /**
      * Check #1 require

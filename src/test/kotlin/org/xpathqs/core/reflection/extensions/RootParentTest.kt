@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 package org.xpathqs.core.reflection.extensions
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.block.Block
@@ -30,7 +30,7 @@ import org.xpathqs.core.selector.extensions.rootParent
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 
-class RootParentTest {
+class RootParentTest : AnnotationSpec() {
 
     /**
      * Check require #1 of [org.xpathqs.core.selector.base.BaseSelector.rootParent]

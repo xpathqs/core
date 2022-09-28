@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,31 @@
 
 package org.xpathqs.core.selector.args.decorators
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.KVSelectorArg
 
-internal class CommaDecoratorTest {
+
+class CommaDecoratorTest : AnnotationSpec() {
 
     @Test
     fun toXpath() {
-        assertThat(CommaDecorator(KVSelectorArg("text()", "text")).toXpath())
-            .isEqualTo("text()='text'")
+        CommaDecorator(
+            KVSelectorArg(
+                "text()",
+                "text"
+            )
+        ).toXpath() shouldBe "text()='text'"
     }
 
     @Test
     fun toXpathWithComma() {
-        assertThat(CommaDecorator(KVSelectorArg("@text", "don't")).toXpath())
-            .isEqualTo("@text=concat('don',\"'\",'t')")
+        CommaDecorator(
+            KVSelectorArg(
+                "@text",
+                "don't"
+            )
+        ).toXpath() shouldBe "@text=concat('don',\"'\",'t')"
     }
 }

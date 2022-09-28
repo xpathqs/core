@@ -22,13 +22,13 @@
 
 package org.xpathqs.core.selector.block.extensions
 
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.*
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 
-class InnerSelectorsTest {
+class InnerSelectorsTest : AnnotationSpec() {
 
     object PageWithoutInner: Block() {
         val s1 = tagSelector("div")
@@ -129,9 +129,9 @@ class InnerSelectorsTest {
     fun r1_selectorBlocks() {
         WHEN {
             PageWithoutInner.selectorBlocks
-        }.THEN {
+        }.THEN(
             arrayListOf()
-        }
+        )
     }
 
     /**
@@ -237,8 +237,8 @@ class InnerSelectorsTest {
     fun r2_allInnerSelectorBlocks() {
         WHEN {
             PageWithoutInner.allInnerSelectorBlocks
-        }.THEN {
+        }.THEN(
             emptyList()
-        }
+        )
     }
 }
