@@ -73,7 +73,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    implementation("org.xpathqs:gwt:0.2.1")
+    implementation("org.xpathqs:gwt:0.2.2")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
@@ -128,9 +128,9 @@ publishing {
     }
 }
 
-/*signing {
+signing {
     sign(publishing.publications["mavenJava"])
-}*/
+}
 
 nexusStaging {
     serverUrl = "https://s01.oss.sonatype.org/service/local/"
