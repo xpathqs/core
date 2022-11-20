@@ -39,6 +39,7 @@ import org.xpathqs.core.selector.selector.prefix
 import java.lang.reflect.Field
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.superclasses
+import kotlin.reflect.jvm.kotlinProperty
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -96,12 +97,7 @@ class SelectorParser(
                 field = f
             )
 
-            if(sel.base === sel) {
-                println("sel.base === rootObj")
-            }
-
             if (sel is Block) {
-                //println("SelectorParser(sel, rootObj).parse() : ${"$rootName.$baseName"}")
                 SelectorParser(sel, rootObj).parse()
             }
         }
@@ -120,7 +116,8 @@ class SelectorParser(
         field: Field
     ) {
         to.setField(field)
-        setFields(to, base, name, field.annotations.toList())
+        val annotations = field.declaredAnnotations + (field.kotlinProperty?.annotations ?: emptyList())
+        setFields(to, base, name, annotations.toList())
     }
 
     private fun setFields(

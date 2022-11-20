@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
  */
 fun BaseSelector.hasAnnotation(annotation: KClass<*>)
         = annotations.find {
-    it.annotationClass == annotation
+    it.annotationClass.qualifiedName?.removeSuffix(".Container") == annotation.qualifiedName
 } != null
 
 /**
@@ -72,10 +72,15 @@ fun BaseSelector.hasAnyParentAnnotation(annotation: KClass<*>)
  */
 inline fun<reified T> BaseSelector.findAnnotation(): T? {
     return annotations.find {
-        it.annotationClass.java == T::class.java
+        it.annotationClass.qualifiedName?.removeSuffix(".Container") == T::class.qualifiedName
     } as? T
 }
 
+inline fun<reified T> BaseSelector.findAnnotations(): Collection<T> {
+    return annotations.filter {
+        it.annotationClass.qualifiedName?.removeSuffix(".Container") == T::class.qualifiedName
+    } as Collection<T>
+}
 /**
  * @return provided annotation object of parent [org.xpathqs.core.selector.block.Block]
  *

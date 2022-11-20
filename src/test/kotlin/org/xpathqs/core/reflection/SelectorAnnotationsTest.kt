@@ -34,14 +34,14 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 @Target(
     AnnotationTarget.CLASS,
-    AnnotationTarget.FIELD
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
 annotation class TestAnnotation1
 
 @Target(
     AnnotationTarget.CLASS,
-    AnnotationTarget.FIELD
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
 annotation class TestAnnotation2

@@ -29,25 +29,33 @@ import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.reflection.scan
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.util.SelectorFactory.tagSelector
+import kotlin.reflect.jvm.kotlinProperty
 
 @Target(
     AnnotationTarget.CLASS,
-    AnnotationTarget.FIELD
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
+@Repeatable
+@ExperimentalStdlibApi
 annotation class TestAnnotation(
     val text: String = ""
 )
 
+@OptIn(ExperimentalStdlibApi::class)
 @TestAnnotation
 object Page1 : Block() {
     val s1 = tagSelector("div")
     object Inner: Block() {
         val s1 = tagSelector("div")
     }
+
+    @TestAnnotation(text = "s1")
+    @TestAnnotation(text = "s2")
+    val s2 = tagSelector("div")
 }
 
-
+@OptIn(ExperimentalStdlibApi::class)
 class BaseSelectorAnnotationsTest : AnnotationSpec() {
 
     init {
@@ -103,6 +111,11 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
         Page1.findAnnotation<NoScan>() shouldBe null
     }
 
+    @Test
+    fun r1_findAnnotations() {
+        val r =Page1.s2.field?.kotlinProperty?.annotations
+        println(r)
+    }
 
     /**
      * Check Require #1 of [BaseSelector.findParentAnnotation]
