@@ -41,7 +41,7 @@ class ObjectWithInnerObjectClassArgTest : AnnotationSpec() {
     @Test
     fun innerSelectorFields() {
         SelectorReflectionFields(PageWithInnerObjectClassArg.Holder1)
-            .innerSelectorFields shouldHaveSize 3
+            .innerSelectorProps shouldHaveSize 3
     }
 
     @Test

@@ -26,9 +26,14 @@ import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.util.SelectorFactory.tagSelector
-import java.lang.Exception
 import java.lang.reflect.Field
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.superclasses
+import kotlin.reflect.javaType
+import kotlin.reflect.jvm.isAccessible
 
 /**
  * Utility class for interaction with [BaseSelector] fields via Reflection
@@ -42,10 +47,10 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorFields.filter {
-            it.get(rootObj) !is NullSelector
+        innerSelectorProps.filter {
+            it.call(rootObj) !is NullSelector
         }.map {
-            (it.get(rootObj) as BaseSelector).setName(it.name)
+            (it.call(rootObj) as BaseSelector).setName(it.name)
         }
     }
 
@@ -66,32 +71,34 @@ class SelectorReflectionFields(
      * until [BaseSelector]
      */
     @Suppress("UNCHECKED_CAST")
-    val declaredFields: Collection<Field>
-            by lazy {
-                val res = ArrayList<Field>()
+    val declaredProps: Collection<KProperty<*>> by lazy {
+        val res = ArrayList<KProperty<*>>()
 
-                var cls = rootObj::class.java
-                if(cls.isScanAvailable) {
-                    res.addAll(cls.declaredFields)
+        var cls = rootObj::class
+        if(cls.isScanAvailable) {
+            res.addAll(cls.declaredMemberProperties)
 
-                    while (cls.superclass.isSelectorSubtype() && cls.isScanAvailable) {
-                        cls = cls.superclass as Class<out BaseSelector>
-                        res.addAll(cls.declaredFields)
-                    }
-                }
 
-                removeUnnecessary(res)
+            while (cls.superclasses.first().isSelectorSubtype() && cls.isScanAvailable) {
+                (cls.superclasses.firstOrNull() as? KClass<out BaseSelector>)?.let {
+                    res.addAll(it.declaredMemberProperties)
+                    cls = it
+                } ?: Object::class
             }
+        }
+
+        removeUnnecessary(res)
+    }
 
     /**
-     * Filter [declaredFields] result by [BaseSelector] fields only
+     * Filter [declaredProps] result by [BaseSelector] fields only
      */
-    val innerSelectorFields: Collection<Field>
+    val innerSelectorProps: Collection<KProperty<*>>
         by lazy {
-            val res = ArrayList<Field>()
+            val res = ArrayList<KProperty<*>>()
 
-            declaredFields.filter { it.name != "base"}.forEach {
-                if (it.type.isSelectorSubtype()) {
+            declaredProps.filter { it.name != "base"}.forEach {
+                if ((it.returnType.classifier as KClass<*>).isSelectorSubtype()) {
                     it.isAccessible = true
                     res.add(it)
                 }
@@ -103,13 +110,13 @@ class SelectorReflectionFields(
     /**
      * Returns a collection of `Class` elements which are inherited from the [BaseSelector]
      */
-    val innerObjectClasses: Collection<Class<*>>
+    val innerObjectClasses: Collection<KClass<*>>
             by lazy {
-                val res = ArrayList<Class<*>>()
-                val rootCls = rootObj::class.java
+                val res = ArrayList<KClass<*>>()
+                val rootCls = rootObj::class
                 if(rootCls.isScanAvailable) {
-                    if (rootCls.simpleName != BaseSelector::class.java.simpleName) {
-                        rootCls.declaredClasses.forEach {
+                    if (rootCls.simpleName != BaseSelector::class.simpleName) {
+                        rootCls.nestedClasses.forEach {
                             if (it.isSelectorSubtype()) {
                                 if(it.isScanAvailable) {
                                     res.add(it)
@@ -124,17 +131,19 @@ class SelectorReflectionFields(
     /**
      * Filter Unnecessary fields
      */
-    private fun removeUnnecessary(fields: Collection<Field>) = fields
+    private fun removeUnnecessary(fields: Collection<KProperty<*>>) = fields
         .filter {
             it.name != "INSTANCE" //remove object-class instances
+                    && it.name != "Companion" //remove object-class instances
                     && !it.name.contains("\$")  //remove fields which was added dynamically
                     && it.isScanAvailable //remove fields annotated with "@NoScan
+        }.distinctBy {
+            it.name
         }
-        .distinctBy { it.name }
 
-    private val Field.isScanAvailable: Boolean
-        get() = !this.isAnnotationPresent(NoScan::class.java)
+    private val KProperty<*>.isScanAvailable: Boolean
+        get() = this.findAnnotation<NoScan>() == null
 
-    private val Class<*>.isScanAvailable: Boolean
-        get() = !this.isAnnotationPresent(NoScan::class.java)
+    private val KClass<*>.isScanAvailable: Boolean
+        get() = this.findAnnotation<NoScan>() == null
 }

@@ -36,10 +36,10 @@ import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
-import java.lang.reflect.Field
+import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.superclasses
-import kotlin.reflect.jvm.kotlinProperty
+import kotlin.reflect.jvm.isAccessible
 
 /**
  * Class for initializing Selectors names and structure via Reflection
@@ -84,17 +84,19 @@ class SelectorParser(
         )
         rootObj.children = srf.innerSelectors
 
-        srf.innerSelectorFields.filter {
-            it.get(rootObj) !is NullSelector
-        }.forEach { f ->
-            f.isAccessible = true
-            val sel = f.get(rootObj) as BaseSelector
-            val ann = (f.annotations.find {it is Name } as? Name)?.value ?: f.name
+        srf.innerSelectorProps.filter {
+            it.call(rootObj) !is NullSelector
+        }.forEach { prop ->
+            prop.isAccessible = true
+
+            val sel = prop.call(rootObj) as BaseSelector
+            val ann = prop.findAnnotation<Name>()?.value ?: prop.name
             setFields(
                 to = sel,
                 base = rootObj,
                 name = rootObj.name + "." + ann,
-                field = f
+              //  annotations = annotations + prop.annotations,
+                prop = prop
             )
 
             if (sel is Block) {
@@ -113,11 +115,10 @@ class SelectorParser(
         to: BaseSelector,
         base: ISelector,
         name: String,
-        field: Field
+        prop: KProperty<*>
     ) {
-        to.setField(field)
-        val annotations = field.declaredAnnotations + (field.kotlinProperty?.annotations ?: emptyList())
-        setFields(to, base, name, annotations.toList())
+        to.setProperty(prop)
+        setFields(to, base, name, prop.annotations)
     }
 
     private fun setFields(

@@ -36,20 +36,20 @@ class ReflectionExtensionsGetObjectTests : AnnotationSpec() {
 
     @Test
     fun getObjectForObject() {
-        Page::class.java.getObject() shouldBeSameInstanceAs Page
+        Page::class.getObject() shouldBeSameInstanceAs Page
     }
 
     @Test
     fun getObjectForNotPageObject() {
          shouldThrowExactly<IllegalArgumentException> {
-             NoBasePage::class.java.getObject()
+             NoBasePage::class.getObject()
          }
     }
 
     @Test
     fun getObjectForClass() {
         shouldThrowExactly<IllegalArgumentException> {
-            PageCls()::class.java.getObject()
+            PageCls()::class.getObject()
         }
     }
 }

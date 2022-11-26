@@ -101,14 +101,14 @@ class SelectorAnnotationsTest : AnnotationSpec() {
 
     @Test
     fun noFieldForRootObj() {
-        PageWithAnnotations.field.shouldBeNull()
+        PageWithAnnotations.property.shouldBeNull()
     }
 
     @Test
     fun fieldForSelectors() {
         assertSoftly {
-            PageWithAnnotations.s1.field.shouldNotBeNull()
-            PageWithAnnotations.s1.field?.name shouldBe "s1"
+            PageWithAnnotations.s1.property.shouldNotBeNull()
+            PageWithAnnotations.s1.property?.name shouldBe "s1"
         }
     }
 

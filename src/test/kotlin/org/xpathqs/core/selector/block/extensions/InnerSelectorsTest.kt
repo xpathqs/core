@@ -130,7 +130,7 @@ class InnerSelectorsTest : AnnotationSpec() {
         WHEN {
             PageWithoutInner.selectorBlocks
         }.THEN(
-            arrayListOf()
+            arrayListOf<String>()
         )
     }
 
@@ -237,8 +237,8 @@ class InnerSelectorsTest : AnnotationSpec() {
     fun r2_allInnerSelectorBlocks() {
         WHEN {
             PageWithoutInner.allInnerSelectorBlocks
-        }.THEN(
-            emptyList()
-        )
+        }.THEN {
+            emptyList<Block>()
+        }
     }
 }

@@ -48,7 +48,7 @@ class PageObjectCloneGroupTests : AnnotationSpec() {
             origin.props shouldNotBeSameInstanceAs cloned.props
             origin.children shouldBeSameInstanceAs cloned.children
             origin.children.size shouldBe cloned.children.size
-            cloned.s1.field.shouldNotBeNull()
+            cloned.s1.property.shouldNotBeNull()
         }
     }
 }

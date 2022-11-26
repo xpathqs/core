@@ -32,6 +32,7 @@ import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
 import kotlin.reflect.KClass
+import kotlin.reflect.jvm.javaField
 
 /**
  * @return clone of a [Block] Selector
@@ -50,13 +51,13 @@ internal fun <T : Block> T.deepClone(): T {
     if (!this.isObject()) {
         cloned.children = this.children.map {
             val f = it.clone()
-            it.field?.set(cloned, f)
+            it.property?.javaField?.set(cloned, f)
             f.setBase(cloned)
             f
         }
     } else {
         this.children.forEach {
-            (it.field?.get(cloned) as BaseSelector).setBase(cloned)
+            (it.property?.call(cloned) as BaseSelector).setBase(cloned)
             it.setBase(cloned)
         }
         cloned.children = this.children

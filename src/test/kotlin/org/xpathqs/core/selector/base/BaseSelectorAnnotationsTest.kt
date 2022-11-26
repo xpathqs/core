@@ -113,7 +113,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
 
     @Test
     fun r1_findAnnotations() {
-        val r =Page1.s2.field?.kotlinProperty?.annotations
+        val r =Page1.s2.property?.annotations
         println(r)
     }
 

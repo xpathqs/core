@@ -23,7 +23,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.1.3"
+version = "0.1.5"
 group = "org.xpathqs"
 val kotestVersion = "5.4.2"
 
@@ -53,8 +53,8 @@ jacoco {
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 }
 
 detekt {
@@ -73,7 +73,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    testImplementation("org.xpathqs:gwt:0.2.2")
+    testImplementation("org.xpathqs:gwt:0.2.5")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-property:$kotestVersion")
