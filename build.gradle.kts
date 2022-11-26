@@ -73,7 +73,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    testImplementation("org.xpathqs:gwt:0.2.5")
+    testImplementation("org.xpathqs:gwt:0.2.4")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-property:$kotestVersion")
