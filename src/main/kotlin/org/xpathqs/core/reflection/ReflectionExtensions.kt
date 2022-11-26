@@ -30,7 +30,6 @@ import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import kotlin.reflect.full.declaredMembers
 import kotlin.reflect.full.superclasses
 import kotlin.reflect.jvm.javaField
 
@@ -43,15 +42,20 @@ import kotlin.reflect.jvm.javaField
  * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
  */
 internal fun Any.isObject(): Boolean {
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
-    } else if(this is KClass<*>) {
-        return this.objectInstance != null
+    return when (this) {
+        is Class<*> -> {
+            this.declaredFields
+                .find {
+                    it.name == "INSTANCE"
+                } != null
+        }
+        is KClass<*> -> {
+            this.objectInstance != null
+        }
+        else -> {
+            this::class.objectInstance != null
+        }
     }
-    return this::class.objectInstance != null
 }
 
 /**
