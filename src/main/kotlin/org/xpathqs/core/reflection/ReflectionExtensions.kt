@@ -28,8 +28,9 @@ import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
-import java.lang.reflect.Field
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.superclasses
 import kotlin.reflect.jvm.javaField
 
 /**
@@ -41,16 +42,20 @@ import kotlin.reflect.jvm.javaField
  * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsIsObjectTests
  */
 internal fun Any.isObject(): Boolean {
-    if (this is Class<*>) {
-        return this.declaredFields
-            .find {
-                it.name == "INSTANCE"
-            } != null
+    return when (this) {
+        is Class<*> -> {
+            this.declaredFields
+                .find {
+                    it.name == "INSTANCE"
+                } != null
+        }
+        is KClass<*> -> {
+            this.objectInstance != null
+        }
+        else -> {
+            this::class.objectInstance != null
+        }
     }
-    return this.javaClass.declaredFields
-        .find {
-            it.name == "INSTANCE"
-        } != null
 }
 
 /**
@@ -68,14 +73,9 @@ internal fun Any.isBlockSubtype(): Boolean {
  * Get an Object instance of [Block] when class is an Object-class inherited from block
  * @sample org.xpathqs.core.reflection.extensions.ReflectionExtensionsGetObjectTests
  */
-internal fun Class<*>.getObject(): Block {
-    val instanceField = this.declaredFields
-        .find { it.name == "INSTANCE" } ?: throw IllegalArgumentException(
-        "Provided class ${this.name} doesn't used as an object-class"
-    )
-
-    return instanceField.get(null) as? Block ?: throw IllegalArgumentException(
-        "Provided class $name is not inherited from the Block class"
+internal fun KClass<*>.getObject(): Block {
+    return (objectInstance as? Block) ?: throw IllegalArgumentException(
+        "Provided class $simpleName is not inherited from the Block class"
     )
 }
 
@@ -83,17 +83,17 @@ internal fun Class<*>.getObject(): Block {
  * Check class for having [ISelector] as an inherited parent
  */
 @Suppress("ReturnCount")
-internal fun Class<*>.isSelectorSubtype(): Boolean {
+internal fun KClass<*>.isSelectorSubtype(): Boolean {
     if (this == BaseSelector::class.java
         || this == NullSelector::class.java
         || this == ISelector::class.java) {
         return true
     }
-    if (this.superclass == null) {
+    if (this.supertypes.isEmpty()) {
         return false
     }
-    return ISelector::class.java.isAssignableFrom(this.superclass)
-            || this.isAssignableFrom(ISelector::class.java)
+    return ISelector::class.java.isAssignableFrom(this.superclasses.first().java)
+            || this.java.isAssignableFrom(ISelector::class.java)
 }
 
 /**
@@ -226,9 +226,9 @@ internal fun <T : BaseSelector> T.setAnnotations(annotations: Collection<Annotat
 /**
  * Sets field
  */
-internal fun <T : BaseSelector> T.setField(field: Field?): T {
+internal fun <T : BaseSelector> T.setProperty(prop: KProperty<*>?): T {
     SelectorReflection(this)
-        .setField(field)
+        .setProperty(prop)
     return this
 }
 

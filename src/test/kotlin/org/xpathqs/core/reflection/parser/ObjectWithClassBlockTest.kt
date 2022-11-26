@@ -72,11 +72,11 @@ class ObjectWithClassBlockTest : AnnotationSpec() {
 
     @Test
     fun fieldsForSelectors() {
-        PageWithBlockMembers.holder1.field shouldNotBe null
+        PageWithBlockMembers.holder1.property shouldNotBe null
     }
 
     @Test
     fun fieldsForInnerSelectors() {
-        PageWithBlockMembers.holder1.sel1.field shouldNotBe null
+        PageWithBlockMembers.holder1.sel1.property shouldNotBe null
     }
 }

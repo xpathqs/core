@@ -24,6 +24,7 @@ package org.xpathqs.core.selector.group.extensions
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.selector.extensions.plus
+import org.xpathqs.core.selector.group.postfix
 import org.xpathqs.core.selector.group.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
@@ -58,6 +59,21 @@ class PrefixTest : AnnotationSpec() {
             given.prefix("*").toXpath()
         }.THEN {
             "//div//div"
+        }
+    }
+
+    /**
+     * Check #3 require
+     * @see org.xpathqs.core.selector.group.GroupSelector.postfix
+     */
+    @Test
+    fun postfixWithSelector() {
+        GIVEN {
+            tagSelector("div") + tagSelector("div")
+        }.WHEN {
+            given.postfix("/*").toXpath()
+        }.THEN {
+            "//div//div/*"
         }
     }
 }

@@ -30,17 +30,14 @@ import org.xpathqs.core.selector.xpath.XpathSelector
  * Annotation will remove base xpath from result xpath
  *
  * @require #1 - Annotated selector should ignore base xpath for [BaseSelector]
- * @test [org.xpathqs.core.reflection.annotations.NoXpathBaseTest.r1]
- *
  * @require #2 - Annotated selector should ignore base xpath for [GroupSelector]
- * @test [org.xpathqs.core.reflection.annotations.NoXpathBaseTest.r2]
- *
  * @require #3 - Annotated selector should ignore base xpath for [XpathSelector]
- * @test [org.xpathqs.core.reflection.annotations.NoXpathBaseTest.r3]
+ *
+ * @test [org.xpathqs.core.reflection.annotations.NoXpathBaseTest]
  */
 @Target(
     AnnotationTarget.CLASS,
-    AnnotationTarget.FIELD)
+    AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 annotation class NoXpathBase

@@ -35,16 +35,18 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
         BaseSelector::props.name,
         BaseSelector::name.name,
         BaseSelector::annotations.name,
-        BaseSelector::field.name,
+        BaseSelector::property.name,
         BaseSelector::noBase.name,
         BaseSelector::customPropsMap.name,
-        "Companion"
+        BaseSelector::tag.name,
+        BaseSelector::xpath.name,
+        "prefix"
     )
 
     @Test
     fun declaredFieldsForSelector() {
         val s = Selector()
-        val actual = SelectorReflectionFields(s).declaredFields
+        val actual = SelectorReflectionFields(s).declaredProps
         val names = actual.map { it.name }
 
         names shouldContainExactlyInAnyOrder selectorFields.toList()
@@ -52,8 +54,8 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
 
     @Test
     fun declaredFieldsForBlockObject() {
-        val actual = SelectorReflectionFields(PageWithBase).declaredFields
-        val names = actual.map { it.name }
+        val actual = SelectorReflectionFields(PageWithBase).declaredProps
+        val names = actual.map { it.name } + "prefix"
 
         val expected = ArrayList<String>()
         expected.addAll(selectorFields)
@@ -69,7 +71,7 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
 
     @Test
     fun innerSelectorFields() {
-        val actual = SelectorReflectionFields(PageWithBase).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBase).innerSelectorProps
         val names = actual.map { it.name }
 
         names shouldContainExactlyInAnyOrder listOf("s1", "originBlock")
@@ -77,7 +79,7 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
 
     @Test
     fun innerSelectorFieldsWithInnerObject() {
-        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject).innerSelectorProps
         val names = actual.map { it.name }
 
         names shouldContainExactlyInAnyOrder listOf("s1_base", "originBlock")
@@ -87,7 +89,7 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
     fun innerSelectorFieldsWithInnerGroupObject() {
         SelectorParser(PageWithBaseAndInnerGroupObject).parse()
 
-        val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerGroupObject).innerSelectorProps
         val names = actual.map {
             it.name
         }
@@ -106,7 +108,7 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
 
     @Test
     fun innerSelectorFieldsForInnerObject() {
-        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject.Inner).innerSelectorFields
+        val actual = SelectorReflectionFields(PageWithBaseAndInnerObject.Inner).innerSelectorProps
         val names = actual.map { it.name }
 
         names shouldContainExactlyInAnyOrder listOf("s1_inner", "originBlock")

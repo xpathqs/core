@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.selector.tag
 import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.selector.postfix
 
 /**
  * Modifies `tag` value of [GroupSelector]
@@ -69,6 +70,30 @@ fun <T : GroupSelector> T.prefix(value: String): T {
     return this
 }
 
+
+/**
+ * Modifies `prefix` value of [GroupSelector]
+ *
+ * Require #1 - Prefix should be updated only when [GroupSelector.selectorsChain]
+ * has first [Selector] element. It is actual for the Block elements
+ * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r1_prefixWithSelector]
+ *
+ * Require #2 - prefix should be ignored when first selector is not a [Selector] object
+ * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r2_prefixWithXpathSelector]
+ */
+fun <T : GroupSelector> T.postfix(value: String): T {
+    val first = this.selectorsChain.first()
+    if (first is Selector) {
+        val res = this.clone()
+        val chain: ArrayList<BaseSelector> = arrayListOf(first.postfix(value))
+        this.selectorsChain.removeFirst()
+        chain.addAll(this.selectorsChain)
+        res.selectorsChain = chain
+        return res
+    }
+
+    return this
+}
 /**
  * Add an argument to the group
  *

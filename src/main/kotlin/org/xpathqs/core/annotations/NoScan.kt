@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,13 @@ package org.xpathqs.core.annotations
  * Annotation to tell [org.xpathqs.core.reflection.PackageScanner] to
  * ignore annotated object/class for scanning and updating via reflection.
  * <strong>Important!</strong> [AnnotationTarget.PROPERTY] target should be avoided. If it will
- * be present, than Java-Reflection API will not work at all for this annotations
+ * be present, then Java-Reflection API will not work at all for this annotations
  * @sample org.xpathqs.core.reflection.PageWithNoScan
  * @sample org.xpathqs.core.reflection.parser.ObjectWithNoScanTest
  */
 @Target(
     AnnotationTarget.CLASS,
-    AnnotationTarget.FIELD)
+    AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 annotation class NoScan

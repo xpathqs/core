@@ -70,7 +70,7 @@ class DeepCloneTest : AnnotationSpec() {
                 given.name shouldBe actual.name
                 given.base shouldBe actual.base
                 given.annotations shouldBe actual.annotations
-                given.field shouldBe actual.field
+                given.property shouldBe actual.property
                 given.props shouldNotBeSameInstanceAs actual.props
             }
         }

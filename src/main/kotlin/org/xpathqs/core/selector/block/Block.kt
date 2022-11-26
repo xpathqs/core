@@ -234,7 +234,7 @@ open class Block(
     protected fun fixChildrenSelectors() {
         children.forEach {
             it.setBase(originBlock)
-            (it.field?.get(this) as BaseSelector).setBase(originBlock)
+            (it.property?.call(this) as BaseSelector).setBase(originBlock)
         }
 
         freeze()
@@ -244,7 +244,7 @@ open class Block(
      * Restore origin field value for parent selector
      */
     private fun fixParentField() {
-        (field?.get(base) as? Block)?.setProps(originFieldProps)
+        (property?.call(base) as? Block)?.setProps(originFieldProps)
     }
 
     fun copyProps(other: Block?) {

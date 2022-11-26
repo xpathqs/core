@@ -23,7 +23,7 @@
 package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.selector.NullSelector
-import java.lang.reflect.Field
+import kotlin.reflect.KProperty
 
 /**
  * Base class for the Selectors
@@ -32,7 +32,7 @@ import java.lang.reflect.Field
  * @param name name of the selector (used for logging purposes)
  * @param props properties for building xpath queries
  * @param annotations list of annotations for selector
- * @param field associated field of the root object.
+ * @param property associated field of the root object.
  *      It may be NULL, when there is no root object
  */
 abstract class BaseSelector(
@@ -44,7 +44,7 @@ abstract class BaseSelector(
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
     val annotations: Collection<Annotation> = emptyList(),
 
-    val field: Field? = null,
+    val property: KProperty<*>? = null,
     val noBase: Boolean = false,
 ) : ISelector {
 

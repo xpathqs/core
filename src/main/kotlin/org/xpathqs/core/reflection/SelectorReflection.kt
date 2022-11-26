@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2022 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,9 @@ import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
-import java.lang.reflect.Field
+import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 /**
  * API to work with [BaseSelector] via Reflection
@@ -45,11 +47,12 @@ internal class SelectorReflection(
      * @param value to set
      */
     fun setProp(name: String, value: Any?): SelectorReflection {
-        val member = srf.declaredFields.find { it.name == name }
+        val member = srf.declaredProps.find { it.name == name }
 
         if (member != null) {
             member.isAccessible = true
-            member.set(obj, value)
+            //Kotlin can't cast KProperty to KMutableProperty
+            member.javaField!!.set(obj, value)
         }
 
         return this
@@ -92,7 +95,7 @@ internal class SelectorReflection(
     fun setAnnotations(annotations: Collection<Annotation>) = setProp(BaseSelector::annotations.name, annotations)
 
     /**
-     * Sets [BaseSelector.field]
+     * Sets [BaseSelector.property]
      */
-    fun setField(field: Field?) = setProp(BaseSelector::field.name, field)
+    fun setProperty(prop: KProperty<*>?) = setProp(BaseSelector::property.name, prop)
 }

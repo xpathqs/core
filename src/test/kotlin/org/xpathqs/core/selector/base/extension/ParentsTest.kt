@@ -59,9 +59,9 @@ class ParentsTest : AnnotationSpec() {
     fun r1_parents() {
         WHEN {
             tagSelector("div").parents
-        }.THEN(
-            emptyList()
-        )
+        }.THEN {
+            emptyList<String>()
+        }
     }
 
     /**

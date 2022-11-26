@@ -27,7 +27,7 @@ import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.gwt.AFTER
+import org.xpathqs.gwt.AND
 import org.xpathqs.gwt.GIVEN
 
 class BlockSelectorXpathTest : AnnotationSpec() {
@@ -85,8 +85,8 @@ class BlockSelectorXpathTest : AnnotationSpec() {
             given.toXpath()
         }.THEN(
             "//div[position()=2]"
-        ).AFTER {
+        )/*.AND {
             given.toXpath()
-        }
+        }*/
     }
 }
