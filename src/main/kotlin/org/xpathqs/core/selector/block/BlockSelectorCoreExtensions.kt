@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -147,4 +147,9 @@ val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
 fun <T: Block> T.findWithAnnotation(ann: KClass<*>): BaseSelector? {
     val sel = allInnerSelectorBlocks + allInnerSelectors
     return sel.find { it.hasAnnotation(ann) }
+}
+
+fun <T: Block> T.findAllWithAnnotation(ann: KClass<*>): Collection<BaseSelector> {
+    val sel = allInnerSelectorBlocks + allInnerSelectors
+    return sel.filter { it.hasAnnotation(ann) }
 }

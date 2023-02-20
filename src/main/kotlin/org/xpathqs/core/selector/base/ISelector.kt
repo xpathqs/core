@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,5 +41,11 @@ interface ISelector : Cloneable {
      * returns selector's name
      */
     val name: String
+        get() = toXpath()
+
+    /**
+     * returns selector's name with package
+     */
+    val fullName: String
         get() = toXpath()
 }

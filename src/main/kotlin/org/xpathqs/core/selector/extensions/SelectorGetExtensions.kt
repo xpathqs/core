@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -102,7 +102,7 @@ val BaseSelector.parents: Collection<BaseSelector>
  * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
  */
 infix fun BaseSelector.isChildOf(parent: BaseSelector): Boolean {
-    return this.name.isNotEmpty() && (this.name + ".").startsWith(parent.name) && this.name != parent.name
+    return this.fullName.isNotEmpty() && (this.fullName + ".").startsWith(parent.fullName) && this.fullName != parent.fullName
 }
 
 /**
@@ -130,7 +130,7 @@ infix fun BaseSelector.isChildOf(parents: Collection<BaseSelector>)
  * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
  */
 infix fun BaseSelector.isParentOf(child: BaseSelector): Boolean {
-    return this.name.isNotEmpty() && child.name.startsWith(this.name+ ".") && this.name != child.name
+    return this.fullName.isNotEmpty() && child.fullName.startsWith(this.fullName+ ".") && this.fullName != child.fullName
 }
 
 /**

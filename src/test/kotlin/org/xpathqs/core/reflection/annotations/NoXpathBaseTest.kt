@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,23 @@ import org.xpathqs.xpathShouldBe
 
 class NoXpathBaseTest : FreeSpec() {
 
-    object NoXpathBaseOjb : Block(tagSelector("baseSel")) {
+    class InnerCls : Block(tagSelector("InnerCls#")) {
+        @NoXpathBase
+        val baseSelector = tagSelector("tag")
+        val baseSelector2 = tagSelector("tag")
+    }
+
+    object NoXpathBaseOjb : Block(tagSelector("NoXpathBaseOjb#")) {
+        object Inner : Block(tagSelector("Inner#")) {
+            @NoXpathBase
+            val baseSelector = tagSelector("tag")
+        }
+
+        val innerMember = InnerCls()
+
+        @NoXpathBase
+        val innerMember2 = InnerCls()
+
         @NoXpathBase
         val baseSelector = tagSelector("tag")
 
@@ -45,6 +61,7 @@ class NoXpathBaseTest : FreeSpec() {
         @NoXpathBase
         val xpathSelector = xpathSelector("//tag")
     }
+
 
     init {
         NoXpathBaseOjb.parse()
@@ -72,6 +89,24 @@ class NoXpathBaseTest : FreeSpec() {
                 assertSoftly(NoXpathBaseOjb.xpathSelector) {
                     xpathShouldBe("//tag")
                     base shouldBeSameInstanceAs NoXpathBaseOjb
+                }
+            }
+            "#4 " {
+                assertSoftly(NoXpathBaseOjb.Inner.baseSelector) {
+                    xpathShouldBe("//tag")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb.Inner
+                }
+            }
+            "#5 " {
+                assertSoftly(NoXpathBaseOjb.innerMember.baseSelector) {
+                    xpathShouldBe("//tag")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb.innerMember
+                }
+            }
+            "#6 " {
+                assertSoftly(NoXpathBaseOjb.innerMember2.baseSelector2) {
+                    xpathShouldBe("//InnerCls#//tag")
+                    base shouldBeSameInstanceAs NoXpathBaseOjb.innerMember2
                 }
             }
         }

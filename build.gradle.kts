@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.1.5"
+version = "0.1.6"
 group = "org.xpathqs"
-val kotestVersion = "5.4.2"
+val kotestVersion = "5.5.4"
 
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.7.10"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
-    maven
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
-    id("info.solidsoft.pitest").version("1.7.4")
-    id("org.jetbrains.kotlinx.kover") version "0.4.1"
+    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    id("info.solidsoft.pitest").version("1.9.0")
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
 java {
@@ -69,11 +68,11 @@ detekt {
 
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
-    testImplementation("org.xpathqs:gwt:0.2.4")
+    testImplementation("org.xpathqs:gwt:0.2.5")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-property:$kotestVersion")

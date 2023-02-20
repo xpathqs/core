@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@ abstract class BaseSelector(
 
     val base: ISelector = NullSelector(),
     override val name: String = "",
+    override val fullName: String = "",
 
     internal open val props: BaseSelectorProps = BaseSelectorProps(),
     val annotations: Collection<Annotation> = emptyList(),

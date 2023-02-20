@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,11 @@ import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.block.Block
-import java.lang.reflect.Field
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.superclasses
-import kotlin.reflect.javaType
 import kotlin.reflect.jvm.isAccessible
 
 /**
@@ -77,7 +75,6 @@ class SelectorReflectionFields(
         var cls = rootObj::class
         if(cls.isScanAvailable) {
             res.addAll(cls.declaredMemberProperties)
-
 
             while (cls.superclasses.first().isSelectorSubtype() && cls.isScanAvailable) {
                 (cls.superclasses.firstOrNull() as? KClass<out BaseSelector>)?.let {
