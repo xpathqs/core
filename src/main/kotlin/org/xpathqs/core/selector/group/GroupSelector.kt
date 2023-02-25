@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,10 +38,11 @@ open class GroupSelector(
     base: ISelector = NullSelector(),
     name: String = "",
     props: BaseSelectorProps = BaseSelectorProps(),
+    fullName: String = "",
 
     internal var selectorsChain: ArrayList<BaseSelector> = ArrayList(),
 ) : BaseSelector(
-    state = state, base = base, name = name, props = props
+    state = state, base = base, name = name, props = props, fullName = fullName
 ) {
     /**
      * Add new selector to the [selectorsChain]
@@ -62,15 +63,21 @@ open class GroupSelector(
      */
     override fun toXpath(): String {
         return if(noBase) {
-            var res = ""
-            selectorsChain.forEach {
-                res += it.toXpath()
-            }
-            val props = props.toXpath()
-            if (props.isNotEmpty()) {
-                mergeXpath("($res)", props)
+            if(selectorsChain.size == 1) {
+                selectorsChain.first().toXpath()
             } else {
-                res
+                var res = ""
+                selectorsChain.forEach {
+                    res += it.toXpath()
+                }
+                val props = props.toXpath()
+                if (props.isNotEmpty() && res.isNotEmpty()) {
+                    mergeXpath("($res)", props)
+                } else if(props.isNotEmpty()) {
+                    props
+                } else {
+                    res
+                }
             }
         } else {
             if (selectorsChain.isEmpty()) {

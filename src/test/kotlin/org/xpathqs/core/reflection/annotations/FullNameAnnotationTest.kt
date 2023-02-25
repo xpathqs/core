@@ -20,36 +20,51 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.compose
+package org.xpathqs.core.reflection.annotations
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.base.SelectorState
+import io.kotest.core.spec.style.AnnotationSpec
+import org.xpathqs.core.reflection.scanPackage
+import org.xpathqs.gwt.WHEN
 
-/**
- * Class with ability to combine several selectors with the `|` operator
- * @param props list of selectors which will be combined inside [toXpath] method
- * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests
- */
-class ComposeSelector(
-    state: SelectorState = SelectorState.INIT,
-    base: ISelector = NullSelector(),
-    name: String = "",
-    fullName: String = "",
-
-    override val props: ComposeSelectorProps = ComposeSelectorProps()
-) : BaseSelector(
-    state = state,
-    base = base,
-    name = name,
-    fullName = fullName,
-    props = props
-) {
-    override fun toXpath(): String {
-        return props.toXpath()
+class FullNameAnnotationTest : AnnotationSpec() {
+    init {
+        scanPackage(this)
     }
 
-    override val tag: String
-        get() = ""
+    @Test
+    fun t1() {
+        WHEN {
+            Page.s1.fullName
+        }.THEN(
+            "org.xpathqs.core.reflection.annotations.Page.s1"
+        )
+    }
+
+
+    @Test
+    fun t2() {
+        WHEN {
+            Page6.ss1.fullName
+        }.THEN(
+            "org.xpathqs.core.reflection.annotations.Page6.ss1"
+        )
+    }
+
+    @Test
+    fun t3() {
+        WHEN {
+            Page7.ss1.fullName
+        }.THEN(
+            "org.xpathqs.core.reflection.annotations.Page7.ss1"
+        )
+    }
+
+    @Test
+    fun t4() {
+        WHEN {
+            Page7.ss2.s.fullName
+        }.THEN(
+            "org.xpathqs.core.reflection.annotations.Page7.ss2.s"
+        )
+    }
 }

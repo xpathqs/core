@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,37 +22,50 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.exception.ReflectionException
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
+import java.lang.reflect.Field
 import kotlin.reflect.KProperty
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 
 /**
  * API to work with [BaseSelector] via Reflection
  * @param obj - object for modification
- * @param srf - object for fields extraction
  * @sample org.xpathqs.core.reflection.SelectorReflectionTest
  */
 internal class SelectorReflection(
     private val obj: BaseSelector,
-    private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {
     /**
      * Sets the property value to the [obj]
      * @param name of class property
      * @param value to set
      */
+
+    fun findField(name: String): Field {
+        var result: Field? = null
+
+        var cls: Class<*> = obj::class.java
+        while(result == null) {
+            result = cls.declaredFields.find { it.name == name }
+            cls = cls.superclass
+        }
+
+        return result
+    }
+
     fun setProp(name: String, value: Any?): SelectorReflection {
-        val member = srf.declaredProps.find { it.name == name }
+        val member = findField(name)
 
         if (member != null) {
             member.isAccessible = true
             //Kotlin can't cast KProperty to KMutableProperty
-            member.javaField!!.set(obj, value)
+            member.set(obj, value)
+        } else {
+            throw ReflectionException.NoSuchField()
         }
 
         return this
@@ -62,6 +75,11 @@ internal class SelectorReflection(
      * Set <pre>name</pre> field of the [obj]
      */
     fun setName(value: String) = setProp(BaseSelector::name.name, value)
+
+    /**
+     * Set <pre>name</pre> field of the [obj]
+     */
+    fun setFullName(value: String) = setProp(BaseSelector::fullName.name, value)
 
     /**
      * Set <pre>base</pre> field of the [obj]
@@ -98,4 +116,5 @@ internal class SelectorReflection(
      * Sets [BaseSelector.property]
      */
     fun setProperty(prop: KProperty<*>?) = setProp(BaseSelector::property.name, prop)
+
 }

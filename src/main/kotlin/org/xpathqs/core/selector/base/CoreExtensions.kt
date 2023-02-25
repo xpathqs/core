@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,6 +60,7 @@ fun <T : BaseSelector> T.deepClone(): T {
     val newObj = this.newInstance()
 
     newObj.setName(this.name)
+    newObj.setFullName(this.fullName)
     newObj.setBase(this.base)
     newObj.setNoBase(this.noBase)
     newObj.setAnnotations(this.annotations)

@@ -20,36 +20,10 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.compose
+package org.xpathqs.core.exception
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.base.SelectorState
-
-/**
- * Class with ability to combine several selectors with the `|` operator
- * @param props list of selectors which will be combined inside [toXpath] method
- * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests
- */
-class ComposeSelector(
-    state: SelectorState = SelectorState.INIT,
-    base: ISelector = NullSelector(),
-    name: String = "",
-    fullName: String = "",
-
-    override val props: ComposeSelectorProps = ComposeSelectorProps()
-) : BaseSelector(
-    state = state,
-    base = base,
-    name = name,
-    fullName = fullName,
-    props = props
-) {
-    override fun toXpath(): String {
-        return props.toXpath()
-    }
-
-    override val tag: String
-        get() = ""
+class ReflectionException {
+    class NoSuchField : Exception(
+        "Member doesn't have a field"
+    )
 }

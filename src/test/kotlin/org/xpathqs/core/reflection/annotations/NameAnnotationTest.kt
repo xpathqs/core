@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,56 +25,7 @@ package org.xpathqs.core.reflection.annotations
 import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.annotations.Name
 import org.xpathqs.core.reflection.scanPackage
-import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
-
-object Page: Block() {
-    @Name("Sel1")
-    val s1 = tagSelector("div")
-}
-
-@Name("P2")
-object Page2: Block() {
-    val s1 = tagSelector("div")
-}
-
-@Name("P3")
-object Page3: Block() {
-    @Name("Sel1")
-    val s1 = tagSelector("div")
-}
-
-object Page4: Block() {
-    @Name("Sel1")
-    object Inn: Block() {
-        val s1 = tagSelector("div")
-    }
-}
-
-class InnerMember: Block() {
-    val s1 = tagSelector("div")
-
-    @Name("Sel2")
-    val s2 = tagSelector("div")
-}
-
-@Name("IM2")
-class InnerMember2: Block() {
-    val s1 = tagSelector("div")
-
-    @Name("Sel2")
-    val s2 = tagSelector("div")
-}
-
-object Page5: Block() {
-    val inn = InnerMember()
-
-    @Name("Inner2")
-    val inn2 = InnerMember()
-
-    val inn3 = InnerMember2()
-}
 
 class NameAnnotationTest : AnnotationSpec() {
     init {

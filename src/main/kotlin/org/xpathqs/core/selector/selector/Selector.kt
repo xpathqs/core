@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,11 +36,13 @@ open class Selector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
+    fullName: String = "",
     override val props: SelectorProps = SelectorProps()
 ) : BaseSelector(
     state = state,
     base = base,
     name = name,
+    fullName = fullName,
     props = props,
 ) {
     /**

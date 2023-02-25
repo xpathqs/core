@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,9 +40,10 @@ open class XpathSelector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
+    fullName: String = "",
 
     props: BaseSelectorProps = BaseSelectorProps()
-) : BaseSelector(state, base, name, props) {
+) : BaseSelector(state, base, name, fullName, props) {
 
     override fun toXpath(): String {
         val baseXpath = if(noBase) "" else base.toXpath()

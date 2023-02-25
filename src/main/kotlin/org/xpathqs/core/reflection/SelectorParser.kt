@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,6 +70,9 @@ class SelectorParser(
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
         val rootAnn = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
         val rootName = rootObj.name.ifEmpty { baseName + rootAnn}
+        val rootFullName = rootObj.fullName.ifEmpty {
+            rootObj.javaClass.`package`.name + "." + baseName + rootAnn
+        }
 
         val annotations = ArrayList<Annotation>()
         rootObj::class.superclasses.forEach {
@@ -80,6 +83,7 @@ class SelectorParser(
             to = rootObj,
             base = base,
             name = rootName,
+            fullName = rootFullName,
             annotations = annotations + rootObj::class.annotations
         )
         rootObj.children = srf.innerSelectors
@@ -95,6 +99,7 @@ class SelectorParser(
                 to = sel,
                 base = rootObj,
                 name = rootObj.name + "." + ann,
+                fullName = rootObj.fullName + "." + prop.name,
               //  annotations = annotations + prop.annotations,
                 prop = prop
             )
@@ -115,16 +120,18 @@ class SelectorParser(
         to: BaseSelector,
         base: ISelector,
         name: String,
+        fullName: String,
         prop: KProperty<*>
     ) {
         to.setProperty(prop)
-        setFields(to, base, name, prop.annotations)
+        setFields(to, base, name, fullName, prop.annotations)
     }
 
     private fun setFields(
         to: BaseSelector,
         base: ISelector,
         name: String,
+        fullName: String,
         annotations: Collection<Annotation>
     ) {
         if(base !is NullSelector) {
@@ -145,6 +152,7 @@ class SelectorParser(
 
         (to.base as? BaseSelector)?.freeze()
         to.setName(name)
+        to.setFullName(fullName)
         to.setAnnotations(to.annotations + annotations)
 
         val forBase = (base as? BaseSelector)?.hasAnnotation(SingleBase::class) == true

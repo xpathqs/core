@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,13 +33,15 @@ class PageWithInnerClassMembersTest : AnnotationSpec() {
     @Test
     fun testXpath() {
         PageWithInnerClassMembers.table1.rows.app
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]/div[position()=1]")
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]" +
+                    "/div[count(.//div/div) > 3]/div[position()=1]")
     }
 
     @Test
     fun testXpathWithPosition() {
         PageWithInnerClassMembers.table1.rows[2].app
-            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+            .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]" +
+                    "/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
     }
 
     @Test
@@ -51,7 +53,8 @@ class PageWithInnerClassMembersTest : AnnotationSpec() {
     fun test2() {
         assertSoftly {
             PageWithInnerClassMembers.table1.rows[2].app
-                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
+                .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]" +
+                        "/div[count(.//div/div) > 3][position()=2]/div[position()=1]")
 
             PageWithInnerClassMembers.table1.rows
                 .xpathShouldBe("//div[./div/div/span[text()='Application']][position()=1]/div[count(.//div/div) > 3]")
