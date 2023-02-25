@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,11 @@ import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.scanPackage
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.block.allInnerSelectorBlocks
-import org.xpathqs.core.selector.extensions.*
+import org.xpathqs.core.selector.extensions.doesNotChildOf
+import org.xpathqs.core.selector.extensions.doesNotParentOf
+import org.xpathqs.core.selector.extensions.isChildOf
+import org.xpathqs.core.selector.extensions.isParentOf
+import org.xpathqs.core.selector.extensions.parents
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.WHEN
 

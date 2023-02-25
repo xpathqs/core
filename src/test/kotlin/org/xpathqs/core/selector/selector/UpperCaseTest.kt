@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2023 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,10 @@ import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.xpathShouldBe
 
 object Page: Block() {
-    object SignUp: Block(tagSelector("div") contains tagSelector("h1").text("Where the world builds software", contains = true)) {
+    object SignUp: Block(
+        tagSelector("div") contains
+                tagSelector("h1").text("Where the world builds software", contains = true)
+    ) {
         val title = tagSelector("h1")
     }
 }

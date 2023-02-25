@@ -57,13 +57,7 @@ repositories {
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = true // activate all available (even unstable) rules.
     config = files("$projectDir/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-    reports {
-        html.enabled = true // observe findings in your browser with structure and code snippets
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-    }
 }
 
 dependencies {

@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.reflection
 
+import org.xpathqs.core.exception.ReflectionException
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
@@ -37,7 +38,6 @@ import kotlin.reflect.KProperty
  */
 internal class SelectorReflection(
     private val obj: BaseSelector,
-    private val srf: SelectorReflectionFields = SelectorReflectionFields(obj)
 ) {
     /**
      * Sets the property value to the [obj]
@@ -65,7 +65,7 @@ internal class SelectorReflection(
             //Kotlin can't cast KProperty to KMutableProperty
             member.set(obj, value)
         } else {
-            throw Exception("Member doesn't have a field")
+            throw ReflectionException.NoSuchField()
         }
 
         return this

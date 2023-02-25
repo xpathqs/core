@@ -102,7 +102,9 @@ val BaseSelector.parents: Collection<BaseSelector>
  * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
  */
 infix fun BaseSelector.isChildOf(parent: BaseSelector): Boolean {
-    return this.fullName.isNotEmpty() && (this.fullName + ".").startsWith(parent.fullName) && this.fullName != parent.fullName
+    return this.fullName.isNotEmpty()
+            && (this.fullName + ".").startsWith(parent.fullName)
+            && this.fullName != parent.fullName
 }
 
 /**
@@ -130,7 +132,9 @@ infix fun BaseSelector.isChildOf(parents: Collection<BaseSelector>)
  * @sample [org.xpathqs.core.selector.base.extension.ParentsTest.r3_isChildOf]
  */
 infix fun BaseSelector.isParentOf(child: BaseSelector): Boolean {
-    return this.fullName.isNotEmpty() && child.fullName.startsWith(this.fullName+ ".") && this.fullName != child.fullName
+    return this.fullName.isNotEmpty()
+            && child.fullName.startsWith(this.fullName+ ".")
+            && this.fullName != child.fullName
 }
 
 /**
