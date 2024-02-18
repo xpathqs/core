@@ -159,8 +159,8 @@ tasks.jar {
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = false
-        csv.isEnabled = true
+        xml.required.set(true)
+        html.required.set(false)
     }
 }
 
