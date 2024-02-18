@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,7 +68,7 @@ class SelectorParser(
      */
     fun parse() {
         val baseName = if (base.name.isNotEmpty()) base.name + "." else ""
-        val rootAnn = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName!!
+        val rootAnn = rootObj::class.findAnnotation<Name>()?.value ?: rootObj::class.simpleName
         val rootName = rootObj.name.ifEmpty { baseName + rootAnn}
         val rootFullName = rootObj.fullName.ifEmpty {
             rootObj.javaClass.`package`.name + "." + baseName + rootAnn
@@ -135,9 +135,9 @@ class SelectorParser(
         annotations: Collection<Annotation>
     ) {
         if(base !is NullSelector) {
-            val isNoBase = annotations.firstOrNull {
+            val isNoBase = annotations.any {
                 it.annotationClass.java == NoBase::class.java
-            } != null
+            }
 
             if(!isNoBase) {
                 val notFreeze = (to.base as? BaseSelector)?.state != SelectorState.FREEZE
@@ -166,9 +166,9 @@ class SelectorParser(
             }
         }
 
-        val noXpBase = annotations.firstOrNull {
+        val noXpBase = annotations.any {
             it.annotationClass.java == NoXpathBase::class.java
-        } != null
+        }
 
         if(noXpBase) {
             to.setNoBase(true)

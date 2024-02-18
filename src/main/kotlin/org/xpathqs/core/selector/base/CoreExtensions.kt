@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -117,10 +117,9 @@ internal fun <T : BaseSelector> T.newInstance(): T {
  * @return constructor with provided parameterCount
  */
 private fun Any.getConstructor(parameterCount: Int): Constructor<*> {
-    val c = this::class.java.declaredConstructors.find {
+    return this::class.java.declaredConstructors.firstOrNull {
         it.parameterCount == parameterCount
+    }?.apply {
+        isAccessible = true
     } ?: throw IllegalArgumentException("Selector doesn't have a default constructor with $parameterCount parameter")
-
-    c.isAccessible = true
-    return c
 }

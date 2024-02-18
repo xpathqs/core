@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,9 @@ import kotlin.reflect.KClass
  * returns true if provided annotation is present
  * in the selector's annotation list
  */
-fun BaseSelector.hasAnnotation(annotation: KClass<*>)
-        = annotations.find {
+fun BaseSelector.hasAnnotation(annotation: KClass<*>) = annotations.any {
     it.annotationClass.qualifiedName?.removeSuffix(".Container") == annotation.qualifiedName
-} != null
+}
 
 /**
  * returns true if provided annotation is present
@@ -58,8 +57,9 @@ fun BaseSelector.hasParentAnnotation(annotation: KClass<*>)
  * Require #2 - when parent [org.xpathqs.core.selector.block.Block] doesn't has provided annotation - return false
  * @sample [org.xpathqs.core.selector.base.BaseSelectorAnnotationsTest.r2_hasParentAnnotation]
  */
-fun BaseSelector.hasAnyParentAnnotation(annotation: KClass<*>)
-    = this.parents.find { it.hasAnnotation(annotation) } != null
+fun BaseSelector.hasAnyParentAnnotation(annotation: KClass<*>) = this.parents.any {
+        it.hasAnnotation(annotation)
+    }
 
 /**
  * @return provided annotation object
@@ -76,10 +76,11 @@ inline fun<reified T> BaseSelector.findAnnotation(): T? {
     } as? T
 }
 
+@Suppress("UNCHECKED_CAST")
 inline fun<reified T> BaseSelector.findAnnotations(): Collection<T> {
     return annotations.filter {
         it.annotationClass.qualifiedName?.removeSuffix(".Container") == T::class.qualifiedName
-    } as Collection<T>
+    } as List<T>
 }
 /**
  * @return provided annotation object of parent [org.xpathqs.core.selector.block.Block]

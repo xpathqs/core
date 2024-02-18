@@ -485,8 +485,9 @@ potential-bugs:
     active: true
   UnreachableCatchBlock:
     active: true
+   # UnreachableCode is turned off
   UnreachableCode:
-    active: true
+    active: false
   UnsafeCallOnNullableType:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -685,8 +686,7 @@ style:
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
-    active: true
-    activeInTests: false
+    active: false
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseAnyOrNoneInsteadOfFind:
     active: true

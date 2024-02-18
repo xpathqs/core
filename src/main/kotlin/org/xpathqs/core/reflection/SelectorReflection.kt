@@ -89,7 +89,7 @@ internal class SelectorReflection(
     /**
      * Set <pre>props.args</pre> field of the [obj]
      */
-    fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField().set(obj.props, args)
+    fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField()?.set(obj.props, args)
 
     /**
      * Mark [obj] as freeze
