@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.extensions.repeat
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
+import org.xpathqs.core.util.SelectorFactory.attrSelector
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
 open class Block2 : Block()
@@ -53,6 +54,10 @@ object PageWithInhGroup : Block2() {
 
 object PageNoBase : Block() {
     val s1 = Selector(props = SelectorProps(tag = "s1"))
+}
+
+object PagePrivateMember : Block() {
+    private val s1 = attrSelector("s", "v")
 }
 
 object PageWithBaseWithChainXpath : Block(tagSelector("div").repeat(3)) {

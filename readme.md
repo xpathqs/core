@@ -1,8 +1,7 @@
 [![CI/CD](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml/badge.svg)](https://github.com/nachg/xpathqs-core/actions/workflows/build.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.xpathqs/core/)
 ![GitHub top language](https://img.shields.io/github/languages/top/nachg/xpathqs-core)
-[![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
-
+[![codecov](https://codecov.io/gh/xpathqs/core/graph/badge.svg?token=3YVDC15O9T)](https://codecov.io/gh/xpathqs/core)
 [![License](https://img.shields.io/github/license/nachg/xpathqs-core)](https://github.com/nachg/xpathqs-core/blob/master/LICENSE)
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 

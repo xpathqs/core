@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,11 +29,12 @@ import kotlin.reflect.KProperty
 
 data class ModelAssociation(
     val sel: BaseSelector,
-    val field: Field
+    val field: Field?
 ) {
     constructor(sel: BaseSelector, prop: KProperty<*>) : this(sel, prop.toField())
 
     fun applyTo(source: Any, extractor: ISelectorValueExtractor) {
+        requireNotNull(field)
         field.set(source, extractor.apply(this))
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -136,8 +136,8 @@ val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
     get() {
         val res = ArrayList<BaseSelector>()
         res.addAll(children)
-        selectorBlocks.forEach {
-            (it as? Block)?.allInnerSelectors?.let {
+        selectorBlocks.forEach { block ->
+            (block as? Block)?.allInnerSelectors?.let {
                 res.addAll(it)
             }
         }

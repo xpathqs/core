@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,8 +45,7 @@ internal class PropertyFacadeTest : AnnotationSpec() {
     @Test
     fun parseWithInputStream() {
         CoreGlobalProps(
-            this::class.java.classLoader.getResource(path)?.openStream()
-                ?: throw IllegalArgumentException("'$path' Resource can't be found")
+            this::class.java.classLoader.getResource(path)!!.openStream()
         ).TEXT_ARG shouldBe "@text_test"
     }
 
@@ -54,8 +53,7 @@ internal class PropertyFacadeTest : AnnotationSpec() {
     fun parseWithFacade() {
         CoreGlobalProps(
             PropertyFacade(
-                this::class.java.classLoader.getResource(path)?.openStream()
-                    ?: throw IllegalArgumentException("'$path' Resource can't be found")
+                this::class.java.classLoader.getResource(path)!!.openStream()
             )
         ).TEXT_ARG shouldBe "@text_test"
     }

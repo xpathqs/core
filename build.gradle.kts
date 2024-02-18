@@ -28,14 +28,14 @@ group = "org.xpathqs"
 val kotestVersion = "5.8.0"
 
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.0.0-Beta4"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    id("io.gitlab.arturbosch.detekt").version("1.23.5")
     id("info.solidsoft.pitest").version("1.9.0")
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
@@ -62,7 +62,7 @@ detekt {
 
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta4")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
@@ -201,4 +201,8 @@ pitest {
     mutationThreshold.set(50)
     testStrengthThreshold.set(50)
     coverageThreshold.set(50)
+}
+
+detekt {
+
 }

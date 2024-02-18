@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,16 +58,11 @@ internal class SelectorReflection(
     }
 
     fun setProp(name: String, value: Any?): SelectorReflection {
-        val member = findField(name)
-
-        if (member != null) {
+        findField(name).let { member ->
             member.isAccessible = true
             //Kotlin can't cast KProperty to KMutableProperty
             member.set(obj, value)
-        } else {
-            throw ReflectionException.NoSuchField()
         }
-
         return this
     }
 
@@ -94,7 +89,7 @@ internal class SelectorReflection(
     /**
      * Set <pre>props.args</pre> field of the [obj]
      */
-    fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField().set(obj.props, args)
+    fun setArgs(args: SelectorArgs) = BaseSelectorProps::args.toField()?.set(obj.props, args)
 
     /**
      * Mark [obj] as freeze
