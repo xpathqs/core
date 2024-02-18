@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,6 +76,14 @@ class SelectorReflectionFieldsTest : AnnotationSpec() {
         val names = actual.map { it.name }
 
         names shouldContainExactlyInAnyOrder listOf("s1", "originBlock")
+    }
+
+    @Test
+    fun innerSelectorPrivateField() {
+        val actual = SelectorReflectionFields(PagePrivateMember).innerSelectors
+        val names = actual.map { it.name }
+
+        names shouldContainExactlyInAnyOrder listOf("s1")
     }
 
     @Test

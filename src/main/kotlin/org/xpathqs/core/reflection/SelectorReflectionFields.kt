@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,13 +45,20 @@ class SelectorReflectionFields(
      * Returns collection of [BaseSelector]s inner objects of [rootObj]
      */
     val innerSelectors: Collection<BaseSelector> by lazy {
-        innerSelectorProps.filter {
-            it.call(rootObj) !is NullSelector
-        }.map {
-            (it.call(rootObj) as BaseSelector).setName(it.name)
+        innerSelectorProps.mapNotNull {
+            (safeEvaluate(it) as? BaseSelector)?.setName(it.name)
         }
     }
 
+    private fun safeEvaluate(prop: KProperty<*>) : Any? {
+        return runCatching {
+            prop.call(rootObj)
+        }.getOrNull() ?: run {
+            runCatching {
+                prop.call()
+            }.getOrNull()
+        }
+    }
     /**
      * Returns collection of [Block]s inner objects of [rootObj]
      */
