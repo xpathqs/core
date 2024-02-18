@@ -35,7 +35,7 @@ plugins {
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    id("io.gitlab.arturbosch.detekt").version("1.23.5")
     id("info.solidsoft.pitest").version("1.9.0")
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
@@ -201,4 +201,8 @@ pitest {
     mutationThreshold.set(50)
     testStrengthThreshold.set(50)
     coverageThreshold.set(50)
+}
+
+detekt {
+
 }

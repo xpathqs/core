@@ -686,6 +686,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
+    activeInTests: false
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseAnyOrNoneInsteadOfFind:
     active: true
