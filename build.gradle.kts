@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2024 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,10 +25,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 version = "0.1.6"
 group = "org.xpathqs"
-val kotestVersion = "5.5.4"
+val kotestVersion = "5.8.0"
 
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.9.22"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
@@ -62,7 +62,7 @@ detekt {
 
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
     implementation("org.yaml:snakeyaml:1.28")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
