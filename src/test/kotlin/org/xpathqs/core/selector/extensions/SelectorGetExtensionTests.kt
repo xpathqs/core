@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ package org.xpathqs.core.selector.extensions
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import org.xpathqs.core.reflection.PageWithBase
+import org.xpathqs.core.reflection.pages.PageWithBase
 import org.xpathqs.core.reflection.SelectorParser
 
 class SelectorGetExtensionTests : AnnotationSpec() {

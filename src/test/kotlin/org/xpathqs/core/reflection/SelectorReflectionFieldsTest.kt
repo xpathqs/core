@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,10 @@ package org.xpathqs.core.reflection
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import org.xpathqs.core.reflection.pages.PagePrivateMember
+import org.xpathqs.core.reflection.pages.PageWithBase
+import org.xpathqs.core.reflection.pages.PageWithBaseAndInnerGroupObject
+import org.xpathqs.core.reflection.pages.PageWithBaseAndInnerObject
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.selector.Selector
 

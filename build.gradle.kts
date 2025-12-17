@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 version = "0.1.6"
@@ -28,23 +27,23 @@ group = "org.xpathqs"
 val kotestVersion = "5.8.0"
 
 plugins {
-    kotlin("jvm") version "2.0.0-Beta4"
+    id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     jacoco
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("io.gitlab.arturbosch.detekt").version("1.23.5")
-    id("info.solidsoft.pitest").version("1.9.0")
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("io.gitlab.arturbosch.detekt").version("1.23.8")
+    id("info.solidsoft.pitest").version("1.19.0-rc.2")
+    id("org.jetbrains.kotlinx.kover") version "0.9.4"
 }
 
 java {
     withJavadocJar()
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 jacoco {
@@ -57,13 +56,15 @@ repositories {
 }
 
 detekt {
-    config = files("$projectDir/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    config.from(
+        files("$projectDir/detekt.yml")
+    )
 }
 
 dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta4")
-    implementation("org.yaml:snakeyaml:1.28")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.0")
+    implementation("org.yaml:snakeyaml:2.0")
     implementation("net.oneandone.reflections8:reflections8:0.11.7")
 
     testImplementation("org.xpathqs:gwt:0.2.5")
@@ -142,8 +143,9 @@ tasks.test {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+
+kotlin {
+    jvmToolchain(17)
 }
 
 tasks.jar {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.reflection
+package org.xpathqs.core.reflection.pages
 
 import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.selector.base.BaseSelector

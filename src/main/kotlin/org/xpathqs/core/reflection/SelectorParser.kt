@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -89,11 +89,11 @@ class SelectorParser(
         rootObj.children = srf.innerSelectors
 
         srf.innerSelectorProps.filter {
-            it.call(rootObj) !is NullSelector
+            safeEvaluate(it) !is NullSelector
         }.forEach { prop ->
             prop.isAccessible = true
 
-            val sel = prop.call(rootObj) as BaseSelector
+            val sel = safeEvaluate(prop) as BaseSelector
             val ann = prop.findAnnotation<Name>()?.value ?: prop.name
             setFields(
                 to = sel,
@@ -178,6 +178,16 @@ class SelectorParser(
             to.freeze()
         } else {
             to.freeze()
+        }
+    }
+
+    private fun safeEvaluate(prop: KProperty<*>) : Any? {
+        return runCatching {
+            prop.call(rootObj)
+        }.getOrNull() ?: run {
+            runCatching {
+                prop.call()
+            }.getOrNull()
         }
     }
 }
