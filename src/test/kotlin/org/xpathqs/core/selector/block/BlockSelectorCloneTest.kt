@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2025 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ package org.xpathqs.core.selector.block
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
-import org.xpathqs.core.reflection.SomeHolder
+import org.xpathqs.core.reflection.pages.SomeHolder
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.extensions.core.get
