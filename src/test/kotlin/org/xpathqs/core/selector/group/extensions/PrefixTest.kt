@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.group.extensions
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.group.postfix
 import org.xpathqs.core.selector.group.prefix
@@ -43,7 +44,7 @@ class PrefixTest : AnnotationSpec() {
         }.WHEN {
             given.prefix("*").toXpath()
         }.THEN {
-            "*div//div"
+            actual shouldBe "*div//div"
         }
     }
 
@@ -58,12 +59,12 @@ class PrefixTest : AnnotationSpec() {
         }.WHEN {
             given.prefix("*").toXpath()
         }.THEN {
-            "//div//div"
+            actual shouldBe "//div//div"
         }
     }
 
     /**
-     * Check #3 require
+     * Check #1 require
      * @see org.xpathqs.core.selector.group.GroupSelector.postfix
      */
     @Test
@@ -73,7 +74,7 @@ class PrefixTest : AnnotationSpec() {
         }.WHEN {
             given.postfix("/*").toXpath()
         }.THEN {
-            "//div//div/*"
+            actual shouldBe "//div//div/*"
         }
     }
 }

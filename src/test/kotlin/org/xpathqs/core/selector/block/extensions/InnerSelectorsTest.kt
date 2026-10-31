@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
 package org.xpathqs.core.selector.block.extensions
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.block.allInnerSelectors
@@ -107,7 +109,7 @@ class InnerSelectorsTest : AnnotationSpec() {
             arrayListOf(
                 PageWithoutInner.s1,
                 PageWithoutInner.s2
-            )
+            ) shouldBe actual
         }
     }
 
@@ -122,7 +124,7 @@ class InnerSelectorsTest : AnnotationSpec() {
             arrayListOf(
                 PageWithInner.s1,
                 PageWithInner.s2
-            )
+            ) shouldBe actual
         }
     }
 
@@ -131,11 +133,7 @@ class InnerSelectorsTest : AnnotationSpec() {
      */
     @Test
     fun r1_selectorBlocks() {
-        WHEN {
-            PageWithoutInner.selectorBlocks
-        }.THEN(
-            arrayListOf<String>()
-        )
+        PageWithoutInner.selectorBlocks shouldBe arrayListOf<String>()
     }
 
     /**
@@ -148,7 +146,7 @@ class InnerSelectorsTest : AnnotationSpec() {
         }.THEN {
             arrayListOf(
                 PageWithInner.Inner
-            )
+            ) shouldBe actual
         }
     }
 
@@ -162,7 +160,7 @@ class InnerSelectorsTest : AnnotationSpec() {
         }.THEN {
             arrayListOf(
                 PageWithInnerClass.Inner
-            )
+            ) shouldBe actual
         }
     }
 
@@ -177,7 +175,7 @@ class InnerSelectorsTest : AnnotationSpec() {
             arrayListOf(
                 PageWithoutInner.s1,
                 PageWithoutInner.s2,
-            )
+            ) shouldContainAll actual
         }
     }
 
@@ -194,7 +192,7 @@ class InnerSelectorsTest : AnnotationSpec() {
                 PageWithInner.s2,
                 PageWithInner.Inner.s1,
                 PageWithInner.Inner.s2
-            )
+            ) shouldContainAll actual
         }
     }
 
@@ -212,7 +210,7 @@ class InnerSelectorsTest : AnnotationSpec() {
                 PageWithInnerClass.Inner,
                 PageWithInnerClass.Inner.s1,
                 PageWithInnerClass.Inner.s2
-            )
+            ) shouldContainAll actual
         }
     }
 
@@ -230,7 +228,7 @@ class InnerSelectorsTest : AnnotationSpec() {
                 PageWithInner2.Inner.Inner2.Inner3,
                 PageWithInner2.Inner.Inner2.Inner3.Inner4,
                 PageWithInner2.Inner.Inner2.Inner3.Inner4.Inner5,
-            )
+            ) shouldContainAll actual
         }
     }
 
@@ -242,7 +240,7 @@ class InnerSelectorsTest : AnnotationSpec() {
         WHEN {
             PageWithoutInner.allInnerSelectorBlocks
         }.THEN {
-            emptyList<Block>()
+            emptyList<Block>() shouldBe actual
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,9 +46,9 @@ class PackageScannerExtensions : AnnotationSpec() {
             this.javaClass.`package`.scan()
         }.WHEN {
             Page1.s1.name
-        }.THEN {
+        }.THEN(
             "Page1.s1"
-        }
+        )
     }
 
     /**
@@ -60,9 +60,9 @@ class PackageScannerExtensions : AnnotationSpec() {
             "org.xpathqs.core.reflection.testpage2".scanPackage()
         }.WHEN {
             Page3.s1.name
-        }.THEN {
+        }.THEN(
             "Page3.s1"
-        }
+        )
     }
 
     /**
@@ -74,8 +74,8 @@ class PackageScannerExtensions : AnnotationSpec() {
             scanPackage(Page2)
         }.WHEN {
             Page2.s1.name
-        }.THEN {
+        }.THEN(
             "Page2.s1"
-        }
+        )
     }
 }

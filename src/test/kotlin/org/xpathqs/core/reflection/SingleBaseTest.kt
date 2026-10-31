@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,9 +56,9 @@ class SingleBaseTest : AnnotationSpec() {
     fun r1_forSelector() {
         WHEN {
             ForTest().parse().s1.toXpath()
-        }.THEN {
+        }.THEN(
             "//base/div"
-        }
+        )
     }
 
     /**
@@ -71,9 +71,9 @@ class SingleBaseTest : AnnotationSpec() {
             ForTestObj.parse()
         }.WHEN {
             ForTestObj.InnerObj.s1.toXpath()
-        }.THEN {
+        }.THEN(
             "//base/div"
-        }
+        )
     }
 
     /**
@@ -84,9 +84,9 @@ class SingleBaseTest : AnnotationSpec() {
     fun r3_forGroupSelector() {
         WHEN {
             ForTest().parse().s2.toXpath()
-        }.THEN {
+        }.THEN(
             "//base/div//div"
-        }
+        )
     }
 
     /**
@@ -99,9 +99,9 @@ class SingleBaseTest : AnnotationSpec() {
             ForTestObj.parse()
         }.WHEN {
             ForTestObj.InnerObj.s2.toXpath()
-        }.THEN {
+        }.THEN(
             "//base/div"
-        }
+        )
     }
 
     /**
@@ -114,8 +114,8 @@ class SingleBaseTest : AnnotationSpec() {
             ForTestObj.parse()
         }.WHEN {
             ForTestObj.InnerObj.s3.toXpath()
-        }.THEN {
+        }.THEN(
             "//base//div"
-        }
+        )
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.args
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.selector.preceding
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.util.SelectorFactory.tagSelector
@@ -42,7 +43,7 @@ class SelectorArgTest : AnnotationSpec() {
             SelectorArg(given)
                 .value
         }.THEN {
-            given.toXpath()
+            given.toXpath() shouldBe actual
         }
     }
 
@@ -57,7 +58,7 @@ class SelectorArgTest : AnnotationSpec() {
             SelectorArg(given, type = InnerSelectorArg.ALL)
                 .value
         }.THEN {
-            given.prefix(".//").toXpath()
+            given.prefix(".//").toXpath() shouldBe actual
         }
     }
 
@@ -72,7 +73,7 @@ class SelectorArgTest : AnnotationSpec() {
             SelectorArg(given, type = InnerSelectorArg.ROOT)
                 .value
         }.THEN {
-            given.prefix("./").toXpath()
+            given.prefix("./").toXpath() shouldBe actual
         }
     }
 
@@ -87,7 +88,7 @@ class SelectorArgTest : AnnotationSpec() {
             SelectorArg(given, type = InnerSelectorArg.ROOT)
                 .value
         }.THEN {
-            given.toXpath()
+            given.toXpath() shouldBe actual
         }
     }
 
@@ -102,7 +103,7 @@ class SelectorArgTest : AnnotationSpec() {
             SelectorArg(given, type = InnerSelectorArg.ROOT)
                 .value
         }.THEN {
-            "./preceding::div"
+            "./preceding::div" shouldBe actual
         }
     }
 }

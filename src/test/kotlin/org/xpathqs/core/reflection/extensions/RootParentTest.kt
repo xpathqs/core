@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,9 +39,9 @@ class RootParentTest : AnnotationSpec() {
     fun r1_rootParent() {
         WHEN {
             tagSelector("div").rootParent
-        }.THEN {
+        }.THEN(
             NullSelector()
-        }
+        )
     }
 
     /**
@@ -51,9 +51,9 @@ class RootParentTest : AnnotationSpec() {
     fun r2_rootParent() {
         WHEN {
             RootParent.level1.rootParent
-        }.THEN {
+        }.THEN(
             RootParent
-        }
+        )
     }
 
     /**
@@ -63,9 +63,9 @@ class RootParentTest : AnnotationSpec() {
     fun r3_rootParent() {
         WHEN {
             RootParent.InnerObj.level2.rootParent
-        }.THEN {
+        }.THEN(
             RootParent
-        }
+        )
     }
     init {
         RootParent.parse()

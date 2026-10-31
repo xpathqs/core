@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.base.extension
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.scanPackage
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.block.allInnerSelectorBlocks
@@ -64,7 +65,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             tagSelector("div").parents
         }.THEN {
-            emptyList<String>()
+            emptyList<String>() shouldBe actual
         }
     }
 
@@ -76,7 +77,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.s1.parents
         }.THEN {
-            arrayListOf(Page1)
+            arrayListOf(Page1) shouldBe actual
         }
     }
 
@@ -88,7 +89,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner.s1.parents
         }.THEN {
-            arrayListOf(Page1.Inner, Page1)
+            arrayListOf(Page1.Inner, Page1) shouldBe actual
         }
     }
 
@@ -100,7 +101,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner isChildOf Page1
         }.THEN {
-            true
+            true shouldBe actual
         }
     }
 
@@ -112,7 +113,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1 isChildOf Page1.Inner
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -124,7 +125,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1 isChildOf Page1
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -136,7 +137,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner2.Inner3 isChildOf Page1.allInnerSelectorBlocks
         }.THEN {
-            true
+            true shouldBe actual
         }
     }
 
@@ -148,7 +149,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner isChildOf Page1.Inner2.allInnerSelectorBlocks
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -172,7 +173,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner2 isParentOf Page1.Inner
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -184,7 +185,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner isParentOf Page1.Inner
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -196,7 +197,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1 isParentOf Page1.allInnerSelectorBlocks
         }.THEN {
-            true
+            true shouldBe actual
         }
     }
 
@@ -208,7 +209,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner isParentOf Page1.Inner2.allInnerSelectorBlocks
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -220,7 +221,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner doesNotChildOf Page1
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -232,7 +233,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1.Inner doesNotChildOf Page1.allInnerSelectorBlocks
         }.THEN {
-            true
+            true shouldBe actual
         }
     }
 
@@ -244,7 +245,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1 doesNotParentOf Page1.Inner
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 
@@ -256,7 +257,7 @@ class ParentsTest : AnnotationSpec() {
         WHEN {
             Page1 doesNotParentOf Page1.allInnerSelectorBlocks
         }.THEN {
-            false
+            false shouldBe actual
         }
     }
 }

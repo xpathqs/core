@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.base
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
@@ -42,7 +43,7 @@ class BaseSelectorCustomPropsMapTest : AnnotationSpec() {
         }.WHEN {
             given.clone()
         }.THEN {
-            given.customPropsMap === actual.customPropsMap
+            (given.customPropsMap === actual.customPropsMap) shouldBe true
         }
     }
 

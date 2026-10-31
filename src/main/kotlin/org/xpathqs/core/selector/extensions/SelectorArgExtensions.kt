@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,8 @@ import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.extensions.core.clone
+import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.group.addGroupArg
 
 /**
  * Add `text` argument query
@@ -69,10 +71,7 @@ fun <T : BaseSelector> T.arg(
     argName: String,
     value: String,
     contains: Boolean = false,
-    normalize: Boolean = false
-) = selfClone {
-    val res = this.clone()
-
+    normalize: Boolean = false): T {
     var arg: ValueArg =
         CommaDecorator(KVSelectorArg(argName, value))
 
@@ -84,9 +83,10 @@ fun <T : BaseSelector> T.arg(
         arg = ContainsDecorator(arg as KVSelectorArg)
     }
 
-    res.props.args.add(
-        arg
-    )
+    return when (this) {
+        is GroupSelector -> this.addGroupArg(arg)
+        else -> this.addArg(arg)
+    }
 }
 
 /**
