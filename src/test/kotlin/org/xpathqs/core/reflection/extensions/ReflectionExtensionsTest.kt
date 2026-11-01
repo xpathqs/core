@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,9 @@ import org.xpathqs.gwt.GIVEN
 
 class ReflectionExtensionsTest : AnnotationSpec() {
     class TestCls {
-        inner class InnerCls
+        class InnerCls {
+            val m1: String = "test1"
+        }
         val innerMember = InnerCls()
         class Class2
         val member = Class2()
@@ -44,9 +46,9 @@ class ReflectionExtensionsTest : AnnotationSpec() {
             tagSelector("div")
         }.WHEN {
             given.isInnerClass()
-        }.THEN {
+        }.THEN(
             false
-        }
+        )
     }
 
     /**
@@ -58,8 +60,8 @@ class ReflectionExtensionsTest : AnnotationSpec() {
             TestCls()
         }.WHEN {
             given.innerMember.isInnerClass()
-        }.THEN {
+        }.THEN(
             true
-        }
+        )
     }
 }

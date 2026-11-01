@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,8 +32,6 @@ import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.compose.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
-import org.xpathqs.core.selector.extensions.addArg
-import org.xpathqs.core.selector.extensions.addStringToArgs
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
 import org.xpathqs.core.selector.xpath.XpathSelector

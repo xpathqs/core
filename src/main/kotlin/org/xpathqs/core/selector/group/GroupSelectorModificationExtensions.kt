@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,23 +72,19 @@ fun <T : GroupSelector> T.prefix(value: String): T {
 
 
 /**
- * Modifies `prefix` value of [GroupSelector]
+ * Modifies `postfix` value of [GroupSelector]
  *
- * Require #1 - Prefix should be updated only when [GroupSelector.selectorsChain]
- * has first [Selector] element. It is actual for the Block elements
+ * Require #1 - postfix should be updated only when [GroupSelector.selectorsChain]
+ * has last [Selector] element. It is actual for the Block elements
  * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r1_prefixWithSelector]
  *
- * Require #2 - prefix should be ignored when first selector is not a [Selector] object
- * @sample [org.xpathqs.core.selector.group.extensions.PrefixTest.r2_prefixWithXpathSelector]
  */
 fun <T : GroupSelector> T.postfix(value: String): T {
-    val first = this.selectorsChain.first()
-    if (first is Selector) {
+    val last = this.selectorsChain.last()
+    if (last is Selector) {
         val res = this.clone()
-        val chain: ArrayList<BaseSelector> = arrayListOf(first.postfix(value))
-        this.selectorsChain.removeFirst()
-        chain.addAll(this.selectorsChain)
-        res.selectorsChain = chain
+        this.selectorsChain.removeLast()
+        res.selectorsChain = ArrayList( this.selectorsChain + last.postfix(value))
         return res
     }
 

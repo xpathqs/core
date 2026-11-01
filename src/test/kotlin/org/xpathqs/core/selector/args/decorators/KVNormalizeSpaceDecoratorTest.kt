@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.args.decorators
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.gwt.WHEN
 
@@ -38,7 +39,7 @@ class KVNormalizeSpaceDecoratorTest : AnnotationSpec() {
             KVNormalizeSpaceDecorator(arg)
                 .toXpath()
         }.THEN {
-            "normalize-space(text())=text"
+            "normalize-space(text())=text" shouldBe actual
         }
     }
 
@@ -51,7 +52,7 @@ class KVNormalizeSpaceDecoratorTest : AnnotationSpec() {
             KVNormalizeSpaceDecorator(arg, normalizeK = true, normalizeV = true)
                 .toXpath()
         }.THEN {
-            "normalize-space(text())=normalize-space(text)"
+            "normalize-space(text())=normalize-space(text)" shouldBe actual
         }
     }
 
@@ -64,7 +65,7 @@ class KVNormalizeSpaceDecoratorTest : AnnotationSpec() {
             KVNormalizeSpaceDecorator(arg, normalizeK = false, normalizeV = false)
                 .toXpath()
         }.THEN {
-            "text()=text"
+            "text()=text" shouldBe actual
         }
     }
 }

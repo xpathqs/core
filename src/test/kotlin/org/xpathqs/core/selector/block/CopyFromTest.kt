@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.block
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.group.GroupSelector
@@ -59,7 +60,7 @@ class CopyFromTest : AnnotationSpec() {
         }.WHEN {
             given.s.toXpath()
         }.THEN {
-            "//div1//div"
+            "//div1//div" shouldBe actual
         }
     }
 
@@ -75,7 +76,7 @@ class CopyFromTest : AnnotationSpec() {
         }.WHEN {
             given.s.toXpath()
         }.THEN {
-            "//div1//div"
+            "//div1//div" shouldBe actual
         }
     }
 
@@ -91,7 +92,7 @@ class CopyFromTest : AnnotationSpec() {
         }.WHEN {
             given.s.toXpath()
         }.THEN {
-            "//div1//div2//div"
+            "//div1//div2//div" shouldBe actual
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,10 @@ import io.kotest.core.spec.style.AnnotationSpec
 import org.xpathqs.core.reflection.parse
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.extensions.text
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import org.xpathqs.gwt.AND
 import org.xpathqs.gwt.GIVEN
+import org.xpathqs.xpathShouldBe
 
 class BlockSelectorXpathTest : AnnotationSpec() {
     object TestCls : Block(
@@ -39,6 +40,7 @@ class BlockSelectorXpathTest : AnnotationSpec() {
 
     init {
         TestCls.parse()
+
     }
 
     /**
@@ -50,13 +52,14 @@ class BlockSelectorXpathTest : AnnotationSpec() {
         GIVEN {
             TestCls[2].s
         }.WHEN {
-            given.xpath
-            given.xpath
-        }.THEN {
-            "//div[position()=2]//p"
-        }.THEN {
             given.toXpath()
-        }
+        }.THEN("//div[position()=2]//p")
+    }
+
+    @Test
+    fun checkTextArgForBlock() {
+        TestCls.text("ss").s
+            .xpathShouldBe("//div[text()='ss']//p")
     }
 
     /**

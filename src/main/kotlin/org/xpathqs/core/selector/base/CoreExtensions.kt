@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,10 @@ package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.reflection.*
 import org.xpathqs.core.selector.block.Block
+//import org.xpathqs.core.util.SelectorFactory
 import java.lang.reflect.Constructor
+import java.lang.reflect.Modifier
+import kotlin.reflect.full.primaryConstructor
 
 /**
  * @return an ability of [Block] object to be cloned
@@ -72,6 +75,18 @@ fun <T : BaseSelector> T.deepClone(): T {
     return newObj
 }
 
+fun getOuterInstance(innerInstance: Any): Any? {
+    val innerClass = innerInstance.javaClass
+    return try {
+        val field = innerClass.getDeclaredField("this$0")
+        field.isAccessible = true
+        field.get(innerInstance)
+    } catch (e: NoSuchFieldException) {
+        // The field might have a different name or not exist.
+        null
+    }
+}
+
 /**
  * @return new instance of object class with the default properties
  *
@@ -100,11 +115,49 @@ fun <T : BaseSelector> T.deepClone(): T {
  * Require #7 - ability to instantiate a [Block] class-object
  * @sample org.xpathqs.core.selector.base.extension.NewInstanceTest.r7_newInstanceForBlockObject
  */
+
 @Suppress("UNCHECKED_CAST")
 internal fun <T : BaseSelector> T.newInstance(): T {
+
+    fun cloneSingleton(original: Any): Any {
+        val clazz = original::class.java
+
+        // 1. Get the private no‑arg constructor
+        val constructor = clazz.getDeclaredConstructor()
+        constructor.isAccessible = true
+
+        // 2. Create a new instance (this breaks the singleton)
+        val clone = constructor.newInstance()
+
+        // 3. Copy all non‑static fields from the original to the clone
+        for (field in clazz.declaredFields) {
+            if (!Modifier.isStatic(field.modifiers)) {
+                field.isAccessible = true
+                field.set(clone, field.get(original))
+            }
+        }
+        return clone
+    }
+
     val res = if (this.isInnerClass()) {
-        val c = this.getConstructor(1)
-        c.newInstance(this.getInnerClassMember())
+        if(this::class.isObject()) {
+            return cloneSingleton(this) as T
+        }
+        if(this::class.isInner) {
+            val outer = getOuterInstance(this)
+            val c = this::class.primaryConstructor
+            val p = c!!.parameters
+            c.callBy(
+                mapOf(p[0] to outer)
+            )
+        } else {
+            if(this::class.primaryConstructor?.parameters?.size == 0) {
+                this::class.primaryConstructor!!.call()
+            } else {
+                val c = this.getConstructor(1)
+                c.newInstance(this.getInnerClassMember())
+            }
+        }
     } else {
         val c = this.getConstructor(0)
         c.newInstance()
