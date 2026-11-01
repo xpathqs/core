@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,11 @@ import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.group.GroupSelector
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.superclasses
+import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
+import kotlin.reflect.jvm.javaGetter
 
 /**
  * Set of functional extensions to manipulate with <pre>selectors</pre> via Reflection
@@ -212,15 +215,25 @@ internal fun Any.isInnerClass(): Boolean {
     return getInnerClassMember() != null
 }
 
+fun KProperty<*>.isDeclaredInInnerClass(): Boolean {
+    val declaring = javaField?.declaringClass
+        ?: javaGetter?.declaringClass
+        ?: return false
+    if(declaring.name.endsWith("\$${declaring.simpleName}")) {
+        println()
+    }
+    return declaring.name.endsWith("\$${declaring.simpleName}")
+}
+
 /**
  * Return member of inner class
  */
 internal fun Any.getInnerClassMember(): Any? {
-    val f = this::class.java.declaredFields.find {
-        it.name.contains("this$")
+    val f = this::class.declaredMemberProperties.firstOrNull{
+        it.isDeclaredInInnerClass()
     }
     f?.isAccessible = true
-    return f?.get(this)
+    return f?.call(this)
 }
 
 /**

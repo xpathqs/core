@@ -29,7 +29,9 @@ import org.xpathqs.gwt.GIVEN
 
 class ReflectionExtensionsTest : AnnotationSpec() {
     class TestCls {
-        class InnerCls
+        class InnerCls {
+            val m1: String = "test1"
+        }
         val innerMember = InnerCls()
         class Class2
         val member = Class2()
