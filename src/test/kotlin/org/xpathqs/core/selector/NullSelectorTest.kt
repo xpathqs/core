@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 
 import org.xpathqs.xpathShouldBe
@@ -35,5 +36,19 @@ class NullSelectorTest : AnnotationSpec() {
     fun clone() {
         val s = NullSelector()
         s shouldBeSameInstanceAs s.clone()
+    }
+
+    @Test
+    fun hashCodeTest() {
+        val s1 = NullSelector()
+        val s2 = NullSelector()
+
+        s1.hashCode() shouldBe s2.hashCode()
+    }
+
+    @Test
+    fun fullName() {
+        val s1 = NullSelector()
+        s1.fullName shouldBe ""
     }
 }

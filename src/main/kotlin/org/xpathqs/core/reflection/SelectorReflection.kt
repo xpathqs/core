@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
 
 package org.xpathqs.core.reflection
 
-import org.xpathqs.core.exception.ReflectionException
 import org.xpathqs.core.selector.args.SelectorArgs
 import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps

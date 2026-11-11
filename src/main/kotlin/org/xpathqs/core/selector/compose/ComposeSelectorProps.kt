@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,8 +40,9 @@ class ComposeSelectorProps(
     /**
      * Add new selector to the [selectors] collection
      */
-    fun add(sel: ISelector) {
+    fun add(sel: ISelector) : ComposeSelectorProps {
         selectors.add(sel)
+        return this
     }
 
     /**
@@ -76,7 +77,10 @@ class ComposeSelectorProps(
     override fun clone(): ComposeSelectorProps {
         val clonedSelectors = ArrayList<ISelector>()
         selectors.forEach {
-            clonedSelectors.add(it.clone())
+            val c = it.clone()
+            clonedSelectors.add(
+                c
+            )
         }
 
         return ComposeSelectorProps(

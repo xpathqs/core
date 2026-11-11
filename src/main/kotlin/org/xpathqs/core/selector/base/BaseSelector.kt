@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ import org.xpathqs.core.selector.NullSelector
 import kotlin.reflect.KProperty
 
 /**
- * Base class for the Selectors
+ * Base interface for the Selectors
  * @param state of the Selector
  * @param base link to the root element
  * @param name name of the selector (used for logging purposes)
@@ -35,25 +35,55 @@ import kotlin.reflect.KProperty
  * @param property associated field of the root object.
  *      It may be NULL, when there is no root object
  */
-abstract class BaseSelector(
-    internal val state: SelectorState = SelectorState.INIT,
+interface BaseSelector: ISelector {
 
-    val base: ISelector = NullSelector(),
-    override val name: String = "",
-    override val fullName: String = "",
+    val state: SelectorState
 
-    internal open val props: BaseSelectorProps = BaseSelectorProps(),
-    val annotations: Collection<Annotation> = emptyList(),
+    val base: ISelector
+    override val name: String
+    override val fullName: String
 
-    val property: KProperty<*>? = null,
-    val noBase: Boolean = false,
-) : ISelector {
+    val props: BaseSelectorProps
+    val annotations: Collection<Annotation>
+
+    val property: KProperty<*>?
+    val noBase: Boolean
 
     /**
      * Get selector's tag or an empty string
      * if tag is not applicable to the Selector's type
      */
-    abstract val tag: String
+    val tag: String
+
+    /**
+     * A holder collection for some custom properties
+     * which may be used for the extending the functionality via extension-functions
+     *
+     * Require #1 - map should not be cloned. It purposes only for holding some configuration constants
+     * @sample org.xpathqs.core.selector.base.BaseSelectorCustomPropsMapTest.r1
+     */
+    val customPropsMap: HashMap<String, Any?>
+}
+
+abstract class BaseSelectorImpl(
+    override val state: SelectorState = SelectorState.INIT,
+
+    override val base: ISelector = NullSelector(),
+    override val name: String = "",
+    override val fullName: String = "",
+
+    override val props: BaseSelectorProps = BaseSelectorProps(),
+    override val annotations: Collection<Annotation> = emptyList(),
+
+    override val property: KProperty<*>? = null,
+    override val noBase: Boolean = false,
+) : BaseSelector {
+
+    /**
+     * Get selector's tag or an empty string
+     * if tag is not applicable to the Selector's type
+     */
+    override  val tag: String = ""
 
     /**
      * Build selector's xpath
@@ -87,7 +117,7 @@ abstract class BaseSelector(
      * Require #1 - map should not be cloned. It purposes only for holding some configuration constants
      * @sample org.xpathqs.core.selector.base.BaseSelectorCustomPropsMapTest.r1
      */
-    val customPropsMap = HashMap<String, Any?>()
+    override val customPropsMap = HashMap<String, Any?>()
 
     companion object {
         fun mergeXpath(xp1: String, xp2: String): String {

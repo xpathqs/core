@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 package org.xpathqs.core.selector.xpath
 
 import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.BaseSelectorImpl
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
@@ -43,7 +43,7 @@ open class XpathSelector(
     fullName: String = "",
 
     props: BaseSelectorProps = BaseSelectorProps()
-) : BaseSelector(state, base, name, fullName, props) {
+) : BaseSelectorImpl(state, base, name, fullName, props) {
 
     override fun toXpath(): String {
         val baseXpath = if(noBase) "" else base.toXpath()
