@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ import org.xpathqs.core.annotations.NoScan
 import org.xpathqs.core.reflection.scan
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.util.SelectorFactory.tagSelector
-import kotlin.reflect.jvm.kotlinProperty
 
 @Target(
     AnnotationTarget.CLASS,
@@ -163,5 +162,15 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     @Test
     fun r2_findParentWithAnnotation() {
         Page1.s1.findParentWithAnnotation(NoScan::class) shouldBe null
+    }
+
+    @Test
+    fun findAnnotationsEmpty() {
+        Page1.s1.findAnnotations<TestAnnotation>() shouldBe emptyList()
+    }
+
+    @Test
+    fun findAnnotationsNotEmpty() {
+        Page1.findAnnotations<TestAnnotation>() shouldBe listOf(TestAnnotation())
     }
 }

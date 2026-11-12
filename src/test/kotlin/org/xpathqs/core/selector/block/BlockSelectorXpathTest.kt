@@ -76,6 +76,7 @@ class BlockSelectorXpathTest : AnnotationSpec() {
         }.THEN("//div//p")
     }
 
+
     @Test
     fun xpathForDynamic() {
         GIVEN {
@@ -86,10 +87,6 @@ class BlockSelectorXpathTest : AnnotationSpec() {
             given.toString()
             given.toString()
             given.toXpath()
-        }.THEN(
-            "//div[position()=2]"
-        )/*.AND {
-            given.toXpath()
-        }*/
+        }.THEN("//div[position()=2]")
     }
 }

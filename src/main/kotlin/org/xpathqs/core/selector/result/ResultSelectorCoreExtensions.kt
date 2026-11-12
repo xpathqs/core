@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,31 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.exception
+package org.xpathqs.core.selector.result
 
-class ReflectionException {
-    class NoSuchField : Exception(
-        "Member doesn't have a field"
-    )
+import org.xpathqs.core.reflection.SelectorReflection
+import org.xpathqs.core.reflection.cloned
+import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.SelectorState
+import org.xpathqs.core.selector.base.deepClone as baseDeepClone
+
+
+/**
+ * @return clone of a [ResultSelector] Selector
+ *
+ */
+@Suppress("UNCHECKED_CAST")
+internal fun <T : ResultSelector> T.deepClone(): T {
+    if (this.state != SelectorState.FREEZE) {
+        return this
+    }
+
+    val cloned = this.baseDeepClone()
+    if(wrapper is BaseSelector) {
+        SelectorReflection(
+            cloned as BaseSelector,
+        ).setProp("wrapper", this.wrapper.cloned())
+    }
+
+    return cloned
 }

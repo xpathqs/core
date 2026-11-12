@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 package org.xpathqs.core.selector.selector
 
 import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.base.BaseSelectorImpl
 import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
@@ -38,7 +38,7 @@ open class Selector(
     name: String = "",
     fullName: String = "",
     override val props: SelectorProps = SelectorProps()
-) : BaseSelector(
+) : BaseSelectorImpl(
     state = state,
     base = base,
     name = name,

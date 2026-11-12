@@ -25,6 +25,7 @@ package org.xpathqs.core.selector.block
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
+import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.selector.Selector
@@ -48,6 +49,15 @@ class CopyFromTest : AnnotationSpec() {
         val s = tagSelector("div")
     }
 
+    class TestCls2(base: ISelector): Block(base) {
+        val s = tagSelector("div")
+    }
+
+    @Test
+    fun isBlackTest() {
+        TestCls().parse().isBlank shouldBe true
+    }
+
     /**
      * Checks [Block.copyFrom]
      */
@@ -55,6 +65,19 @@ class CopyFromTest : AnnotationSpec() {
     fun copyFromSelector() {
         GIVEN {
             TestCls(
+                tagSelector("div1")
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "//div1//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromSelector2() {
+        GIVEN {
+            TestCls2(
                 tagSelector("div1")
             ).parse()
         }.WHEN {
@@ -80,6 +103,19 @@ class CopyFromTest : AnnotationSpec() {
         }
     }
 
+    @Test
+    fun copyFromXpathSelector2() {
+        GIVEN {
+            TestCls2(
+                xpathSelector("//div1")
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "//div1//div" shouldBe actual
+        }
+    }
+
     /**
      * Checks [Block.copyFrom]
      */
@@ -87,6 +123,19 @@ class CopyFromTest : AnnotationSpec() {
     fun copyFromGroupSelector() {
         GIVEN {
             TestCls(
+                tagSelector("div1") + tagSelector("div2")
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "//div1//div2//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromGroupSelector2() {
+        GIVEN {
+            TestCls2(
                 tagSelector("div1") + tagSelector("div2")
             ).parse()
         }.WHEN {

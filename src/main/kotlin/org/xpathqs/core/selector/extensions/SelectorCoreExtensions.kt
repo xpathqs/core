@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,9 +32,11 @@ import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.group.GroupSelector
 import org.xpathqs.core.selector.group.addGroupArg
+import org.xpathqs.core.selector.result.ResultSelector
 import org.xpathqs.core.selector.selector.Selector
 import org.xpathqs.core.selector.xpath.XpathSelector
 import org.xpathqs.core.selector.base.deepClone as baseDeepClone
+import org.xpathqs.core.selector.result.deepClone as resultDeepClone
 import org.xpathqs.core.selector.block.deepClone as blockDeepClone
 import org.xpathqs.core.selector.group.deepClone as groupDeepClone
 import org.xpathqs.core.selector.xpath.deepClone as xpathDeepClone
@@ -49,6 +51,7 @@ fun <T : ISelector> T.clone(): T {
         is Block -> blockDeepClone()
         is GroupSelector -> groupDeepClone()
         is Selector -> baseDeepClone()
+        is ResultSelector -> resultDeepClone()
         is XpathSelector -> xpathDeepClone() as T
         else -> this
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -139,6 +139,7 @@ open class Block(
             is Selector -> copyFrom(sel)
             is XpathSelector -> copyFrom(sel)
             is GroupSelector -> copyFrom(sel)
+            is ResultSelector -> copyFrom(sel)
         }
     }
 
@@ -175,9 +176,9 @@ open class Block(
     }
 
     /**
-     * Will copy properties from the GroupSelector
+     * Will copy properties from the ResultSelector
      *
-     * Require - GroupSelector's properties should be copied
+     * Require - ResultSelector's properties should be copied
      * @sample [org.xpathqs.core.selector.block.CopyFromTest.copyFromGroupSelector]
      */
     protected fun copyFrom(sel: ResultSelector) {
@@ -245,14 +246,6 @@ open class Block(
      */
     private fun fixParentField() {
         (property?.call(base) as? Block)?.setProps(originFieldProps)
-    }
-
-    fun copyProps(other: Block?) {
-        if (other == null) {
-            return
-        }
-        selectorsChain = other.selectorsChain
-        setProps(other.props)
     }
 
     /**
