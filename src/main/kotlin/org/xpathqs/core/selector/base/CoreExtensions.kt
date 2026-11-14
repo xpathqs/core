@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.base
 
 import org.xpathqs.core.reflection.*
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.block.Block
 //import org.xpathqs.core.util.SelectorFactory
 import java.lang.reflect.Constructor
@@ -92,13 +93,13 @@ fun getOuterInstance(innerInstance: Any): Any? {
  *
  * REQUIREMENTS FOR SINGLE SELECTORS:
  *
- * Require #1 - ability to instantiate a [org.xpathqs.core.selector.selector.Selector] class
+ * Require #1 - ability to instantiate a [org.xpathqs.core.selector.Selector] class
  * @sample [org.xpathqs.core.selector.base.extension.NewInstanceTest.r1_newInstanceForSelector]
  *
- * Require #2 - ability to instantiate a [org.xpathqs.core.selector.xpath.XpathSelector] class
+ * Require #2 - ability to instantiate a [org.xpathqs.core.selector.XpathSelector] class
  * @sample [org.xpathqs.core.selector.base.extension.NewInstanceTest.r2_newInstanceForXpathSelector]
  *
- * Require #3 - ability to instantiate a [org.xpathqs.core.selector.group.GroupSelector] class
+ * Require #3 - ability to instantiate a [org.xpathqs.core.selector.GroupSelector] class
  * @sample org.xpathqs.core.selector.base.extension.NewInstanceTest.r3_newInstanceForGroupSelector
  *
  * REQUIREMENTS FOR [Block] SELECTORS

@@ -26,15 +26,15 @@ import org.xpathqs.core.selector.args.InnerSelectorArg
 import org.xpathqs.core.selector.args.KVSelectorArg
 import org.xpathqs.core.selector.args.SelectorArg
 import org.xpathqs.core.selector.args.ValueArg
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.BaseSelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.addArg
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.group.addGroupArg
-import org.xpathqs.core.selector.result.ResultSelector
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.selector.xpath.XpathSelector
+import org.xpathqs.core.selector.ResultSelector
+import org.xpathqs.core.selector.Selector
+import org.xpathqs.core.selector.XpathSelector
 import org.xpathqs.core.selector.base.deepClone as baseDeepClone
 import org.xpathqs.core.selector.result.deepClone as resultDeepClone
 import org.xpathqs.core.selector.block.deepClone as blockDeepClone

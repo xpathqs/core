@@ -22,8 +22,6 @@
 
 package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.base.ISelector
-
 /**
  * Implementation of `Null Object` pattern for the ISelector
  */

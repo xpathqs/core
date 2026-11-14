@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,10 @@ import org.xpathqs.core.reflection.SelectorReflectionFields
 import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setBlank
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.group.deepClone
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.javaField
@@ -137,7 +137,7 @@ val <T : Block> T.allInnerSelectors: Collection<BaseSelector>
         val res = ArrayList<BaseSelector>()
         res.addAll(children)
         selectorBlocks.forEach { block ->
-            (block as? Block)?.allInnerSelectors?.let {
+            block?.allInnerSelectors?.let {
                 res.addAll(it)
             }
         }

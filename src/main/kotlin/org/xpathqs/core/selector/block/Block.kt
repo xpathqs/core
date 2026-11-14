@@ -27,15 +27,17 @@ import org.xpathqs.core.reflection.isObject
 import org.xpathqs.core.reflection.setBase
 import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.ComposeSelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.group.GroupSelector
-import org.xpathqs.core.selector.result.ResultSelector
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.GroupSelector
+import org.xpathqs.core.selector.ResultSelector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
-import org.xpathqs.core.selector.xpath.XpathSelector
+import org.xpathqs.core.selector.XpathSelector
+import org.xpathqs.core.selector.extensions.result
 
 /**
  * Base class for the Selector container objects
@@ -140,6 +142,8 @@ open class Block(
             is XpathSelector -> copyFrom(sel)
             is GroupSelector -> copyFrom(sel)
             is ResultSelector -> copyFrom(sel)
+            is ComposeSelector -> copyFrom(sel)
+            is NullSelector -> {}
         }
     }
 
@@ -154,6 +158,10 @@ open class Block(
         setBase(sel.base.clone())
         setProps(sel.props.clone())
         selectorsChain = arrayListOf(sel.clone())
+    }
+
+    protected fun copyFrom(sel: ComposeSelector) {
+       copyFrom(sel.result)
     }
 
     /**

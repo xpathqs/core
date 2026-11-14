@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package org.xpathqs.core.selector.base
 
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.extensions.parents
 import kotlin.reflect.KClass
 
