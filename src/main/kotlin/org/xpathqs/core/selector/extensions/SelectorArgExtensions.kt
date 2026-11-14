@@ -30,9 +30,9 @@ import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.extensions.core.clone
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.group.addGroupArg
 
 /**

@@ -20,20 +20,20 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.result
+package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelectorImpl
 import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
 /**
  * Implementation of xpath-string based selectors.
  * Used for the complex xpath queries
+ *
+ * @param selfXpath selector's xpath
  */
-class ResultSelector(
-    internal val wrapper: ISelector = NullSelector(),
+open class XpathSelector(
+    open var selfXpath: String = "",
+
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
@@ -43,9 +43,10 @@ class ResultSelector(
 ) : BaseSelectorImpl(state, base, name, fullName, props) {
 
     override fun toXpath(): String {
-        return "(${base.toXpath() + wrapper.toXpath()})" + props.toXpath()
+        val baseXpath = if(noBase) "" else base.toXpath()
+        return baseXpath + selfXpath + props.toXpath()
     }
 
     override val tag: String
-        get() = ""
+        get() = selfXpath
 }

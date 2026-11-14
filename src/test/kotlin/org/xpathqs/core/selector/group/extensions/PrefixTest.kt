@@ -35,7 +35,7 @@ class PrefixTest : AnnotationSpec() {
 
     /**
      * Check #1 require
-     * @see org.xpathqs.core.selector.group.GroupSelector.prefix
+     * @see org.xpathqs.core.selector.GroupSelector.prefix
      */
     @Test
     fun r1_prefixWithSelector() {
@@ -50,7 +50,7 @@ class PrefixTest : AnnotationSpec() {
 
     /**
      * Check #2 require
-     * @see org.xpathqs.core.selector.group.GroupSelector.prefix
+     * @see org.xpathqs.core.selector.GroupSelector.prefix
      */
     @Test
     fun r2_prefixWithXpathSelector() {
@@ -65,7 +65,7 @@ class PrefixTest : AnnotationSpec() {
 
     /**
      * Check #1 require
-     * @see org.xpathqs.core.selector.group.GroupSelector.postfix
+     * @see org.xpathqs.core.selector.GroupSelector.postfix
      */
     @Test
     fun postfixWithSelector() {

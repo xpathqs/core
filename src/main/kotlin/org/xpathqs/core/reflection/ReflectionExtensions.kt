@@ -23,11 +23,11 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties

@@ -32,7 +32,7 @@ class BaseSelectorCustomPropsMapTest : AnnotationSpec() {
 
     /**
      * Checks Require #1
-     * @see BaseSelector.customPropsMap
+     * @see org.xpathqs.core.selector.BaseSelector.customPropsMap
      */
     @Test
     fun r1() {

@@ -26,11 +26,13 @@ package org.xpathqs.core.selector.base.extension
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.ISelector
+import org.xpathqs.core.selector.NullSelector
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.extensions.plus
 import org.xpathqs.core.selector.extensions.result
+import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.textSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
@@ -42,6 +44,12 @@ object PositionTestPage: Block(textSelector("base1")) {
     val inner3 = Inner1(tagSelector("div") + tagSelector("span"))
     val inner4 = Inner1(
         (tagSelector("div") + tagSelector("span")).result[2]
+    )
+    val inner5 = Inner1(
+        compose(tagSelector("div"), tagSelector("span"))
+    )
+    val inner6 = Inner1(
+        NullSelector()
     )
 
     open class Inner1(
@@ -89,5 +97,21 @@ class PositionTest : AnnotationSpec() {
         PositionTestPage.inner4[3].xpathShouldBe("//*[text()='base1'](//div//span)[position()=3]")
         PositionTestPage.inner4.xpathShouldBe("//*[text()='base1'](//div//span)[position()=2]")
         PositionTestPage.inner4.isBlank shouldBe false
+    }
+
+    @Test
+    fun test5() {
+        PositionTestPage.inner5.xpathShouldBe("//*[text()='base1']((//div) | (//span))")
+        PositionTestPage.inner5[3].xpathShouldBe("//*[text()='base1']((//div) | (//span))[position()=3]")
+        PositionTestPage.inner5.xpathShouldBe("//*[text()='base1']((//div) | (//span))")
+        PositionTestPage.inner5.isBlank shouldBe false
+    }
+
+    @Test
+    fun test6() {
+        PositionTestPage.inner6.xpathShouldBe("//*[text()='base1']")
+        PositionTestPage.inner6[3].xpathShouldBe("//*[text()='base1']")
+        PositionTestPage.inner6.xpathShouldBe("//*[text()='base1']")
+        PositionTestPage.inner6.isBlank shouldBe true
     }
 }

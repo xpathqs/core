@@ -20,42 +20,29 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.selector
+package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelectorImpl
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.SelectorState
 
 /**
- * This is the main 'building-block' class of Selectors interaction.
- * @param props extended properties for building xpath-queries
- * @sample org.xpathqs.core.selector.selector.SelectorTest
+ * Implementation of xpath-string based selectors.
+ * Used for the complex xpath queries
  */
-open class Selector(
+class ResultSelector(
+    internal val wrapper: ISelector = NullSelector(),
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
     fullName: String = "",
-    override val props: SelectorProps = SelectorProps()
-) : BaseSelectorImpl(
-    state = state,
-    base = base,
-    name = name,
-    fullName = fullName,
-    props = props,
-) {
-    /**
-     * Returns tag property value
-     * @sample org.xpathqs.core.selector.selector.SelectorTest.tag
-     */
-    override val tag: String
-        get() = props.tag
 
-    /**
-     * Returns Selector prefix
-     * @sample org.xpathqs.core.selector.selector.SelectorTest.prefix
-     */
-    val prefix: String
-        get() = props.prefix
+    props: BaseSelectorProps = BaseSelectorProps()
+) : BaseSelectorImpl(state, base, name, fullName, props) {
+
+    override fun toXpath(): String {
+        return "(${base.toXpath() + wrapper.toXpath()})" + props.toXpath()
+    }
+
+    override val tag: String
+        get() = ""
 }

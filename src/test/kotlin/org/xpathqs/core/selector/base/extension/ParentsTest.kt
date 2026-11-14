@@ -58,7 +58,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.parents]
+     * Checks Require #1 of [org.xpathqs.core.selector.BaseSelector.parents]
      */
     @Test
     fun r1_parents() {
@@ -70,7 +70,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.parents]
+     * Checks Require #2 of [org.xpathqs.core.selector.BaseSelector.parents]
      */
     @Test
     fun r2_parents() {
@@ -82,7 +82,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #3 of [org.xpathqs.core.selector.base.BaseSelector.parents]
+     * Checks Require #3 of [org.xpathqs.core.selector.BaseSelector.parents]
      */
     @Test
     fun r3_parents() {
@@ -94,7 +94,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     * Checks Require #1 of [org.xpathqs.core.selector.BaseSelector.isChildOf]
      */
     @Test
     fun r1_isChildOf() {
@@ -106,7 +106,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     * Checks Require #2 of [org.xpathqs.core.selector.BaseSelector.isChildOf]
      */
     @Test
     fun r2_isChildOf() {
@@ -118,7 +118,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #3 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     * Checks Require #3 of [org.xpathqs.core.selector.BaseSelector.isChildOf]
      */
     @Test
     fun r3_isChildOf() {
@@ -130,7 +130,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     * Checks Require #1 of [org.xpathqs.core.selector.BaseSelector.isChildOf]
      */
     @Test
     fun r1_isChildOfForCollection() {
@@ -142,7 +142,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isChildOf]
+     * Checks Require #2 of [org.xpathqs.core.selector.BaseSelector.isChildOf]
      */
     @Test
     fun r2_isChildOfForCollection() {
@@ -154,7 +154,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     * Checks Require #1 of [org.xpathqs.core.selector.BaseSelector.isParentOf]
      */
     @Test
     fun r1_isParentOf() {
@@ -166,7 +166,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     * Checks Require #2 of [org.xpathqs.core.selector.BaseSelector.isParentOf]
      */
     @Test
     fun r2_isParentOf() {
@@ -178,7 +178,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #3 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     * Checks Require #3 of [org.xpathqs.core.selector.BaseSelector.isParentOf]
      */
     @Test
     fun r3_isParentOf() {
@@ -190,7 +190,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #1 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     * Checks Require #1 of [org.xpathqs.core.selector.BaseSelector.isParentOf]
      */
     @Test
     fun r1_isParentOfForCollections() {
@@ -202,7 +202,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks Require #2 of [org.xpathqs.core.selector.base.BaseSelector.isParentOf]
+     * Checks Require #2 of [org.xpathqs.core.selector.BaseSelector.isParentOf]
      */
     @Test
     fun r2_isParentOfForCollections() {
@@ -214,7 +214,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotChildOf]
+     * Checks [org.xpathqs.core.selector.BaseSelector.doesNotChildOf]
      */
     @Test
     fun doesNotChildOf() {
@@ -226,7 +226,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotChildOf]
+     * Checks [org.xpathqs.core.selector.BaseSelector.doesNotChildOf]
      */
     @Test
     fun doesNotChildOfForCollections() {
@@ -238,7 +238,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotParentOf]
+     * Checks [org.xpathqs.core.selector.BaseSelector.doesNotParentOf]
      */
     @Test
     fun doesNotParentOf() {
@@ -250,7 +250,7 @@ class ParentsTest : AnnotationSpec() {
     }
 
     /**
-     * Checks [org.xpathqs.core.selector.base.BaseSelector.doesNotParentOf]
+     * Checks [org.xpathqs.core.selector.BaseSelector.doesNotParentOf]
      */
     @Test
     fun doesNotParentOfForCollections() {

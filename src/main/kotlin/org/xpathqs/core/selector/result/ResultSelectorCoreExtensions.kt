@@ -24,7 +24,8 @@ package org.xpathqs.core.selector.result
 
 import org.xpathqs.core.reflection.SelectorReflection
 import org.xpathqs.core.reflection.cloned
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
+import org.xpathqs.core.selector.ResultSelector
 import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.base.deepClone as baseDeepClone
 

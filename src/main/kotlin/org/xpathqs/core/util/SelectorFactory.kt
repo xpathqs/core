@@ -29,12 +29,12 @@ import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.args.decorators.CommaDecorator
 import org.xpathqs.core.selector.args.decorators.ContainsDecorator
 import org.xpathqs.core.selector.args.decorators.KVNormalizeSpaceDecorator
-import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.compose.ComposeSelector
+import org.xpathqs.core.selector.ISelector
+import org.xpathqs.core.selector.ComposeSelector
 import org.xpathqs.core.selector.compose.ComposeSelectorProps
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.selector.selector.SelectorProps
-import org.xpathqs.core.selector.xpath.XpathSelector
+import org.xpathqs.core.selector.XpathSelector
 
 /**
  * Builder factory methods

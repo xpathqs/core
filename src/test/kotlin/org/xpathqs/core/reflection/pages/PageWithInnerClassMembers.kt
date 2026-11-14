@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package org.xpathqs.core.reflection.pages
 import org.xpathqs.core.selector.block.Block
 import org.xpathqs.core.selector.extensions.core.get
 import org.xpathqs.core.selector.extensions.textNotEmpty
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.util.SelectorFactory
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 
@@ -37,7 +37,7 @@ object HtmlTags {
 class AppTable(pos: Int = 1) : Block(
     SelectorFactory.xpathSelector("//div[./div/div/span[text()='Application']]")[pos]
 ) {
-    inner class Row : Block(
+    class Row : Block(
         SelectorFactory.xpathSelector("/div[count(.//div/div) > 3]")
     ) {
         open inner class Col(num: Int = 1) : Block(
