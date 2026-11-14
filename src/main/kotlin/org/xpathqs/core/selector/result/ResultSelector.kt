@@ -23,6 +23,7 @@
 package org.xpathqs.core.selector.result
 
 import org.xpathqs.core.selector.NullSelector
+import org.xpathqs.core.selector.base.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorImpl
 import org.xpathqs.core.selector.base.BaseSelectorProps
 import org.xpathqs.core.selector.base.ISelector
@@ -33,7 +34,7 @@ import org.xpathqs.core.selector.base.SelectorState
  * Used for the complex xpath queries
  */
 class ResultSelector(
-    internal val wrapper: ISelector = NullSelector(),
+    private val wrapper: BaseSelector,
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
