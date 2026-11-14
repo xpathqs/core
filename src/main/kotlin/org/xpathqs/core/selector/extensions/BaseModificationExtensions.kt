@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,16 +26,16 @@ import org.xpathqs.core.reflection.setProps
 import org.xpathqs.core.selector.args.InnerSelectorArg
 import org.xpathqs.core.selector.args.SelectorArg
 import org.xpathqs.core.selector.args.ValueArg
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.ISelector
-import org.xpathqs.core.selector.compose.ComposeSelector
+import org.xpathqs.core.selector.BaseSelector
+import org.xpathqs.core.selector.ISelector
+import org.xpathqs.core.selector.ComposeSelector
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.extensions.core.get
-import org.xpathqs.core.selector.group.GroupSelector
-import org.xpathqs.core.selector.result.ResultSelector
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.GroupSelector
+import org.xpathqs.core.selector.ResultSelector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
-import org.xpathqs.core.selector.xpath.XpathSelector
+import org.xpathqs.core.selector.XpathSelector
 import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 

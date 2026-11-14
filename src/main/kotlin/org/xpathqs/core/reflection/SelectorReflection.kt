@@ -23,9 +23,9 @@
 package org.xpathqs.core.reflection
 
 import org.xpathqs.core.selector.args.SelectorArgs
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
 import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 import java.lang.reflect.Field
 import kotlin.reflect.KProperty

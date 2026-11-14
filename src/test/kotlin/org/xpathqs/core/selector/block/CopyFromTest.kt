@@ -25,11 +25,16 @@ package org.xpathqs.core.selector.block
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import org.xpathqs.core.reflection.parse
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.ComposeSelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.extensions.plus
-import org.xpathqs.core.selector.group.GroupSelector
-import org.xpathqs.core.selector.selector.Selector
-import org.xpathqs.core.selector.xpath.XpathSelector
+import org.xpathqs.core.selector.GroupSelector
+import org.xpathqs.core.selector.NullSelector
+import org.xpathqs.core.selector.Selector
+import org.xpathqs.core.selector.XpathSelector
+import org.xpathqs.core.selector.extensions.core.get
+import org.xpathqs.core.selector.extensions.result
+import org.xpathqs.core.util.SelectorFactory.compose
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.core.util.SelectorFactory.xpathSelector
 import org.xpathqs.gwt.GIVEN
@@ -44,6 +49,9 @@ class CopyFromTest : AnnotationSpec() {
             copyFrom(sel)
         }
         constructor(sel: GroupSelector): this() {
+            copyFrom(sel)
+        }
+        constructor(sel: ComposeSelector): this() {
             copyFrom(sel)
         }
         val s = tagSelector("div")
@@ -129,6 +137,58 @@ class CopyFromTest : AnnotationSpec() {
             given.s.toXpath()
         }.THEN {
             "//div1//div2//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromGroupResultSelector() {
+        GIVEN {
+            TestCls2(
+                (tagSelector("div1") + tagSelector("div2")).result[2]
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "(//div1//div2)[position()=2]//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromComposeSelector2() {
+        GIVEN {
+            TestCls2(
+                compose(tagSelector("div"), tagSelector("a"))
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "(//div) | (//a)//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromComposeSelector() {
+        GIVEN {
+            TestCls(
+                compose(tagSelector("div"), tagSelector("a"))
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "((//div) | (//a))//div" shouldBe actual
+        }
+    }
+
+    @Test
+    fun copyFromNullSelector() {
+        GIVEN {
+            TestCls2(
+                NullSelector()
+            ).parse()
+        }.WHEN {
+            given.s.toXpath()
+        }.THEN {
+            "//div" shouldBe actual
         }
     }
 

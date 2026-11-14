@@ -20,36 +20,34 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.xpath
+package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelectorImpl
-import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
+import org.xpathqs.core.selector.compose.ComposeSelectorProps
 
 /**
- * Implementation of xpath-string based selectors.
- * Used for the complex xpath queries
- *
- * @param selfXpath selector's xpath
+ * Class with ability to combine several selectors with the `|` operator
+ * @param props list of selectors which will be combined inside [toXpath] method
+ * @sample org.xpathqs.core.selector.compose.ComposeSelectorTests
  */
-open class XpathSelector(
-    open var selfXpath: String = "",
-
+class ComposeSelector(
     state: SelectorState = SelectorState.INIT,
     base: ISelector = NullSelector(),
     name: String = "",
     fullName: String = "",
 
-    props: BaseSelectorProps = BaseSelectorProps()
-) : BaseSelectorImpl(state, base, name, fullName, props) {
-
+    override val props: ComposeSelectorProps = ComposeSelectorProps()
+) : BaseSelectorImpl(
+    state = state,
+    base = base,
+    name = name,
+    fullName = fullName,
+    props = props
+) {
     override fun toXpath(): String {
-        val baseXpath = if(noBase) "" else base.toXpath()
-        return baseXpath + selfXpath + props.toXpath()
+        return props.toXpath()
     }
 
     override val tag: String
-        get() = selfXpath
+        get() = ""
 }

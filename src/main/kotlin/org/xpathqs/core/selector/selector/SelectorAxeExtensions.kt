@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
  */
 
 package org.xpathqs.core.selector.selector
+
+import org.xpathqs.core.selector.Selector
 
 /**
  * Selects all ancestors (parent, grandparent, etc.) of the current node

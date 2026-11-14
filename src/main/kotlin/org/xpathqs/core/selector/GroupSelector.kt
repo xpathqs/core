@@ -20,13 +20,9 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.group
+package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.BaseSelectorImpl
 import org.xpathqs.core.selector.base.BaseSelectorProps
-import org.xpathqs.core.selector.base.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 
 /**

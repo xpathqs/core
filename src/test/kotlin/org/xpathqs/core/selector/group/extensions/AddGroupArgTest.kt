@@ -26,7 +26,7 @@ import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import org.xpathqs.core.selector.args.ValueArg
 import org.xpathqs.core.selector.extensions.plus
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.group.addGroupArg
 import org.xpathqs.core.util.SelectorFactory.tagSelector
 import org.xpathqs.gwt.GIVEN
@@ -34,7 +34,7 @@ import org.xpathqs.gwt.GIVEN
 class AddGroupArgTest : AnnotationSpec() {
     /**
      * Check #1 require
-     * @see [org.xpathqs.core.selector.group.GroupSelector.addGroupArg]
+     * @see [GroupSelector.addGroupArg]
      */
     @Test
     fun r1_singleSelector() {
@@ -53,7 +53,7 @@ class AddGroupArgTest : AnnotationSpec() {
 
     /**
      * Check #2 require
-     * @see [org.xpathqs.core.selector.group.GroupSelector.addGroupArg]
+     * @see [GroupSelector.addGroupArg]
      */
     @Test
     fun r2_multipleSelector() {

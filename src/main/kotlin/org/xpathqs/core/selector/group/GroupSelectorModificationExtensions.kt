@@ -23,12 +23,13 @@
 package org.xpathqs.core.selector.group
 
 import org.xpathqs.core.selector.args.ValueArg
-import org.xpathqs.core.selector.base.BaseSelector
+import org.xpathqs.core.selector.BaseSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.extensions.addArg
 import org.xpathqs.core.selector.extensions.core.clone
 import org.xpathqs.core.selector.selector.prefix
 import org.xpathqs.core.selector.selector.tag
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.selector.selector.postfix
 
 /**

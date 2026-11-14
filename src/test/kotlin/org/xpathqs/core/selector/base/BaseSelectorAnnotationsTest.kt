@@ -62,7 +62,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.hasParentAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.hasParentAnnotation]
      */
     @Test
     fun r1_hasParentAnnotation() {
@@ -70,7 +70,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #2 of [BaseSelector.hasParentAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.hasParentAnnotation]
      */
     @Test
     fun r2_hasParentAnnotation() {
@@ -79,7 +79,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
 
 
     /**
-     * Check Require #1 of [BaseSelector.hasAnyParentAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.hasAnyParentAnnotation]
      */
     @Test
     fun r1_hasAnyParentAnnotation() {
@@ -87,7 +87,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #2 of [BaseSelector.hasAnyParentAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.hasAnyParentAnnotation]
      */
     @Test
     fun r2_hasAnyParentAnnotation() {
@@ -95,7 +95,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.findAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.findAnnotation]
      */
     @Test
     fun r1_findAnnotation() {
@@ -103,7 +103,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
    /**
-     * Check Require #2 of [BaseSelector.findAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.findAnnotation]
      */
     @Test
     fun r2_findAnnotation() {
@@ -117,7 +117,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.findParentAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.findParentAnnotation]
      */
     @Test
     fun r1_findParentAnnotation() {
@@ -125,7 +125,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #2 of [BaseSelector.findParentAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.findParentAnnotation]
      */
     @Test
     fun r2_findParentAnnotation() {
@@ -133,7 +133,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.findAnyParentAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.findAnyParentAnnotation]
      */
     @Test
     fun r1_findAnyParentAnnotation() {
@@ -141,7 +141,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #2 of [BaseSelector.findAnyParentAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.findAnyParentAnnotation]
      */
     @Test
     fun r2_findAnyParentAnnotation() {
@@ -149,7 +149,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #1 of [BaseSelector.findParentWithAnnotation]
+     * Check Require #1 of [org.xpathqs.core.selector.BaseSelector.findParentWithAnnotation]
      */
     @Test
     fun r1_findParentWithAnnotation() {
@@ -157,7 +157,7 @@ class BaseSelectorAnnotationsTest : AnnotationSpec() {
     }
 
     /**
-     * Check Require #2 of [BaseSelector.findParentWithAnnotation]
+     * Check Require #2 of [org.xpathqs.core.selector.BaseSelector.findParentWithAnnotation]
      */
     @Test
     fun r2_findParentWithAnnotation() {

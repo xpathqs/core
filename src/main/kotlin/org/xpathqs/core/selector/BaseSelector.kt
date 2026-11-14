@@ -20,9 +20,10 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.base
+package org.xpathqs.core.selector
 
-import org.xpathqs.core.selector.NullSelector
+import org.xpathqs.core.selector.base.BaseSelectorProps
+import org.xpathqs.core.selector.base.SelectorState
 import kotlin.reflect.KProperty
 
 /**
@@ -35,7 +36,7 @@ import kotlin.reflect.KProperty
  * @param property associated field of the root object.
  *      It may be NULL, when there is no root object
  */
-interface BaseSelector: ISelector {
+sealed interface BaseSelector: ISelector {
 
     val state: SelectorState
 
@@ -63,71 +64,4 @@ interface BaseSelector: ISelector {
      * @sample org.xpathqs.core.selector.base.BaseSelectorCustomPropsMapTest.r1
      */
     val customPropsMap: HashMap<String, Any?>
-}
-
-abstract class BaseSelectorImpl(
-    override val state: SelectorState = SelectorState.INIT,
-
-    override val base: ISelector = NullSelector(),
-    override val name: String = "",
-    override val fullName: String = "",
-
-    override val props: BaseSelectorProps = BaseSelectorProps(),
-    override val annotations: Collection<Annotation> = emptyList(),
-
-    override val property: KProperty<*>? = null,
-    override val noBase: Boolean = false,
-) : BaseSelector {
-
-    /**
-     * Get selector's tag or an empty string
-     * if tag is not applicable to the Selector's type
-     */
-    override  val tag: String = ""
-
-    /**
-     * Build selector's xpath
-     */
-    override fun toXpath(): String {
-        return mergeXpath(
-            if(noBase) "" else base.toXpath(),
-            props.toXpath()
-        )
-    }
-
-    /**
-     * @return selector's string representation
-     *
-     * Require #1 - when [name] is not empty, it should be returned
-     * @sample org.xpathqs.core.selector.base.BaseSelectorToStringTest.r1_notEmptyName
-     *
-     * Require #2 - when [name] is empty, [toXpath] should be returned
-     * @sample org.xpathqs.core.selector.base.BaseSelectorToStringTest.r2_emptyName
-     */
-    override fun toString(): String {
-        return name.ifEmpty {
-            xpath
-        }
-    }
-
-    /**
-     * A holder collection for some custom properties
-     * which may be used for the extending the functionality via extension-functions
-     *
-     * Require #1 - map should not be cloned. It purposes only for holding some configuration constants
-     * @sample org.xpathqs.core.selector.base.BaseSelectorCustomPropsMapTest.r1
-     */
-    override val customPropsMap = HashMap<String, Any?>()
-
-    companion object {
-        fun mergeXpath(xp1: String, xp2: String): String {
-            if(xp1.isNotEmpty()
-                && !xp2.startsWith("/")
-                && !xp2.startsWith("[")
-            ) {
-                return "$xp1//$xp2"
-            }
-            return xp1 + xp2
-        }
-    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,12 @@
  * SOFTWARE.
  */
 
-package org.xpathqs.core.selector.base
+package org.xpathqs.core.selector
 
 /**
  * Root Interface for the Selectors interaction
  */
-interface ISelector : Cloneable {
+sealed interface ISelector : Cloneable {
     /**
      * Build `XPATH` query
      */

@@ -33,7 +33,7 @@ import org.xpathqs.gwt.WHEN
 class RootParentTest : AnnotationSpec() {
 
     /**
-     * Check require #1 of [org.xpathqs.core.selector.base.BaseSelector.rootParent]
+     * Check require #1 of [org.xpathqs.core.selector.BaseSelector.rootParent]
      */
     @Test
     fun r1_rootParent() {
@@ -45,7 +45,7 @@ class RootParentTest : AnnotationSpec() {
     }
 
     /**
-     * Check require #2 of [org.xpathqs.core.selector.base.BaseSelector.rootParent]
+     * Check require #2 of [org.xpathqs.core.selector.BaseSelector.rootParent]
      */
     @Test
     fun r2_rootParent() {
@@ -57,7 +57,7 @@ class RootParentTest : AnnotationSpec() {
     }
 
     /**
-     * Check require #3 of [org.xpathqs.core.selector.base.BaseSelector.rootParent]
+     * Check require #3 of [org.xpathqs.core.selector.BaseSelector.rootParent]
      */
     @Test
     fun r3_rootParent() {

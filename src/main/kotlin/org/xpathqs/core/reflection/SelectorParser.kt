@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 XPATH-QS
+ * Copyright (c) 2026 XPATH-QS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,14 @@ import org.xpathqs.core.annotations.NoBase
 import org.xpathqs.core.annotations.NoXpathBase
 import org.xpathqs.core.annotations.SingleBase
 import org.xpathqs.core.selector.NullSelector
-import org.xpathqs.core.selector.base.BaseSelector
-import org.xpathqs.core.selector.base.ISelector
+import org.xpathqs.core.selector.BaseSelector
+import org.xpathqs.core.selector.ISelector
 import org.xpathqs.core.selector.base.SelectorState
 import org.xpathqs.core.selector.base.hasAnnotation
 import org.xpathqs.core.selector.block.Block
-import org.xpathqs.core.selector.group.GroupSelector
+import org.xpathqs.core.selector.GroupSelector
 import org.xpathqs.core.selector.group.prefix
-import org.xpathqs.core.selector.selector.Selector
+import org.xpathqs.core.selector.Selector
 import org.xpathqs.core.selector.selector.prefix
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
